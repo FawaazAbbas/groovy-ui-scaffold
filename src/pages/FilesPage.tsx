@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { mockFiles, FileItem } from '@/lib/mocks/files';
-import { mockUsers } from '@/lib/mocks/users';
-import { Folder, FileText, Image, Film, FileSpreadsheet, LayoutGrid, List, ChevronRight, Shield } from 'lucide-react';
+import { Folder, FileText, Image, Film, FileSpreadsheet, LayoutGrid, List, ChevronRight, Shield, Download, Pencil, Trash2 } from 'lucide-react';
 
 const iconMap: Record<string, typeof FileText> = {
   'application/pdf': FileText,
@@ -17,9 +16,16 @@ function formatSize(bytes: number) {
   return `${(bytes / 1e3).toFixed(0)} KB`;
 }
 
+interface ContextMenu {
+  x: number;
+  y: number;
+  item: FileItem;
+}
+
 export default function FilesPage() {
   const [currentFolder, setCurrentFolder] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [contextMenu, setContextMenu] = useState<ContextMenu | null>(null);
 
   const items = mockFiles.filter(f => f.parentId === currentFolder);
   const breadcrumbs = getBreadcrumbs(currentFolder);
@@ -38,11 +44,31 @@ export default function FilesPage() {
     if (item.type === 'folder') setCurrentFolder(item.id);
   };
 
+  const handleContextMenu = (e: React.MouseEvent, item: FileItem) => {
+    e.preventDefault();
+    setContextMenu({ x: e.clientX, y: e.clientY, item });
+  };
+
+  useEffect(() => {
+    const close = () => setContextMenu(null);
+    if (contextMenu) {
+      window.addEventListener('click', close);
+      return () => window.removeEventListener('click', close);
+    }
+  }, [contextMenu]);
+
   const permissionColors: Record<string, string> = {
     owner: 'bg-primary/10 text-primary',
     editor: 'bg-comfort text-comfort-text',
     viewer: 'bg-surface-elevated text-text-secondary',
   };
+
+  const menuItems = [
+    { label: 'Manage Permissions', icon: Shield },
+    { label: 'Rename', icon: Pencil },
+    { label: 'Download', icon: Download },
+    { label: 'Delete', icon: Trash2, destructive: true },
+  ];
 
   return (
     <div className="p-6 max-w-6xl">
@@ -73,7 +99,7 @@ export default function FilesPage() {
               <button
                 key={item.id}
                 onClick={() => handleClick(item)}
-                onContextMenu={e => e.preventDefault()}
+                onContextMenu={e => handleContextMenu(e, item)}
                 className="rounded-xl border border-border bg-surface p-4 text-left hover:shadow-md hover:border-primary/30 transition-all group"
               >
                 <div className="flex items-start justify-between mb-3">
@@ -105,7 +131,7 @@ export default function FilesPage() {
               {items.map(item => {
                 const Icon = item.type === 'folder' ? Folder : (iconMap[item.mimeType || ''] || FileText);
                 return (
-                  <tr key={item.id} onClick={() => handleClick(item)} className="border-b border-border/50 cursor-pointer hover:bg-surface-elevated/50">
+                  <tr key={item.id} onClick={() => handleClick(item)} onContextMenu={e => handleContextMenu(e, item)} className="border-b border-border/50 cursor-pointer hover:bg-surface-elevated/50">
                     <td className="px-4 py-3 flex items-center gap-2">
                       <Icon className={`h-4 w-4 ${item.type === 'folder' ? 'text-primary' : 'text-text-secondary'}`} />
                       <span className="text-text-primary">{item.name}</span>
@@ -120,6 +146,27 @@ export default function FilesPage() {
               })}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Custom Context Menu */}
+      {contextMenu && (
+        <div
+          className="fixed z-50 min-w-[180px] rounded-xl border border-border bg-surface py-1.5 shadow-lg"
+          style={{ left: contextMenu.x, top: contextMenu.y }}
+        >
+          <p className="px-3 py-1.5 text-caption font-medium text-text-secondary truncate">{contextMenu.item.name}</p>
+          <div className="my-1 h-px bg-border" />
+          {menuItems.map(mi => (
+            <button
+              key={mi.label}
+              onClick={() => setContextMenu(null)}
+              className={`flex w-full items-center gap-2 px-3 py-2 text-body-sm hover:bg-surface-elevated ${mi.destructive ? 'text-destructive' : 'text-text-primary'}`}
+            >
+              <mi.icon className="h-3.5 w-3.5" />
+              {mi.label}
+            </button>
+          ))}
         </div>
       )}
     </div>
