@@ -1,10 +1,24 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Index from "./pages/Index.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import MarketingLayout from "./layouts/MarketingLayout";
+import AuthLayout from "./layouts/AuthLayout";
+import WorkspaceLayout from "./layouts/WorkspaceLayout";
+import MarketplacePage from "./pages/MarketplacePage";
+import AgentDetailPage from "./pages/AgentDetailPage";
+import LoginPage from "./pages/LoginPage";
+import OnboardPage from "./pages/OnboardPage";
+import ChatsPage from "./pages/ChatsPage";
+import TasksPage from "./pages/TasksPage";
+import CalendarPage from "./pages/CalendarPage";
+import BillingPage from "./pages/BillingPage";
+import FilesPage from "./pages/FilesPage";
+import ArchitecturePage from "./pages/ArchitecturePage";
+import ActivityPage from "./pages/ActivityPage";
+import IntegrationsPage from "./pages/IntegrationsPage";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -15,8 +29,33 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {/* Redirect root to marketplace */}
+          <Route path="/" element={<Navigate to="/marketplace" replace />} />
+
+          {/* Marketing routes */}
+          <Route element={<MarketingLayout />}>
+            <Route path="/marketplace" element={<MarketplacePage />} />
+            <Route path="/marketplace/:agentId" element={<AgentDetailPage />} />
+          </Route>
+
+          {/* Auth routes */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<LoginPage />} />
+          </Route>
+          <Route path="/onboard" element={<OnboardPage />} />
+
+          {/* Workspace routes */}
+          <Route element={<WorkspaceLayout />}>
+            <Route path="/chats" element={<ChatsPage />} />
+            <Route path="/tasks" element={<TasksPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/billing" element={<BillingPage />} />
+            <Route path="/files" element={<FilesPage />} />
+            <Route path="/architecture" element={<ArchitecturePage />} />
+            <Route path="/activity" element={<ActivityPage />} />
+            <Route path="/integrations" element={<IntegrationsPage />} />
+          </Route>
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
