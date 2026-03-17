@@ -5,9 +5,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 const sourceColors: Record<string, string> = {
   groovy: 'bg-primary/20 text-primary border-primary/30',
-  google: 'bg-blue-100 text-blue-700 border-blue-200',
-  apple: 'bg-pink-100 text-pink-700 border-pink-200',
-  agent: 'bg-electric-muted text-electric border-electric/30',
+  google: 'bg-electric-muted text-electric border-electric/30',
+  apple: 'bg-comfort text-comfort-text border-comfort',
+  agent: 'bg-warning/10 text-warning border-warning/30',
 };
 
 const hours = Array.from({ length: 14 }, (_, i) => i + 7); // 7am to 8pm
