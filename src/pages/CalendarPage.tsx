@@ -87,9 +87,9 @@ export default function CalendarPage() {
         {/* Legend */}
         <div className="mt-6 space-y-2">
           <p className="text-caption font-medium text-text-secondary">Sources</p>
-          {Object.entries({ Groovy: 'primary', Google: 'blue-500', Apple: 'pink-500', 'AI Agent': 'electric' }).map(([label, color]) => (
+          {Object.entries({ Groovy: 'bg-primary', Google: 'bg-electric', Apple: 'bg-comfort', 'AI Agent': 'bg-warning' }).map(([label, color]) => (
             <div key={label} className="flex items-center gap-2">
-              <div className={`h-3 w-3 rounded-full ${label === 'Groovy' ? 'bg-primary' : label === 'Google' ? 'bg-blue-500' : label === 'Apple' ? 'bg-pink-500' : 'bg-electric'}`} />
+              <div className={`h-3 w-3 rounded-full ${color}`} />
               <span className="text-caption text-text-secondary">{label}</span>
             </div>
           ))}
