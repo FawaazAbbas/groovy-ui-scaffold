@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Upload, Plus, X, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
 
@@ -25,14 +25,34 @@ const tools = [
 ];
 
 export default function OnboardPage() {
-  const [step, setStep] = useState(0);
-  const [company, setCompany] = useState({ name: '', industry: '', size: '' });
-  const [role, setRole] = useState({ name: '', email: '', title: '', department: '' });
-  const [invites, setInvites] = useState<{ email: string; role: string }[]>([]);
+  const [step, setStep] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('onboard_step') || '0'); } catch { return 0; }
+  });
+  const [company, setCompany] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('onboard_company') || '{}'); } catch { return {}; }
+  });
+  const [role, setRole] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('onboard_role') || '{}'); } catch { return {}; }
+  });
+  const [invites, setInvites] = useState<{ email: string; role: string }[]>(() => {
+    try { return JSON.parse(localStorage.getItem('onboard_invites') || '[]'); } catch { return []; }
+  });
   const [inviteEmail, setInviteEmail] = useState('');
-  const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
-  const [connectedTools, setConnectedTools] = useState<string[]>([]);
+  const [selectedAgents, setSelectedAgents] = useState<string[]>(() => {
+    try { return JSON.parse(localStorage.getItem('onboard_agents') || '[]'); } catch { return []; }
+  });
+  const [connectedTools, setConnectedTools] = useState<string[]>(() => {
+    try { return JSON.parse(localStorage.getItem('onboard_tools') || '[]'); } catch { return []; }
+  });
   const [launched, setLaunched] = useState(false);
+
+  // Persist to localStorage on change
+  useEffect(() => { localStorage.setItem('onboard_step', JSON.stringify(step)); }, [step]);
+  useEffect(() => { localStorage.setItem('onboard_company', JSON.stringify(company)); }, [company]);
+  useEffect(() => { localStorage.setItem('onboard_role', JSON.stringify(role)); }, [role]);
+  useEffect(() => { localStorage.setItem('onboard_invites', JSON.stringify(invites)); }, [invites]);
+  useEffect(() => { localStorage.setItem('onboard_agents', JSON.stringify(selectedAgents)); }, [selectedAgents]);
+  useEffect(() => { localStorage.setItem('onboard_tools', JSON.stringify(connectedTools)); }, [connectedTools]);
 
   const next = () => setStep(s => Math.min(s + 1, steps.length - 1));
   const prev = () => setStep(s => Math.max(s - 1, 0));

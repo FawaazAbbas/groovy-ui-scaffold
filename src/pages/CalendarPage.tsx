@@ -5,9 +5,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 const sourceColors: Record<string, string> = {
   groovy: 'bg-primary/20 text-primary border-primary/30',
-  google: 'bg-blue-100 text-blue-700 border-blue-200',
-  apple: 'bg-pink-100 text-pink-700 border-pink-200',
-  agent: 'bg-electric-muted text-electric border-electric/30',
+  google: 'bg-electric-muted text-electric border-electric/30',
+  apple: 'bg-comfort text-comfort-text border-comfort',
+  agent: 'bg-warning/10 text-warning border-warning/30',
 };
 
 const hours = Array.from({ length: 14 }, (_, i) => i + 7); // 7am to 8pm
@@ -87,9 +87,9 @@ export default function CalendarPage() {
         {/* Legend */}
         <div className="mt-6 space-y-2">
           <p className="text-caption font-medium text-text-secondary">Sources</p>
-          {Object.entries({ Groovy: 'primary', Google: 'blue-500', Apple: 'pink-500', 'AI Agent': 'electric' }).map(([label, color]) => (
+          {Object.entries({ Groovy: 'bg-primary', Google: 'bg-electric', Apple: 'bg-comfort', 'AI Agent': 'bg-warning' }).map(([label, color]) => (
             <div key={label} className="flex items-center gap-2">
-              <div className={`h-3 w-3 rounded-full ${label === 'Groovy' ? 'bg-primary' : label === 'Google' ? 'bg-blue-500' : label === 'Apple' ? 'bg-pink-500' : 'bg-electric'}`} />
+              <div className={`h-3 w-3 rounded-full ${color}`} />
               <span className="text-caption text-text-secondary">{label}</span>
             </div>
           ))}
