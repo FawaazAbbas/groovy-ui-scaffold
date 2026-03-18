@@ -42,8 +42,9 @@ export default function WorkspaceLayout() {
       >
         {/* Workspace header */}
         <div className="flex h-14 items-center gap-3 border-b border-white/[0.06] px-4">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-[#005BB5]">
+          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-[#005BB5]">
             <span className="text-sm font-semibold text-white">A</span>
+            <span className="absolute -bottom-0.5 -right-0.5 neon-dot animate-pulse" />
           </div>
           {!collapsed && (
             <span className="truncate text-body-sm font-semibold tracking-tight">{mockSession.workspace.name}</span>
@@ -59,13 +60,16 @@ export default function WorkspaceLayout() {
                 key={item.path}
                 to={item.path}
                 onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm transition-all duration-200 ${
+                className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm transition-all duration-200 ${
                   isActive
                     ? 'bg-white/[0.12] text-white font-medium'
                     : 'text-white/60 hover:bg-white/[0.06] hover:text-white/90'
                 } ${collapsed ? 'justify-center px-0' : ''}`}
               >
-                <item.icon className="h-[18px] w-[18px] shrink-0" />
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[3px] rounded-r-full bg-electric neon-glow-sm" />
+                )}
+                <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-electric drop-shadow-[0_0_4px_rgba(57,255,20,0.4)]' : ''}`} />
                 {!collapsed && <span>{item.label}</span>}
               </Link>
             );
@@ -128,7 +132,7 @@ export default function WorkspaceLayout() {
             </button>
             <button className="relative text-text-secondary hover:text-text-primary transition-colors">
               <Bell className="h-[18px] w-[18px]" />
-              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-medium text-white">
+              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-electric text-[10px] font-bold text-[#0a1f07] neon-glow-sm">
                 3
               </span>
             </button>

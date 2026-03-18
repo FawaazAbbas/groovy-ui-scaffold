@@ -13,7 +13,7 @@ export default function BillingPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Credit gauge */}
         <div className="card-glass p-6 flex flex-col items-center">
-          <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
+          <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120" style={{ filter: usagePercent <= 60 ? 'drop-shadow(0 0 6px rgba(57,255,20,0.3))' : 'none' }}>
             <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border-solid)" strokeWidth="10" />
             <circle cx="60" cy="60" r="50" fill="none" stroke={gaugeColor} strokeWidth="10" strokeLinecap="round"
               strokeDasharray={`${usagePercent * 3.14} ${314 - usagePercent * 3.14}`} />
@@ -53,7 +53,7 @@ export default function BillingPage() {
               <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} tickFormatter={v => new Date(v).getDate().toString()} />
               <YAxis tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} />
               <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(20px)', border: '1px solid var(--border-solid)', borderRadius: '12px', fontSize: '12px', boxShadow: 'var(--shadow-lg)' }} />
-              <Area type="monotone" dataKey="credits" stroke="var(--primary)" fill="var(--primary)" fillOpacity={0.08} strokeWidth={2} />
+              <Area type="monotone" dataKey="credits" stroke="var(--electric)" fill="var(--electric)" fillOpacity={0.06} strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
         </div>

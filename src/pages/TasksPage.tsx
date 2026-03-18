@@ -71,10 +71,10 @@ function Column({ id, label, tasks, onTaskClick }: { id: string; label: string; 
   return (
     <div className="flex w-72 shrink-0 flex-col">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-body-sm font-semibold text-text-primary">{label}</h3>
-        <span className="rounded-full bg-white/50 px-2 py-0.5 text-caption text-text-secondary">{tasks.length}</span>
+        <h3 className={`text-body-sm font-semibold ${id === 'done' ? 'neon-text' : 'text-text-primary'}`}>{label}</h3>
+        <span className={`rounded-full px-2 py-0.5 text-caption ${id === 'done' ? 'bg-electric-muted text-electric neon-glow-sm' : 'bg-white/50 text-text-secondary'}`}>{tasks.length}</span>
       </div>
-      <div ref={setNodeRef} className="flex-1 space-y-2 rounded-2xl bg-white/30 p-2 min-h-[200px]">
+      <div ref={setNodeRef} className={`flex-1 space-y-2 rounded-2xl p-2 min-h-[200px] ${id === 'done' ? 'bg-electric/[0.04] neon-border' : 'bg-white/30'}`}>
         <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
           {tasks.map(task => (
             <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} />
@@ -152,7 +152,7 @@ export default function TasksPage() {
           </div>
           <DragOverlay>
             {activeTask ? (
-              <div className={`w-72 rounded-2xl border border-primary border-l-4 ${priorityColors[activeTask.priority]} glass p-3 shadow-glass-xl`}>
+              <div className={`w-72 rounded-2xl border border-electric/30 border-l-4 ${priorityColors[activeTask.priority]} glass p-3 neon-glow-lg`}>
                 <h4 className="text-body-sm font-medium text-text-primary">{activeTask.title}</h4>
               </div>
             ) : null}

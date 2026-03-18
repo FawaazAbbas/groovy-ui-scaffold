@@ -29,7 +29,9 @@ export default function ChatsPage() {
                 key={chat.id}
                 onClick={() => setSelectedChat(chat)}
                 className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-all duration-200 ${
-                  selectedChat.id === chat.id ? 'bg-white/60' : 'hover:bg-white/30'
+                  selectedChat.id === chat.id
+                    ? chat.type === 'agent' ? 'bg-electric/[0.06] border-l-2 border-l-electric' : 'bg-white/60'
+                    : 'hover:bg-white/30'
                 }`}
               >
                 <div className="relative shrink-0">
@@ -73,7 +75,7 @@ export default function ChatsPage() {
           </div>
           <div>
             <h3 className="text-body-sm font-semibold text-text-primary">{selectedChat.name}</h3>
-            {selectedChat.type === 'agent' && <span className="text-caption text-agent">AI Agent</span>}
+            {selectedChat.type === 'agent' && <span className="text-caption neon-text">AI Agent</span>}
           </div>
         </div>
 
@@ -92,7 +94,7 @@ export default function ChatsPage() {
                 <div className={`max-w-[70%] ${isMe ? 'items-end' : ''}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-caption font-medium text-text-primary">{msg.senderName}</span>
-                    {isAgent && <span className="rounded-md bg-electric-muted px-1.5 py-0.5 text-[10px] font-medium text-electric">AI</span>}
+                    {isAgent && <span className="rounded-md bg-electric-muted px-1.5 py-0.5 text-[10px] font-medium text-electric neon-glow-sm">AI</span>}
                     <span className="text-caption text-text-secondary">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                   <div className={`rounded-2xl px-4 py-2.5 text-body-sm shadow-glass-sm ${
@@ -149,7 +151,11 @@ export default function ChatsPage() {
                 <button className="rounded-lg p-1.5 text-text-secondary hover:bg-white/50 hover:text-text-primary transition-colors"><AtSign className="h-4 w-4" /></button>
                 <button className="rounded-lg p-1.5 text-text-secondary hover:bg-white/50 hover:text-text-primary transition-colors"><Bold className="h-4 w-4" /></button>
               </div>
-              <button className="rounded-xl bg-primary p-2 text-white hover:bg-primary-hover transition-colors shadow-glass-sm">
+              <button className={`rounded-xl p-2 text-white transition-all shadow-glass-sm ${
+                selectedChat.type === 'agent'
+                  ? 'bg-electric-muted text-electric hover:bg-electric hover:text-[#0a1f07] neon-glow-sm hover:neon-glow-md'
+                  : 'bg-primary hover:bg-primary-hover'
+              }`}>
                 <Send className="h-4 w-4" />
               </button>
             </div>

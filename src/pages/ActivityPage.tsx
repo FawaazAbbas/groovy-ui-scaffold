@@ -84,7 +84,7 @@ export default function ActivityPage() {
                   <td className="px-4 py-3 text-text-secondary whitespace-nowrap">{new Date(entry.timestamp).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric text-[10px] font-bold">{entry.agentName[0]}</div>
+                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric text-[10px] font-bold neon-glow-sm">{entry.agentName[0]}</div>
                       <span className="text-text-primary font-medium">{entry.agentName}</span>
                     </div>
                   </td>

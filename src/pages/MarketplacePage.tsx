@@ -20,7 +20,7 @@ export default function MarketplacePage() {
       {/* Hero — frosted dark */}
       <section className="glass-sidebar py-16 text-sidebar-text">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-display-lg mb-4">AI Agent Marketplace</h1>
+          <h1 className="text-display-lg mb-4">AI Agent <span className="neon-text">Marketplace</span></h1>
           <p className="text-body-lg text-white/60 mb-8 max-w-2xl mx-auto">
             Discover, install, and deploy AI agents that automate your workflows in minutes.
           </p>
@@ -31,7 +31,7 @@ export default function MarketplacePage() {
               placeholder="Search for agents..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-12 rounded-2xl bg-white/90 backdrop-blur-sm pl-12 pr-4 text-body text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary/40 shadow-glass-lg transition-all"
+              className="w-full h-12 rounded-2xl bg-white/90 backdrop-blur-sm pl-12 pr-4 text-body text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-electric/30 focus:neon-glow-md shadow-glass-lg transition-all"
             />
           </div>
         </div>
@@ -73,10 +73,10 @@ export default function MarketplacePage() {
                 <Link
                   key={agent.id}
                   to={`/marketplace/${agent.id}`}
-                  className="group card-glass p-5"
+                  className="group card-glass p-5 hover:neon-border transition-all"
                 >
                   <div className="flex items-start gap-3 mb-3">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-electric-muted text-electric font-bold text-lg">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-electric-muted text-electric font-bold text-lg neon-glow-sm group-hover:neon-glow-md transition-all">
                       {agent.name[0]}
                     </div>
                     <div className="min-w-0">

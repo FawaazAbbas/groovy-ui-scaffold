@@ -36,4 +36,10 @@
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06);
+
+  /* Neon accents */
+  --neon-glow-sm: 0 0 6px rgba(57, 255, 20, 0.25), 0 0 2px rgba(57, 255, 20, 0.15);
+  --neon-glow-md: 0 0 12px rgba(57, 255, 20, 0.3), 0 0 4px rgba(57, 255, 20, 0.2);
+  --neon-glow-lg: 0 0 24px rgba(57, 255, 20, 0.35), 0 0 8px rgba(57, 255, 20, 0.25);
+  --neon-glow-xl: 0 0 40px rgba(57, 255, 20, 0.3), 0 0 16px rgba(57, 255, 20, 0.2), 0 0 4px rgba(57, 255, 20, 0.4);
 }
