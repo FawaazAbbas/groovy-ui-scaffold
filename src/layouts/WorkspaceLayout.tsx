@@ -62,15 +62,15 @@ export default function WorkspaceLayout() {
                 onClick={() => setMobileOpen(false)}
                 className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm transition-all duration-200 ${
                   isActive
-                    ? 'glass-liquid-item-active text-text-primary font-medium'
+                    ? 'glass-liquid-item-active text-electric font-medium'
                     : 'text-text-secondary hover:glass-liquid-item hover:text-text-primary'
                 } ${collapsed ? 'justify-center px-0' : ''}`}
               >
                 {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[3px] rounded-r-full bg-electric neon-glow-sm" />
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-electric neon-glow-sm" />
                 )}
-                <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-electric drop-shadow-[0_0_4px_rgba(57,255,20,0.4)]' : ''}`} />
-                {!collapsed && <span>{item.label}</span>}
+                <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-electric drop-shadow-[0_0_6px_rgba(57,255,20,0.5)]' : ''}`} />
+                {!collapsed && <span className={isActive ? 'text-shadow-[0_0_8px_rgba(57,255,20,0.3)]' : ''}>{item.label}</span>}
               </Link>
             );
           })}
