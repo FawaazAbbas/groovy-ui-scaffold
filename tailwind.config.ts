@@ -59,6 +59,10 @@ export default {
           DEFAULT: 'var(--electric)',
           muted: 'var(--electric-muted)',
         },
+        cyan: {
+          DEFAULT: 'var(--cyan)',
+          muted: 'var(--cyan-muted)',
+        },
         warning: 'var(--warning)',
         destructive: 'var(--destructive)',
         agent: 'var(--agent)',
@@ -102,11 +106,21 @@ export default {
           from: { transform: "translateX(20px)", opacity: "0" },
           to: { transform: "translateX(0)", opacity: "1" },
         },
+        "retro-pulse": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.6" },
+        },
+        "scan-line": {
+          from: { transform: "translateY(-100%)" },
+          to: { transform: "translateY(100%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "slide-left": "slide-left 0.3s ease-out",
+        "retro-pulse": "retro-pulse 2s ease-in-out infinite",
+        "scan-line": "scan-line 8s linear infinite",
       },
     },
   },

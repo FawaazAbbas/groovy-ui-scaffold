@@ -23,7 +23,7 @@ export default function ChatsPage() {
           { label: 'Channels', chats: channelChats },
         ].map(section => (
           <div key={section.label} className="mb-3">
-            <p className="px-4 py-1 text-caption font-medium text-text-secondary uppercase tracking-wider">{section.label}</p>
+            <p className="px-4 py-1 retro-label text-text-secondary/60"><span className="text-electric/30 mr-1">›</span>{section.label}</p>
             {section.chats.map(chat => (
               <button
                 key={chat.id}
@@ -47,7 +47,7 @@ export default function ChatsPage() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between">
                     <span className="truncate text-body-sm font-medium text-text-primary">{chat.name}</span>
-                    <span className="shrink-0 text-caption text-text-secondary">
+                    <span className="shrink-0 font-mono text-[10px] text-text-secondary/60 tracking-wider">
                       {new Date(chat.lastMessageTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
@@ -95,7 +95,7 @@ export default function ChatsPage() {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-caption font-medium text-text-primary">{msg.senderName}</span>
                     {isAgent && <span className="rounded-md bg-electric-muted px-1.5 py-0.5 text-[10px] font-medium text-electric neon-glow-sm">AI</span>}
-                    <span className="text-caption text-text-secondary">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    <span className="font-mono text-[10px] text-text-secondary/50 tracking-wider">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                   <div className={`rounded-2xl px-4 py-2.5 text-body-sm shadow-glass-sm ${
                     isMe
@@ -107,13 +107,13 @@ export default function ChatsPage() {
                     {msg.content}
                   </div>
                   {msg.toolUse && (
-                    <details className="mt-2 rounded-xl border border-border glass-elevated shadow-glass-sm">
-                      <summary className="cursor-pointer px-3 py-2 text-caption font-medium text-text-secondary">
-                        🔧 {msg.toolUse.tool}
+                    <details className="mt-2 terminal-block retro-corners overflow-hidden">
+                      <summary className="cursor-pointer px-3 py-2 retro-label text-electric/70 flex items-center gap-1.5">
+                        <span className="text-cyan">▸</span> {msg.toolUse.tool}
                       </summary>
-                      <div className="border-t border-border px-3 py-2 font-mono text-caption text-text-secondary">
-                        <p><strong>Input:</strong> {msg.toolUse.input}</p>
-                        <p><strong>Output:</strong> {msg.toolUse.output}</p>
+                      <div className="border-t border-electric/10 px-3 py-2 font-mono text-[11px] text-electric/60 leading-relaxed">
+                        <p><span className="text-cyan/60">$</span> {msg.toolUse.input}</p>
+                        <p className="text-electric/80 mt-1">{msg.toolUse.output}</p>
                       </div>
                     </details>
                   )}
@@ -123,13 +123,9 @@ export default function ChatsPage() {
           })}
           {/* Typing indicator */}
           {selectedChat.type === 'agent' && (
-            <div className="flex items-center gap-2 text-caption text-text-secondary">
-              <div className="flex gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-agent animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="h-1.5 w-1.5 rounded-full bg-agent animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="h-1.5 w-1.5 rounded-full bg-agent animate-bounce" style={{ animationDelay: '300ms' }} />
-              </div>
-              {selectedChat.name} is thinking...
+            <div className="flex items-center gap-2 font-mono text-[11px] text-electric/50 animate-retro-pulse">
+              <span className="text-cyan">▋</span>
+              {selectedChat.name} processing...
             </div>
           )}
         </div>

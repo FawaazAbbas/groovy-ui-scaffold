@@ -17,9 +17,10 @@ export default function MarketplacePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero — frosted dark */}
-      <section className="glass-sidebar py-16 text-sidebar-text">
-        <div className="container mx-auto px-6 text-center">
+      {/* Hero — frosted dark + retro grid */}
+      <section className="glass-sidebar py-16 text-sidebar-text relative retro-grid scanlines overflow-hidden">
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <p className="retro-label cyan-text mb-3 tracking-[0.2em]">◆ AGENT NETWORK v2.4</p>
           <h1 className="text-display-lg mb-4">AI Agent <span className="neon-text">Marketplace</span></h1>
           <p className="text-body-lg text-white/60 mb-8 max-w-2xl mx-auto">
             Discover, install, and deploy AI agents that automate your workflows in minutes.
@@ -73,15 +74,15 @@ export default function MarketplacePage() {
                 <Link
                   key={agent.id}
                   to={`/marketplace/${agent.id}`}
-                  className="group card-glass p-5 hover:neon-border transition-all"
+                  className="group card-glass p-5 hover:neon-border retro-corners transition-all"
                 >
                   <div className="flex items-start gap-3 mb-3">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-electric-muted text-electric font-bold text-lg neon-glow-sm group-hover:neon-glow-md transition-all">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-electric-muted text-electric font-bold text-lg font-mono neon-glow-sm group-hover:neon-glow-md transition-all">
                       {agent.name[0]}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-body font-semibold text-text-primary group-hover:text-primary truncate transition-colors">{agent.name}</h3>
-                      <span className="inline-block rounded-full bg-white/50 px-2 py-0.5 text-caption text-text-secondary">{agent.category}</span>
+                      <h3 className="text-body font-semibold text-text-primary group-hover:text-electric truncate transition-colors">{agent.name}</h3>
+                      <span className="inline-block rounded-md bg-white/50 px-2 py-0.5 retro-label text-text-secondary">{agent.category}</span>
                     </div>
                   </div>
                   <p className="text-body-sm text-text-secondary mb-4 line-clamp-2">{agent.description}</p>
@@ -92,7 +93,7 @@ export default function MarketplacePage() {
                     <span className="flex items-center gap-1">
                       <Download className="h-3.5 w-3.5" /> {(agent.installCount / 1000).toFixed(1)}k
                     </span>
-                    <span className="font-medium text-primary">{agent.creditCost} credits/use</span>
+                    <span className="font-mono font-medium text-electric text-[10px]">{agent.creditCost} cr/use</span>
                   </div>
                 </Link>
               ))}
@@ -127,7 +128,7 @@ export default function MarketplacePage() {
                     <Star className="h-3 w-3 fill-warning text-warning" /> {agent.rating}
                     <span className="text-text-secondary/50">({agent.reviewCount})</span>
                   </span>
-                  <span className="font-medium text-primary">{agent.creditCost} cr</span>
+                  <span className="font-mono font-medium text-electric text-[10px]">{agent.creditCost} cr</span>
                 </div>
               </Link>
             ))}

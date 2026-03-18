@@ -36,7 +36,10 @@ export default function ActivityPage() {
 
   return (
     <div className="p-6 max-w-6xl">
-      <h1 className="text-heading font-semibold text-text-primary mb-6">AI Activity Log</h1>
+      <div className="flex items-center gap-3 mb-6">
+        <h1 className="text-heading font-semibold text-text-primary">AI Activity Log</h1>
+        <span className="retro-label cyan-text animate-retro-pulse">● LIVE</span>
+      </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
@@ -81,7 +84,7 @@ export default function ActivityPage() {
                   <td className="px-4 py-3">
                     {expandedId === entry.id ? <ChevronDown className="h-3.5 w-3.5 text-text-secondary" /> : <ChevronRight className="h-3.5 w-3.5 text-text-secondary" />}
                   </td>
-                  <td className="px-4 py-3 text-text-secondary whitespace-nowrap">{new Date(entry.timestamp).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+                  <td className="px-4 py-3 font-mono text-[11px] text-text-secondary/60 whitespace-nowrap tracking-wider">{new Date(entry.timestamp).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric text-[10px] font-bold neon-glow-sm">{entry.agentName[0]}</div>
@@ -97,7 +100,7 @@ export default function ActivityPage() {
                   <td className="px-4 py-3">
                     <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${statusColors[entry.status]}`}>{entry.status}</span>
                   </td>
-                  <td className="px-4 py-3 text-text-secondary">{entry.creditCost} cr</td>
+                  <td className="px-4 py-3 font-mono text-[11px] text-electric/60">{entry.creditCost} cr</td>
                 </tr>
                 {expandedId === entry.id && (
                   <tr key={`${entry.id}-detail`} className="border-b border-border/50 bg-white/20">

@@ -42,7 +42,7 @@ function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
       <h4 className="text-body-sm font-medium text-text-primary mb-2">{task.title}</h4>
       <div className="flex flex-wrap gap-1.5 mb-2">
         {task.labels.map(label => (
-          <span key={label} className="rounded-full bg-white/50 px-2 py-0.5 text-[10px] font-medium text-text-secondary">{label}</span>
+          <span key={label} className="rounded-md bg-white/50 px-2 py-0.5 font-mono text-[9px] font-medium text-text-secondary uppercase tracking-wider">{label}</span>
         ))}
       </div>
       <div className="flex items-center justify-between">
@@ -53,9 +53,9 @@ function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
             </div>
           ))}
         </div>
-        <div className="flex items-center gap-2 text-caption text-text-secondary">
+        <div className="flex items-center gap-2 text-caption text-text-secondary font-mono">
           {task.dueDate && (
-            <span className="flex items-center gap-0.5"><Calendar className="h-3 w-3" />{new Date(task.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+            <span className="flex items-center gap-0.5 text-[10px]"><Calendar className="h-3 w-3" />{new Date(task.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
           )}
           {task.commentCount > 0 && (
             <span className="flex items-center gap-0.5"><MessageCircle className="h-3 w-3" />{task.commentCount}</span>

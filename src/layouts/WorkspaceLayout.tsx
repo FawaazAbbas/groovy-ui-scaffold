@@ -28,7 +28,7 @@ export default function WorkspaceLayout() {
   const sidebarWidth = collapsed ? 'w-16' : 'w-[260px]';
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background" style={{ background: 'linear-gradient(135deg, #F5F5F7 0%, #E8EAF0 30%, #F0F2F5 50%, #EDE8F5 70%, #F5F5F7 100%)' }}>
+    <div className="flex h-screen overflow-hidden bg-background retro-grid" style={{ background: 'linear-gradient(135deg, #F5F5F7 0%, #E8EAF0 30%, #F0F2F5 50%, #EDE8F5 70%, #F5F5F7 100%)' }}>
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden" onClick={() => setMobileOpen(false)} />
@@ -40,6 +40,9 @@ export default function WorkspaceLayout() {
           mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
+        {/* Retro accent line */}
+        <div className="retro-divider" />
+
         {/* Workspace header */}
         <div className="flex h-14 items-center gap-3 border-b border-black/[0.04] px-4">
           <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-[#005BB5] shadow-glass-sm">
@@ -47,7 +50,10 @@ export default function WorkspaceLayout() {
             <span className="absolute -bottom-0.5 -right-0.5 neon-dot animate-pulse" />
           </div>
           {!collapsed && (
-            <span className="truncate text-body-sm font-semibold tracking-tight text-text-primary">{mockSession.workspace.name}</span>
+            <div className="min-w-0">
+              <span className="truncate text-body-sm font-semibold tracking-tight text-text-primary block">{mockSession.workspace.name}</span>
+              <span className="retro-label text-electric/40 animate-retro-pulse">SYS:ONLINE</span>
+            </div>
           )}
         </div>
 
@@ -91,6 +97,15 @@ export default function WorkspaceLayout() {
           </div>
         </div>
 
+        {/* Retro divider + version */}
+        <div className="retro-divider" />
+        {!collapsed && (
+          <div className="flex items-center justify-between px-4 py-1.5">
+            <span className="retro-label text-text-secondary/40">v2.4.1</span>
+            <span className="retro-label cyan-text">ELIXA</span>
+          </div>
+        )}
+
         {/* Collapse toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}
@@ -113,8 +128,8 @@ export default function WorkspaceLayout() {
             </button>
             <nav className="hidden md:flex items-center gap-1.5 text-body-sm text-text-secondary">
               <Link to="/chats" className="hover:text-text-primary transition-colors">Workspace</Link>
-              <span className="text-text-secondary/40">/</span>
-              <span className="text-text-primary font-medium capitalize">
+              <span className="text-electric/30 font-mono">//</span>
+              <span className="font-mono text-text-primary font-medium capitalize tracking-wide">
                 {location.pathname.split('/')[1] || 'chats'}
               </span>
             </nav>

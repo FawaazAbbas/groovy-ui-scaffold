@@ -50,4 +50,15 @@
   --neon-glow-md: 0 0 12px rgba(57, 255, 20, 0.3), 0 0 4px rgba(57, 255, 20, 0.2);
   --neon-glow-lg: 0 0 24px rgba(57, 255, 20, 0.35), 0 0 8px rgba(57, 255, 20, 0.25);
   --neon-glow-xl: 0 0 40px rgba(57, 255, 20, 0.3), 0 0 16px rgba(57, 255, 20, 0.2), 0 0 4px rgba(57, 255, 20, 0.4);
+
+  /* Retro-futuristic — secondary neon cyan */
+  --cyan: #00F0FF;
+  --cyan-muted: #0A2A2E;
+  --cyan-glow-sm: 0 0 6px rgba(0, 240, 255, 0.25), 0 0 2px rgba(0, 240, 255, 0.15);
+  --cyan-glow-md: 0 0 12px rgba(0, 240, 255, 0.3), 0 0 4px rgba(0, 240, 255, 0.2);
+
+  /* Retro grid */
+  --grid-color: rgba(57, 255, 20, 0.04);
+  --grid-size: 40px;
+  --scanline-opacity: 0.02;
 }

@@ -19,8 +19,8 @@ export default function BillingPage() {
               strokeDasharray={`${usagePercent * 3.14} ${314 - usagePercent * 3.14}`} />
           </svg>
           <div className="text-center mt-4">
-            <p className="text-display-sm font-bold text-text-primary">{mockPlan.creditsIncluded - mockPlan.creditsUsed}</p>
-            <p className="text-caption text-text-secondary">of {mockPlan.creditsIncluded.toLocaleString()} credits remaining</p>
+            <p className="text-display-sm font-bold text-text-primary font-mono">{mockPlan.creditsIncluded - mockPlan.creditsUsed}</p>
+            <p className="retro-label text-text-secondary/60 mt-1">of {mockPlan.creditsIncluded.toLocaleString()} credits remaining</p>
           </div>
         </div>
 
@@ -37,7 +37,7 @@ export default function BillingPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             {mockPlan.features.map(f => (
-              <span key={f} className="rounded-full bg-comfort px-3 py-1 text-caption font-medium text-comfort-text">{f}</span>
+              <span key={f} className="rounded-md bg-comfort px-3 py-1 retro-label text-comfort-text neon-glow-sm">{f}</span>
             ))}
           </div>
         </div>
@@ -45,7 +45,10 @@ export default function BillingPage() {
 
       {/* Usage chart */}
       <div className="card-glass p-6">
-        <h3 className="text-body font-semibold text-text-primary mb-4">Usage — Last 30 Days</h3>
+        <div className="flex items-center gap-2 mb-4">
+          <h3 className="text-body font-semibold text-text-primary">Usage</h3>
+          <span className="retro-label text-cyan/50">// LAST 30 DAYS</span>
+        </div>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={mockDailyUsage}>
