@@ -9,10 +9,18 @@
   --border: rgba(0, 0, 0, 0.08);
   --border-solid: #E5E5EA;
 
-  /* Sidebar — frosted dark */
+  /* Sidebar — frosted dark (marketplace hero) */
   --sidebar: rgba(28, 28, 30, 0.82);
   --sidebar-solid: #1C1C1E;
   --sidebar-text: #F5F5F7;
+
+  /* Liquid glass sidebar */
+  --liquid-glass: rgba(255, 255, 255, 0.45);
+  --liquid-glass-border: rgba(255, 255, 255, 0.6);
+  --liquid-glass-inner: rgba(255, 255, 255, 0.25);
+  --liquid-glass-blur: 48px;
+  --liquid-glass-saturation: 2;
+  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
 
   /* Primary — Apple blue-black */
   --primary: #0071E3;

@@ -28,31 +28,31 @@ export default function WorkspaceLayout() {
   const sidebarWidth = collapsed ? 'w-16' : 'w-[260px]';
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden bg-background" style={{ background: 'linear-gradient(135deg, #F5F5F7 0%, #E8EAF0 30%, #F0F2F5 50%, #EDE8F5 70%, #F5F5F7 100%)' }}>
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden" onClick={() => setMobileOpen(false)} />
       )}
 
-      {/* Sidebar — frosted dark glass */}
+      {/* Sidebar — liquid glass */}
       <aside
-        className={`${sidebarWidth} fixed md:relative z-50 flex h-full flex-col glass-sidebar text-sidebar-text transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
+        className={`${sidebarWidth} fixed md:relative z-50 flex h-full flex-col glass-liquid transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
         {/* Workspace header */}
-        <div className="flex h-14 items-center gap-3 border-b border-white/[0.06] px-4">
-          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-[#005BB5]">
+        <div className="flex h-14 items-center gap-3 border-b border-black/[0.04] px-4">
+          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-[#005BB5] shadow-glass-sm">
             <span className="text-sm font-semibold text-white">A</span>
             <span className="absolute -bottom-0.5 -right-0.5 neon-dot animate-pulse" />
           </div>
           {!collapsed && (
-            <span className="truncate text-body-sm font-semibold tracking-tight">{mockSession.workspace.name}</span>
+            <span className="truncate text-body-sm font-semibold tracking-tight text-text-primary">{mockSession.workspace.name}</span>
           )}
         </div>
 
         {/* Nav items */}
-        <nav className="flex-1 overflow-y-auto py-3 px-2">
+        <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
           {navItems.map((item) => {
             const isActive = location.pathname.startsWith(item.path);
             return (
@@ -62,8 +62,8 @@ export default function WorkspaceLayout() {
                 onClick={() => setMobileOpen(false)}
                 className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm transition-all duration-200 ${
                   isActive
-                    ? 'bg-white/[0.12] text-white font-medium'
-                    : 'text-white/60 hover:bg-white/[0.06] hover:text-white/90'
+                    ? 'glass-liquid-item-active text-text-primary font-medium'
+                    : 'text-text-secondary hover:glass-liquid-item hover:text-text-primary'
                 } ${collapsed ? 'justify-center px-0' : ''}`}
               >
                 {isActive && (
@@ -77,15 +77,15 @@ export default function WorkspaceLayout() {
         </nav>
 
         {/* User info */}
-        <div className="border-t border-white/[0.06] p-3">
-          <div className={`flex items-center gap-3 rounded-xl px-2 py-2 ${collapsed ? 'justify-center' : ''}`}>
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-xs font-medium text-white">
+        <div className="border-t border-black/[0.04] p-3">
+          <div className={`flex items-center gap-3 rounded-xl px-2 py-2 glass-liquid-item ${collapsed ? 'justify-center' : ''}`}>
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-xs font-medium text-white shadow-glass-sm">
               {mockSession.user.name.split(' ').map(n => n[0]).join('')}
             </div>
             {!collapsed && (
               <div className="min-w-0">
-                <p className="truncate text-body-sm font-medium">{mockSession.user.name}</p>
-                <p className="truncate text-caption text-white/40">{mockSession.user.role}</p>
+                <p className="truncate text-body-sm font-medium text-text-primary">{mockSession.user.name}</p>
+                <p className="truncate text-caption text-text-secondary">{mockSession.user.role}</p>
               </div>
             )}
           </div>
@@ -94,7 +94,7 @@ export default function WorkspaceLayout() {
         {/* Collapse toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="hidden md:flex h-10 items-center justify-center border-t border-white/[0.06] text-white/30 hover:text-white/70 transition-colors duration-200"
+          className="hidden md:flex h-10 items-center justify-center border-t border-black/[0.04] text-text-secondary/40 hover:text-text-secondary transition-colors duration-200"
         >
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </button>

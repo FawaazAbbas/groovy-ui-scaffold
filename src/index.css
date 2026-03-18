@@ -44,6 +44,31 @@
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
   }
 
+  /* Liquid glass — translucent, refractive, Apple-style */
+  .glass-liquid {
+    background: var(--liquid-glass);
+    backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturation));
+    -webkit-backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturation));
+    border-right: 1px solid var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+  }
+
+  .glass-liquid-item {
+    background: var(--liquid-glass-inner);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .glass-liquid-item-active {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(16px) saturate(1.6);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.03);
+  }
+
   /* Apple-style card */
   .card-glass {
     background: var(--surface);
