@@ -73,7 +73,7 @@ export default function OnboardPage() {
           </div>
           <h1 className="text-display-sm text-text-primary mb-2">Welcome to Groovy!</h1>
           <p className="text-body text-text-secondary mb-8">Your workspace is ready. Let's get started.</p>
-          <Link to="/chats" className="inline-flex rounded-lg bg-primary px-8 py-3 text-body font-medium text-white hover:bg-primary-hover">
+          <Link to="/chats" className="inline-flex rounded-xl bg-primary px-8 py-3 text-body font-medium text-white hover:bg-primary-hover">
             Go to Workspace
           </Link>
         </div>
@@ -84,7 +84,7 @@ export default function OnboardPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       {/* Progress */}
-      <div className="border-b border-border bg-surface px-6 py-4">
+      <div className="border-b border-border glass px-6 py-4">
         <div className="mx-auto max-w-2xl">
           <div className="flex items-center justify-between mb-3">
             <span className="text-body-sm font-medium text-text-primary">Step {step + 1} of {steps.length}</span>
@@ -108,7 +108,7 @@ export default function OnboardPage() {
               </div>
               <h1 className="text-display-sm text-text-primary mb-3">Welcome to Groovy</h1>
               <p className="text-body text-text-secondary mb-8">Let's set up your AI-powered workspace in just a few steps.</p>
-              <button onClick={next} className="rounded-lg bg-primary px-8 py-3 text-body font-medium text-white hover:bg-primary-hover">
+              <button onClick={next} className="rounded-xl bg-primary px-8 py-3 text-body font-medium text-white hover:bg-primary-hover">
                 Get Started <ArrowRight className="inline h-4 w-4 ml-1" />
               </button>
             </div>
@@ -120,11 +120,11 @@ export default function OnboardPage() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-body-sm font-medium text-text-primary mb-1.5">Company Name</label>
-                  <input value={company.name} onChange={e => setCompany({ ...company, name: e.target.value })} className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Acme Corp" />
+                  <input value={company.name} onChange={e => setCompany({ ...company, name: e.target.value })} className="w-full rounded-xl border border-border-solid bg-white/60 px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all" placeholder="Acme Corp" />
                 </div>
                 <div>
                   <label className="block text-body-sm font-medium text-text-primary mb-1.5">Industry</label>
-                  <select value={company.industry} onChange={e => setCompany({ ...company, industry: e.target.value })} className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                  <select value={company.industry} onChange={e => setCompany({ ...company, industry: e.target.value })} className="w-full rounded-xl border border-border-solid bg-white/60 px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
                     <option value="">Select industry</option>
                     {industries.map(i => <option key={i} value={i}>{i}</option>)}
                   </select>
@@ -158,19 +158,19 @@ export default function OnboardPage() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-body-sm font-medium text-text-primary mb-1.5">Full Name</label>
-                  <input value={role.name} onChange={e => setRole({ ...role, name: e.target.value })} className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Sarah Chen" />
+                  <input value={role.name} onChange={e => setRole({ ...role, name: e.target.value })} className="w-full rounded-xl border border-border-solid bg-white/60 px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all" placeholder="Sarah Chen" />
                 </div>
                 <div>
                   <label className="block text-body-sm font-medium text-text-primary mb-1.5">Email</label>
-                  <input value={role.email} onChange={e => setRole({ ...role, email: e.target.value })} className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="sarah@acme.com" />
+                  <input value={role.email} onChange={e => setRole({ ...role, email: e.target.value })} className="w-full rounded-xl border border-border-solid bg-white/60 px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all" placeholder="sarah@acme.com" />
                 </div>
                 <div>
                   <label className="block text-body-sm font-medium text-text-primary mb-1.5">Title</label>
-                  <input value={role.title} onChange={e => setRole({ ...role, title: e.target.value })} className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Head of Operations" />
+                  <input value={role.title} onChange={e => setRole({ ...role, title: e.target.value })} className="w-full rounded-xl border border-border-solid bg-white/60 px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all" placeholder="Head of Operations" />
                 </div>
                 <div>
                   <label className="block text-body-sm font-medium text-text-primary mb-1.5">Department</label>
-                  <select value={role.department} onChange={e => setRole({ ...role, department: e.target.value })} className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                  <select value={role.department} onChange={e => setRole({ ...role, department: e.target.value })} className="w-full rounded-xl border border-border-solid bg-white/60 px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
                     <option value="">Select department</option>
                     {departments.map(d => <option key={d} value={d}>{d}</option>)}
                   </select>
@@ -183,8 +183,8 @@ export default function OnboardPage() {
             <div>
               <h2 className="text-heading text-text-primary mb-6">Invite Team Members</h2>
               <div className="flex gap-2 mb-4">
-                <input value={inviteEmail} onChange={e => setInviteEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && addInvite()} className="flex-1 rounded-lg border border-border bg-surface px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="colleague@company.com" />
-                <button onClick={addInvite} className="rounded-lg bg-primary px-4 py-2.5 text-body-sm font-medium text-white hover:bg-primary-hover">
+                <input value={inviteEmail} onChange={e => setInviteEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && addInvite()} className="flex-1 rounded-xl border border-border-solid bg-white/60 px-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all" placeholder="colleague@company.com" />
+                <button onClick={addInvite} className="rounded-xl bg-primary px-4 py-2.5 text-body-sm font-medium text-white hover:bg-primary-hover">
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
@@ -262,35 +262,35 @@ export default function OnboardPage() {
             <div>
               <h2 className="text-heading text-text-primary mb-6">Review & Launch</h2>
               <div className="space-y-4">
-                <div className="rounded-xl border border-border bg-surface p-4">
+                <div className="card-glass p-4">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-body-sm font-medium text-text-primary">Company</span>
                     <button onClick={() => setStep(1)} className="text-caption text-primary hover:underline">Edit</button>
                   </div>
                   <p className="text-body-sm text-text-secondary">{company.name || 'Not set'} · {company.industry || 'No industry'} · {company.size || 'No size'}</p>
                 </div>
-                <div className="rounded-xl border border-border bg-surface p-4">
+                <div className="card-glass p-4">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-body-sm font-medium text-text-primary">Your Role</span>
                     <button onClick={() => setStep(2)} className="text-caption text-primary hover:underline">Edit</button>
                   </div>
                   <p className="text-body-sm text-text-secondary">{role.name || 'Not set'} · {role.title || 'No title'}</p>
                 </div>
-                <div className="rounded-xl border border-border bg-surface p-4">
+                <div className="card-glass p-4">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-body-sm font-medium text-text-primary">Team</span>
                     <button onClick={() => setStep(3)} className="text-caption text-primary hover:underline">Edit</button>
                   </div>
                   <p className="text-body-sm text-text-secondary">{invites.length} member{invites.length !== 1 ? 's' : ''} invited</p>
                 </div>
-                <div className="rounded-xl border border-border bg-surface p-4">
+                <div className="card-glass p-4">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-body-sm font-medium text-text-primary">Agents</span>
                     <button onClick={() => setStep(4)} className="text-caption text-primary hover:underline">Edit</button>
                   </div>
                   <p className="text-body-sm text-text-secondary">{selectedAgents.length} agent{selectedAgents.length !== 1 ? 's' : ''} selected</p>
                 </div>
-                <div className="rounded-xl border border-border bg-surface p-4">
+                <div className="card-glass p-4">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-body-sm font-medium text-text-primary">Tools</span>
                     <button onClick={() => setStep(5)} className="text-caption text-primary hover:underline">Edit</button>
@@ -308,21 +308,21 @@ export default function OnboardPage() {
 
       {/* Navigation */}
       {step > 0 && step < 6 && (
-        <div className="border-t border-border bg-surface px-6 py-4">
+        <div className="border-t border-border glass px-6 py-4">
           <div className="mx-auto flex max-w-lg justify-between">
-            <button onClick={prev} className="flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-body-sm font-medium text-text-secondary hover:bg-surface-elevated">
+            <button onClick={prev} className="flex items-center gap-1 rounded-xl border border-border-solid px-4 py-2 text-body-sm transition-all font-medium text-text-secondary hover:bg-surface-elevated">
               <ArrowLeft className="h-4 w-4" /> Back
             </button>
-            <button onClick={next} className="flex items-center gap-1 rounded-lg bg-primary px-6 py-2 text-body-sm font-medium text-white hover:bg-primary-hover">
+            <button onClick={next} className="flex items-center gap-1 rounded-xl bg-primary px-6 py-2 text-body-sm font-medium text-white hover:bg-primary-hover">
               Continue <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>
       )}
       {step === 6 && (
-        <div className="border-t border-border bg-surface px-6 py-4">
+        <div className="border-t border-border glass px-6 py-4">
           <div className="mx-auto flex max-w-lg justify-start">
-            <button onClick={prev} className="flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-body-sm font-medium text-text-secondary hover:bg-surface-elevated">
+            <button onClick={prev} className="flex items-center gap-1 rounded-xl border border-border-solid px-4 py-2 text-body-sm transition-all font-medium text-text-secondary hover:bg-surface-elevated">
               <ArrowLeft className="h-4 w-4" /> Back
             </button>
           </div>

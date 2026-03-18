@@ -22,8 +22,8 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="overflow-hidden p-0 shadow-2xl border-border max-w-lg">
-        <Command className="bg-surface">
+      <DialogContent className="overflow-hidden p-0 shadow-glass-xl border-border max-w-lg !rounded-2xl glass">
+        <Command className="bg-transparent">
           <CommandInput placeholder="Type a command or search..." className="border-none focus:ring-0" />
           <CommandList className="max-h-80">
             <CommandEmpty>No results found.</CommandEmpty>

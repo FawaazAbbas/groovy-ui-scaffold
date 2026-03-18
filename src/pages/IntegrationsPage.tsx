@@ -34,7 +34,7 @@ export default function IntegrationsPage() {
     <div className="p-6 max-w-6xl">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-heading font-semibold text-text-primary">Integrations</h1>
-        <button onClick={() => setAddModalOpen(true)} className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-body-sm font-medium text-white hover:bg-primary-hover">
+        <button onClick={() => setAddModalOpen(true)} className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-body-sm font-medium text-white hover:bg-primary-hover transition-colors shadow-glass-sm">
           <Plus className="h-4 w-4" /> Add Integration
         </button>
       </div>
@@ -45,8 +45,8 @@ export default function IntegrationsPage() {
           <button
             key={cat}
             onClick={() => setFilterCategory(cat)}
-            className={`shrink-0 rounded-full px-4 py-1.5 text-body-sm font-medium ${
-              filterCategory === cat ? 'bg-primary text-white' : 'bg-surface border border-border text-text-secondary hover:border-primary/30'
+            className={`shrink-0 rounded-full px-4 py-1.5 text-body-sm font-medium transition-all duration-200 ${
+              filterCategory === cat ? 'bg-primary text-white shadow-glass-sm' : 'bg-white/50 border border-border text-text-secondary hover:bg-white/80'
             }`}
           >{cat}</button>
         ))}
@@ -63,14 +63,14 @@ export default function IntegrationsPage() {
                 <button
                   key={integration.id}
                   onClick={() => setSelectedIntegration(integration)}
-                  className="rounded-xl border border-border bg-surface p-5 text-left hover:shadow-md hover:border-primary/30 transition-all"
+                  className="card-glass p-5 text-left"
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-elevated">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/50">
                       <Icon className="h-5 w-5 text-text-secondary" />
                     </div>
                     <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${
-                      integration.connected ? 'bg-comfort text-comfort-text' : 'bg-surface-elevated text-text-secondary'
+                      integration.connected ? 'bg-comfort text-comfort-text' : 'bg-white/50 text-text-secondary'
                     }`}>
                       {integration.connected ? 'Connected' : 'Not Connected'}
                     </span>
@@ -86,21 +86,21 @@ export default function IntegrationsPage() {
 
       {/* Detail sheet */}
       <Sheet open={!!selectedIntegration} onOpenChange={() => setSelectedIntegration(null)}>
-        <SheetContent className="w-[400px] bg-surface">
+        <SheetContent className="w-[400px] glass">
           {selectedIntegration && (
             <div className="space-y-6 pt-6">
               <div className="flex items-center gap-3">
-                {(() => { const Icon = getIcon(selectedIntegration.icon); return <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-surface-elevated"><Icon className="h-6 w-6 text-text-secondary" /></div>; })()}
+                {(() => { const Icon = getIcon(selectedIntegration.icon); return <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/50"><Icon className="h-6 w-6 text-text-secondary" /></div>; })()}
                 <div>
                   <h2 className="text-heading-sm font-semibold text-text-primary">{selectedIntegration.name}</h2>
-                  <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${selectedIntegration.connected ? 'bg-comfort text-comfort-text' : 'bg-surface-elevated text-text-secondary'}`}>
+                  <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${selectedIntegration.connected ? 'bg-comfort text-comfort-text' : 'bg-white/50 text-text-secondary'}`}>
                     {selectedIntegration.connected ? 'Connected' : 'Not Connected'}
                   </span>
                 </div>
               </div>
               <p className="text-body-sm text-text-secondary">{selectedIntegration.description}</p>
               {selectedIntegration.connected && (
-                <div className="space-y-3 rounded-lg bg-surface-elevated p-4">
+                <div className="space-y-3 rounded-2xl bg-white/40 p-4">
                   <div>
                     <p className="text-caption text-text-secondary">Connected on</p>
                     <p className="text-body-sm text-text-primary">{new Date(selectedIntegration.connectedAt!).toLocaleDateString()}</p>
@@ -111,8 +111,8 @@ export default function IntegrationsPage() {
                   </div>
                 </div>
               )}
-              <button className={`w-full rounded-lg py-2.5 text-body-sm font-medium ${
-                selectedIntegration.connected ? 'border border-destructive text-destructive hover:bg-destructive/5' : 'bg-primary text-white hover:bg-primary-hover'
+              <button className={`w-full rounded-xl py-2.5 text-body-sm font-medium transition-colors ${
+                selectedIntegration.connected ? 'border border-destructive text-destructive hover:bg-destructive/5' : 'bg-primary text-white hover:bg-primary-hover shadow-glass-sm'
               }`}>
                 {selectedIntegration.connected ? 'Disconnect' : 'Connect'}
               </button>
@@ -123,7 +123,7 @@ export default function IntegrationsPage() {
 
       {/* Add integration modal */}
       <Dialog open={addModalOpen} onOpenChange={setAddModalOpen}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-lg glass shadow-glass-xl border-border rounded-2xl">
           <h2 className="text-heading-sm font-semibold text-text-primary mb-4">Add Integration</h2>
           <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-secondary" />
@@ -132,15 +132,15 @@ export default function IntegrationsPage() {
               placeholder="Search integrations..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full rounded-lg border border-border bg-surface pl-9 pr-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full rounded-xl border border-border-solid bg-white/60 pl-9 pr-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
             />
           </div>
           <div className="space-y-2 max-h-80 overflow-y-auto">
             {mockIntegrations.filter(i => !searchQuery || i.name.toLowerCase().includes(searchQuery.toLowerCase())).map(i => {
               const Icon = getIcon(i.icon);
               return (
-                <button key={i.id} className="flex w-full items-center gap-3 rounded-lg border border-border p-3 hover:border-primary/30 hover:bg-surface-elevated">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-surface-elevated"><Icon className="h-4 w-4 text-text-secondary" /></div>
+                <button key={i.id} className="flex w-full items-center gap-3 rounded-xl border border-border p-3 hover:bg-white/40 transition-colors">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/50"><Icon className="h-4 w-4 text-text-secondary" /></div>
                   <div className="flex-1 text-left">
                     <p className="text-body-sm font-medium text-text-primary">{i.name}</p>
                     <p className="text-caption text-text-secondary">{i.category}</p>

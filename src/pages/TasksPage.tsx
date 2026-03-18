@@ -22,7 +22,7 @@ const priorityColors: Record<string, string> = {
   urgent: 'border-l-destructive',
   high: 'border-l-warning',
   medium: 'border-l-primary',
-  low: 'border-l-border',
+  low: 'border-l-border-solid',
 };
 
 function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
@@ -37,18 +37,18 @@ function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
       {...attributes}
       {...listeners}
       onClick={onClick}
-      className={`cursor-grab rounded-lg border border-border border-l-4 ${priorityColors[task.priority]} bg-surface p-3 shadow-sm hover:shadow-md transition-shadow active:cursor-grabbing`}
+      className={`cursor-grab rounded-2xl border border-border border-l-4 ${priorityColors[task.priority]} glass p-3 shadow-glass-sm hover:shadow-glass-md transition-all duration-200 active:cursor-grabbing`}
     >
       <h4 className="text-body-sm font-medium text-text-primary mb-2">{task.title}</h4>
       <div className="flex flex-wrap gap-1.5 mb-2">
         {task.labels.map(label => (
-          <span key={label} className="rounded-full bg-surface-elevated px-2 py-0.5 text-[10px] font-medium text-text-secondary">{label}</span>
+          <span key={label} className="rounded-full bg-white/50 px-2 py-0.5 text-[10px] font-medium text-text-secondary">{label}</span>
         ))}
       </div>
       <div className="flex items-center justify-between">
         <div className="flex -space-x-1.5">
           {assignees.slice(0, 3).map(u => (
-            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-primary text-[9px] font-medium text-white">
+            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-gradient-to-b from-primary to-[#005BB5] text-[9px] font-medium text-white">
               {u.name.split(' ').map(n => n[0]).join('')}
             </div>
           ))}
@@ -72,9 +72,9 @@ function Column({ id, label, tasks, onTaskClick }: { id: string; label: string; 
     <div className="flex w-72 shrink-0 flex-col">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-body-sm font-semibold text-text-primary">{label}</h3>
-        <span className="rounded-full bg-surface-elevated px-2 py-0.5 text-caption text-text-secondary">{tasks.length}</span>
+        <span className="rounded-full bg-white/50 px-2 py-0.5 text-caption text-text-secondary">{tasks.length}</span>
       </div>
-      <div ref={setNodeRef} className="flex-1 space-y-2 rounded-xl bg-surface-elevated/50 p-2 min-h-[200px]">
+      <div ref={setNodeRef} className="flex-1 space-y-2 rounded-2xl bg-white/30 p-2 min-h-[200px]">
         <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
           {tasks.map(task => (
             <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} />
@@ -103,11 +103,9 @@ export default function TasksPage() {
     const taskId = active.id as string;
     let newStatus: string;
 
-    // Check if dropped on a column
     if (columns.some(c => c.id === over.id)) {
       newStatus = over.id as string;
     } else {
-      // Dropped on another task — find that task's column
       const overTask = tasks.find(t => t.id === over.id);
       if (!overTask) return;
       newStatus = overTask.status;
@@ -120,9 +118,9 @@ export default function TasksPage() {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between border-b border-border bg-surface px-6 py-3">
+      <div className="flex items-center justify-between border-b border-border glass px-6 py-3">
         <h1 className="text-heading font-semibold text-text-primary">Tasks</h1>
-        <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+        <div className="flex items-center gap-1 rounded-xl border border-border-solid bg-white/40 p-0.5">
           {[
             { mode: 'kanban' as const, icon: LayoutGrid },
             { mode: 'list' as const, icon: List },
@@ -131,7 +129,7 @@ export default function TasksPage() {
             <button
               key={mode}
               onClick={() => setViewMode(mode)}
-              className={`rounded-md p-1.5 ${viewMode === mode ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-primary'}`}
+              className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === mode ? 'bg-primary text-white shadow-glass-sm' : 'text-text-secondary hover:text-text-primary'}`}
             >
               <Icon className="h-4 w-4" />
             </button>
@@ -154,7 +152,7 @@ export default function TasksPage() {
           </div>
           <DragOverlay>
             {activeTask ? (
-              <div className={`w-72 rounded-lg border border-primary border-l-4 ${priorityColors[activeTask.priority]} bg-surface p-3 shadow-xl`}>
+              <div className={`w-72 rounded-2xl border border-primary border-l-4 ${priorityColors[activeTask.priority]} glass p-3 shadow-glass-xl`}>
                 <h4 className="text-body-sm font-medium text-text-primary">{activeTask.title}</h4>
               </div>
             ) : null}
@@ -164,7 +162,7 @@ export default function TasksPage() {
 
       {/* Task detail sheet */}
       <Sheet open={!!selectedTask} onOpenChange={() => setSelectedTask(null)}>
-        <SheetContent className="w-[400px] sm:w-[540px] bg-surface">
+        <SheetContent className="w-[400px] sm:w-[540px] glass">
           {selectedTask && (
             <div className="space-y-6 pt-6">
               <div>
@@ -174,11 +172,11 @@ export default function TasksPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-caption font-medium text-text-secondary mb-1">Status</p>
-                  <span className="rounded-full bg-surface-elevated px-3 py-1 text-body-sm text-text-primary capitalize">{selectedTask.status.replace('_', ' ')}</span>
+                  <span className="rounded-full bg-white/50 px-3 py-1 text-body-sm text-text-primary capitalize">{selectedTask.status.replace('_', ' ')}</span>
                 </div>
                 <div>
                   <p className="text-caption font-medium text-text-secondary mb-1">Priority</p>
-                  <span className={`rounded-full px-3 py-1 text-body-sm capitalize ${selectedTask.priority === 'urgent' ? 'bg-destructive/10 text-destructive' : selectedTask.priority === 'high' ? 'bg-warning/10 text-warning' : 'bg-surface-elevated text-text-primary'}`}>{selectedTask.priority}</span>
+                  <span className={`rounded-full px-3 py-1 text-body-sm capitalize ${selectedTask.priority === 'urgent' ? 'bg-destructive/10 text-destructive' : selectedTask.priority === 'high' ? 'bg-warning/10 text-warning' : 'bg-white/50 text-text-primary'}`}>{selectedTask.priority}</span>
                 </div>
                 <div>
                   <p className="text-caption font-medium text-text-secondary mb-1">Due Date</p>
@@ -193,8 +191,8 @@ export default function TasksPage() {
                 <p className="text-caption font-medium text-text-secondary mb-2">Assignees</p>
                 <div className="flex flex-wrap gap-2">
                   {mockUsers.filter(u => selectedTask.assigneeIds.includes(u.id)).map(u => (
-                    <div key={u.id} className="flex items-center gap-2 rounded-full border border-border px-3 py-1">
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div key={u.id} className="flex items-center gap-2 rounded-full border border-border-solid bg-white/40 px-3 py-1">
+                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
                       <span className="text-caption text-text-primary">{u.name}</span>
                     </div>
                   ))}
@@ -204,7 +202,7 @@ export default function TasksPage() {
                 <p className="text-caption font-medium text-text-secondary mb-2">Labels</p>
                 <div className="flex flex-wrap gap-1.5">
                   {selectedTask.labels.map(l => (
-                    <span key={l} className="rounded-full bg-surface-elevated px-2.5 py-0.5 text-caption text-text-secondary">{l}</span>
+                    <span key={l} className="rounded-full bg-white/50 px-2.5 py-0.5 text-caption text-text-secondary">{l}</span>
                   ))}
                 </div>
               </div>

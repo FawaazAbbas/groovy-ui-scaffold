@@ -36,7 +36,7 @@ export default function AgentDetailPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="border-b border-border bg-surface">
+      <div className="border-b border-border glass">
         <div className="container mx-auto px-6 py-8">
           <Link to="/marketplace" className="inline-flex items-center gap-1 text-body-sm text-text-secondary hover:text-text-primary mb-6">
             <ArrowLeft className="h-4 w-4" /> Back to Marketplace
@@ -51,7 +51,7 @@ export default function AgentDetailPage() {
                   <h1 className="text-display-sm text-text-primary">{agent.name}</h1>
                   <p className="text-body text-text-secondary mt-1">by {agent.publisher}</p>
                   <div className="flex items-center gap-4 mt-3">
-                    <span className="rounded-full bg-surface-elevated px-3 py-1 text-body-sm text-text-secondary">{agent.category}</span>
+                    <span className="rounded-full bg-white/50 px-3 py-1 text-body-sm text-text-secondary">{agent.category}</span>
                     <span className="flex items-center gap-1 text-body-sm">
                       <Star className="h-4 w-4 fill-warning text-warning" /> {agent.rating}
                       <span className="text-text-secondary">({agent.reviewCount} reviews)</span>
@@ -64,7 +64,7 @@ export default function AgentDetailPage() {
                 <div className="hidden md:block">
                   <button
                     onClick={handleInstall}
-                    className="rounded-lg bg-primary px-6 py-2.5 text-body-sm font-medium text-white hover:bg-primary-hover transition-colors"
+                    className="rounded-xl bg-primary px-6 py-2.5 text-body-sm font-medium text-white hover:bg-primary-hover transition-colors"
                   >
                     Add to Workspace — {agent.creditCost} credits/use
                   </button>
@@ -111,7 +111,7 @@ export default function AgentDetailPage() {
         {activeTab === 'reviews' && (
           <div className="max-w-3xl space-y-4">
             {agent.reviews.map((review, i) => (
-              <div key={i} className="rounded-xl border border-border bg-surface p-5">
+              <div key={i} className="card-glass p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="font-medium text-body-sm text-text-primary">{review.user}</span>
                   <span className="flex items-center gap-0.5">
@@ -129,7 +129,7 @@ export default function AgentDetailPage() {
         {activeTab === 'changelog' && (
           <div className="max-w-3xl space-y-4">
             {agent.changelog.map((entry, i) => (
-              <div key={i} className="rounded-xl border border-border bg-surface p-5">
+              <div key={i} className="card-glass p-5">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="rounded-full bg-comfort px-2.5 py-0.5 text-caption font-medium text-comfort-text">v{entry.version}</span>
                   <span className="text-caption text-text-secondary">{entry.date}</span>
@@ -163,7 +163,7 @@ export default function AgentDetailPage() {
                   <button
                     key={target.id}
                     onClick={() => { setSelectedTarget(target.id); setInstallStep('confirm'); }}
-                    className="flex w-full items-center gap-3 rounded-lg border border-border p-4 text-left hover:border-primary/30 hover:bg-surface-elevated transition-colors"
+                    className="flex w-full items-center gap-3 rounded-2xl border border-border p-4 text-left hover:border-primary/20 hover:bg-white/40 transition-all duration-200"
                   >
                     <target.icon className="h-5 w-5 text-text-secondary" />
                     <span className="text-body-sm font-medium text-text-primary">{target.label}</span>
@@ -175,7 +175,7 @@ export default function AgentDetailPage() {
           {installStep === 'confirm' && (
             <div>
               <h2 className="text-heading-sm font-semibold text-text-primary mb-2">Confirm Installation</h2>
-              <div className="rounded-lg bg-surface-elevated p-4 mb-6">
+              <div className="rounded-2xl bg-white/40 p-4 mb-6">
                 <p className="text-body-sm text-text-primary"><strong>{agent.name}</strong> will be deployed to <strong>{targets.find(t => t.id === selectedTarget)?.label}</strong></p>
                 <p className="text-caption text-text-secondary mt-1">Cost: {agent.creditCost} credits per use</p>
               </div>
@@ -196,7 +196,7 @@ export default function AgentDetailPage() {
               </div>
               <h2 className="text-heading-sm font-semibold text-text-primary mb-2">Successfully Installed!</h2>
               <p className="text-body-sm text-text-secondary mb-6">{agent.name} is now active in your workspace.</p>
-              <button onClick={() => setInstallOpen(false)} className="rounded-lg bg-primary px-6 py-2.5 text-body-sm font-medium text-white hover:bg-primary-hover">
+              <button onClick={() => setInstallOpen(false)} className="rounded-xl bg-primary px-6 py-2.5 text-body-sm font-medium text-white hover:bg-primary-hover">
                 Done
               </button>
             </div>

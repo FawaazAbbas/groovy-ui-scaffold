@@ -14,29 +14,38 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"DM Sans"', 'sans-serif'],
+        sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       fontSize: {
-        'display-lg': ['3rem', { lineHeight: '1.1', fontWeight: '700' }],
-        'display': ['2.25rem', { lineHeight: '1.2', fontWeight: '700' }],
-        'display-sm': ['1.875rem', { lineHeight: '1.2', fontWeight: '600' }],
-        'heading': ['1.5rem', { lineHeight: '1.3', fontWeight: '600' }],
-        'heading-sm': ['1.25rem', { lineHeight: '1.4', fontWeight: '600' }],
-        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],
-        'body': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
-        'body-sm': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
-        'caption': ['0.75rem', { lineHeight: '1.5', fontWeight: '400' }],
-        'code': ['0.875rem', { lineHeight: '1.6', fontWeight: '400' }],
+        'display-lg': ['3rem', { lineHeight: '1.06', fontWeight: '700', letterSpacing: '-0.03em' }],
+        'display': ['2.25rem', { lineHeight: '1.1', fontWeight: '700', letterSpacing: '-0.025em' }],
+        'display-sm': ['1.875rem', { lineHeight: '1.15', fontWeight: '600', letterSpacing: '-0.02em' }],
+        'heading': ['1.5rem', { lineHeight: '1.25', fontWeight: '600', letterSpacing: '-0.017em' }],
+        'heading-sm': ['1.25rem', { lineHeight: '1.3', fontWeight: '600', letterSpacing: '-0.014em' }],
+        'body-lg': ['1.0625rem', { lineHeight: '1.5', fontWeight: '400', letterSpacing: '-0.011em' }],
+        'body': ['0.9375rem', { lineHeight: '1.5', fontWeight: '400', letterSpacing: '-0.009em' }],
+        'body-sm': ['0.8125rem', { lineHeight: '1.45', fontWeight: '400', letterSpacing: '-0.006em' }],
+        'caption': ['0.6875rem', { lineHeight: '1.4', fontWeight: '400', letterSpacing: '0em' }],
+        'code': ['0.8125rem', { lineHeight: '1.5', fontWeight: '400' }],
       },
       colors: {
         background: 'var(--background)',
-        surface: 'var(--surface)',
+        surface: {
+          DEFAULT: 'var(--surface)',
+          solid: 'var(--surface-solid)',
+        },
         'surface-elevated': 'var(--surface-elevated)',
         'text-primary': 'var(--text-primary)',
         'text-secondary': 'var(--text-secondary)',
-        border: 'var(--border)',
-        sidebar: 'var(--sidebar)',
+        border: {
+          DEFAULT: 'var(--border)',
+          solid: 'var(--border-solid)',
+        },
+        sidebar: {
+          DEFAULT: 'var(--sidebar)',
+          solid: 'var(--sidebar-solid)',
+        },
         'sidebar-text': 'var(--sidebar-text)',
         primary: {
           DEFAULT: 'var(--primary)',
@@ -74,9 +83,11 @@ export default {
         },
       },
       borderRadius: {
-        lg: "0.75rem",
-        md: "0.5rem",
-        sm: "0.25rem",
+        '2xl': '1rem',
+        xl: '0.875rem',
+        lg: '0.75rem',
+        md: '0.5rem',
+        sm: '0.375rem',
       },
       keyframes: {
         "accordion-down": {

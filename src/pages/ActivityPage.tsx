@@ -40,15 +40,15 @@ export default function ActivityPage() {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
-        <select value={filterAgent} onChange={e => setFilterAgent(e.target.value)} className="rounded-lg border border-border bg-surface px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary">
+        <select value={filterAgent} onChange={e => setFilterAgent(e.target.value)} className="rounded-xl border border-border-solid bg-white/60 px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
           <option value="all">All Agents</option>
           {uniqueAgents.map(a => <option key={a} value={a}>{a}</option>)}
         </select>
-        <select value={filterType} onChange={e => setFilterType(e.target.value)} className="rounded-lg border border-border bg-surface px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary">
+        <select value={filterType} onChange={e => setFilterType(e.target.value)} className="rounded-xl border border-border-solid bg-white/60 px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
           <option value="all">All Types</option>
           {uniqueTypes.map(t => <option key={t} value={t}>{t.replace('_', ' ')}</option>)}
         </select>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="rounded-lg border border-border bg-surface px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary">
+        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="rounded-xl border border-border-solid bg-white/60 px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
           <option value="all">All Status</option>
           <option value="success">Success</option>
           <option value="failed">Failed</option>
@@ -57,10 +57,10 @@ export default function ActivityPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border border-border bg-surface overflow-hidden">
+      <div className="card-glass overflow-hidden">
         <table className="w-full text-body-sm">
           <thead>
-            <tr className="border-b border-border bg-surface-elevated">
+            <tr className="border-b border-border-solid bg-white/40">
               <th className="w-8 px-4 py-3"></th>
               <th className="px-4 py-3 text-left font-medium text-text-secondary">Timestamp</th>
               <th className="px-4 py-3 text-left font-medium text-text-secondary">Agent</th>
@@ -76,7 +76,7 @@ export default function ActivityPage() {
                 <tr
                   key={entry.id}
                   onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}
-                  className="border-b border-border/50 cursor-pointer hover:bg-surface-elevated/50"
+                  className="border-b border-border/50 cursor-pointer hover:bg-white/30 transition-colors"
                 >
                   <td className="px-4 py-3">
                     {expandedId === entry.id ? <ChevronDown className="h-3.5 w-3.5 text-text-secondary" /> : <ChevronRight className="h-3.5 w-3.5 text-text-secondary" />}
@@ -84,7 +84,7 @@ export default function ActivityPage() {
                   <td className="px-4 py-3 text-text-secondary whitespace-nowrap">{new Date(entry.timestamp).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-md bg-electric-muted text-electric text-[10px] font-bold">{entry.agentName[0]}</div>
+                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric text-[10px] font-bold">{entry.agentName[0]}</div>
                       <span className="text-text-primary font-medium">{entry.agentName}</span>
                     </div>
                   </td>
@@ -100,7 +100,7 @@ export default function ActivityPage() {
                   <td className="px-4 py-3 text-text-secondary">{entry.creditCost} cr</td>
                 </tr>
                 {expandedId === entry.id && (
-                  <tr key={`${entry.id}-detail`} className="border-b border-border/50 bg-surface-elevated/30">
+                  <tr key={`${entry.id}-detail`} className="border-b border-border/50 bg-white/20">
                     <td colSpan={7} className="px-8 py-4">
                       <p className="text-body-sm text-text-primary">{entry.details}</p>
                     </td>

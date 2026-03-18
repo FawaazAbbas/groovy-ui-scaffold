@@ -60,7 +60,7 @@ export default function FilesPage() {
   const permissionColors: Record<string, string> = {
     owner: 'bg-primary/10 text-primary',
     editor: 'bg-comfort text-comfort-text',
-    viewer: 'bg-surface-elevated text-text-secondary',
+    viewer: 'bg-white/50 text-text-secondary',
   };
 
   const menuItems = [
@@ -76,18 +76,18 @@ export default function FilesPage() {
         <div>
           <h1 className="text-heading font-semibold text-text-primary">Files</h1>
           <nav className="flex items-center gap-1 mt-1 text-body-sm">
-            <button onClick={() => setCurrentFolder(null)} className="text-text-secondary hover:text-primary">Root</button>
+            <button onClick={() => setCurrentFolder(null)} className="text-text-secondary hover:text-primary transition-colors">Root</button>
             {breadcrumbs.map(b => (
               <span key={b.id} className="flex items-center gap-1">
                 <ChevronRight className="h-3 w-3 text-text-secondary" />
-                <button onClick={() => setCurrentFolder(b.id)} className="text-text-secondary hover:text-primary">{b.name}</button>
+                <button onClick={() => setCurrentFolder(b.id)} className="text-text-secondary hover:text-primary transition-colors">{b.name}</button>
               </span>
             ))}
           </nav>
         </div>
-        <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
-          <button onClick={() => setViewMode('grid')} className={`rounded-md p-1.5 ${viewMode === 'grid' ? 'bg-primary text-white' : 'text-text-secondary'}`}><LayoutGrid className="h-4 w-4" /></button>
-          <button onClick={() => setViewMode('list')} className={`rounded-md p-1.5 ${viewMode === 'list' ? 'bg-primary text-white' : 'text-text-secondary'}`}><List className="h-4 w-4" /></button>
+        <div className="flex items-center gap-1 rounded-xl border border-border-solid bg-white/40 p-0.5">
+          <button onClick={() => setViewMode('grid')} className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === 'grid' ? 'bg-primary text-white shadow-glass-sm' : 'text-text-secondary'}`}><LayoutGrid className="h-4 w-4" /></button>
+          <button onClick={() => setViewMode('list')} className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === 'list' ? 'bg-primary text-white shadow-glass-sm' : 'text-text-secondary'}`}><List className="h-4 w-4" /></button>
         </div>
       </div>
 
@@ -100,7 +100,7 @@ export default function FilesPage() {
                 key={item.id}
                 onClick={() => handleClick(item)}
                 onContextMenu={e => handleContextMenu(e, item)}
-                className="rounded-xl border border-border bg-surface p-4 text-left hover:shadow-md hover:border-primary/30 transition-all group"
+                className="card-glass p-4 text-left group"
               >
                 <div className="flex items-start justify-between mb-3">
                   <Icon className={`h-8 w-8 ${item.type === 'folder' ? 'text-primary' : 'text-text-secondary'}`} />
@@ -117,10 +117,10 @@ export default function FilesPage() {
           })}
         </div>
       ) : (
-        <div className="rounded-xl border border-border bg-surface overflow-hidden">
+        <div className="card-glass overflow-hidden">
           <table className="w-full text-body-sm">
             <thead>
-              <tr className="border-b border-border bg-surface-elevated">
+              <tr className="border-b border-border-solid bg-white/40">
                 <th className="px-4 py-3 text-left font-medium text-text-secondary">Name</th>
                 <th className="px-4 py-3 text-left font-medium text-text-secondary">Size</th>
                 <th className="px-4 py-3 text-left font-medium text-text-secondary">Modified</th>
@@ -131,7 +131,7 @@ export default function FilesPage() {
               {items.map(item => {
                 const Icon = item.type === 'folder' ? Folder : (iconMap[item.mimeType || ''] || FileText);
                 return (
-                  <tr key={item.id} onClick={() => handleClick(item)} onContextMenu={e => handleContextMenu(e, item)} className="border-b border-border/50 cursor-pointer hover:bg-surface-elevated/50">
+                  <tr key={item.id} onClick={() => handleClick(item)} onContextMenu={e => handleContextMenu(e, item)} className="border-b border-border/50 cursor-pointer hover:bg-white/30 transition-colors">
                     <td className="px-4 py-3 flex items-center gap-2">
                       <Icon className={`h-4 w-4 ${item.type === 'folder' ? 'text-primary' : 'text-text-secondary'}`} />
                       <span className="text-text-primary">{item.name}</span>
@@ -152,7 +152,7 @@ export default function FilesPage() {
       {/* Custom Context Menu */}
       {contextMenu && (
         <div
-          className="fixed z-50 min-w-[180px] rounded-xl border border-border bg-surface py-1.5 shadow-lg"
+          className="fixed z-50 min-w-[180px] rounded-2xl border border-border glass py-1.5 shadow-glass-lg"
           style={{ left: contextMenu.x, top: contextMenu.y }}
         >
           <p className="px-3 py-1.5 text-caption font-medium text-text-secondary truncate">{contextMenu.item.name}</p>
@@ -161,7 +161,7 @@ export default function FilesPage() {
             <button
               key={mi.label}
               onClick={() => setContextMenu(null)}
-              className={`flex w-full items-center gap-2 px-3 py-2 text-body-sm hover:bg-surface-elevated ${mi.destructive ? 'text-destructive' : 'text-text-primary'}`}
+              className={`flex w-full items-center gap-2 px-3 py-2 text-body-sm hover:bg-white/40 transition-colors rounded-lg mx-0.5 ${mi.destructive ? 'text-destructive' : 'text-text-primary'}`}
             >
               <mi.icon className="h-3.5 w-3.5" />
               {mi.label}

@@ -8,10 +8,10 @@ import { mockArchNodes, mockArchEdges } from '@/lib/mocks/architecture';
 import { X, Building2, Users, UserCircle, Bot } from 'lucide-react';
 
 const nodeTypeStyles: Record<string, { bg: string; border: string; text: string }> = {
-  company: { bg: 'bg-sidebar', border: 'border-sidebar', text: 'text-sidebar-text' },
-  department: { bg: 'bg-primary/10', border: 'border-primary/30', text: 'text-primary' },
-  team: { bg: 'bg-surface', border: 'border-border', text: 'text-text-primary' },
-  human: { bg: 'bg-comfort/30', border: 'border-comfort', text: 'text-comfort-text' },
+  company: { bg: 'bg-sidebar-solid', border: 'border-sidebar-solid', text: 'text-sidebar-text' },
+  department: { bg: 'bg-primary/10', border: 'border-primary/20', text: 'text-primary' },
+  team: { bg: 'bg-white/70', border: 'border-border-solid', text: 'text-text-primary' },
+  human: { bg: 'bg-comfort', border: 'border-comfort', text: 'text-comfort-text' },
   agent: { bg: 'bg-electric-muted', border: 'border-electric/30', text: 'text-electric' },
 };
 
@@ -72,7 +72,7 @@ function CustomNode({ data }: { data: { label: string; nodeType: string; title?:
   const style = nodeTypeStyles[data.nodeType] || nodeTypeStyles.team;
   const Icon = nodeIcons[data.nodeType] || Users;
   return (
-    <div className={`rounded-lg border ${style.border} ${style.bg} px-4 py-2.5 shadow-sm min-w-[140px]`}>
+    <div className={`rounded-2xl border ${style.border} ${style.bg} px-4 py-2.5 shadow-glass-sm min-w-[140px]`}>
       <div className="flex items-center gap-2">
         <Icon className={`h-4 w-4 ${style.text}`} />
         <span className={`text-body-sm font-medium ${style.text}`}>{data.label}</span>
@@ -117,18 +117,18 @@ export default function ArchitecturePage() {
           fitView
           className="bg-background"
         >
-          <Controls className="!bg-surface !border-border !shadow-sm" />
-          <MiniMap className="!bg-surface !border-border" nodeStrokeColor="var(--border)" nodeColor="var(--surface-elevated)" />
+          <Controls className="!bg-white/70 !border-border-solid !shadow-glass-sm !rounded-xl" />
+          <MiniMap className="!bg-white/70 !border-border-solid !rounded-xl" nodeStrokeColor="var(--border-solid)" nodeColor="var(--surface-elevated)" />
           <Background color="var(--border)" gap={20} size={1} />
         </ReactFlow>
       </div>
 
       {/* Side panel */}
       {selectedNode && (
-        <div className="w-80 shrink-0 border-l border-border bg-surface p-6">
+        <div className="w-80 shrink-0 border-l border-border glass p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-body font-semibold text-text-primary">Node Details</h3>
-            <button onClick={() => setSelectedNode(null)} className="text-text-secondary hover:text-text-primary"><X className="h-4 w-4" /></button>
+            <button onClick={() => setSelectedNode(null)} className="text-text-secondary hover:text-text-primary transition-colors"><X className="h-4 w-4" /></button>
           </div>
           <div className="space-y-4">
             <div>
@@ -140,7 +140,7 @@ export default function ArchitecturePage() {
               <span className={`inline-block rounded-full px-2.5 py-0.5 text-caption font-medium capitalize ${
                 selectedNode.type === 'agent' ? 'bg-electric-muted text-electric' :
                 selectedNode.type === 'human' ? 'bg-comfort text-comfort-text' :
-                'bg-surface-elevated text-text-secondary'
+                'bg-white/50 text-text-secondary'
               }`}>{selectedNode.type}</span>
             </div>
             {selectedNode.title && (

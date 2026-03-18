@@ -12,9 +12,9 @@ export default function BillingPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Credit gauge */}
-        <div className="rounded-xl border border-border bg-surface p-6 flex flex-col items-center">
+        <div className="card-glass p-6 flex flex-col items-center">
           <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border)" strokeWidth="10" />
+            <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border-solid)" strokeWidth="10" />
             <circle cx="60" cy="60" r="50" fill="none" stroke={gaugeColor} strokeWidth="10" strokeLinecap="round"
               strokeDasharray={`${usagePercent * 3.14} ${314 - usagePercent * 3.14}`} />
           </svg>
@@ -25,13 +25,13 @@ export default function BillingPage() {
         </div>
 
         {/* Plan card */}
-        <div className="lg:col-span-2 rounded-xl border border-border bg-surface p-6">
+        <div className="lg:col-span-2 card-glass p-6">
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-heading-sm font-semibold text-text-primary">{mockPlan.name} Plan</h3>
               <p className="text-body-sm text-text-secondary">${mockPlan.price}/month · Next billing: {mockPlan.nextBillingDate}</p>
             </div>
-            <button className="rounded-lg border border-border px-4 py-2 text-body-sm font-medium text-text-secondary hover:bg-surface-elevated">
+            <button className="rounded-xl border border-border-solid px-4 py-2 text-body-sm font-medium text-text-secondary hover:bg-white/50 transition-colors">
               Manage Plan
             </button>
           </div>
@@ -44,28 +44,28 @@ export default function BillingPage() {
       </div>
 
       {/* Usage chart */}
-      <div className="rounded-xl border border-border bg-surface p-6">
+      <div className="card-glass p-6">
         <h3 className="text-body font-semibold text-text-primary mb-4">Usage — Last 30 Days</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={mockDailyUsage}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-solid)" />
               <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} tickFormatter={v => new Date(v).getDate().toString()} />
               <YAxis tick={{ fontSize: 11, fill: 'var(--text-secondary)' }} />
-              <Tooltip contentStyle={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px' }} />
-              <Area type="monotone" dataKey="credits" stroke="var(--primary)" fill="var(--primary)" fillOpacity={0.1} strokeWidth={2} />
+              <Tooltip contentStyle={{ background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(20px)', border: '1px solid var(--border-solid)', borderRadius: '12px', fontSize: '12px', boxShadow: 'var(--shadow-lg)' }} />
+              <Area type="monotone" dataKey="credits" stroke="var(--primary)" fill="var(--primary)" fillOpacity={0.08} strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Active agents */}
-      <div className="rounded-xl border border-border bg-surface p-6">
+      <div className="card-glass p-6">
         <h3 className="text-body font-semibold text-text-primary mb-4">Active Agents</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-body-sm">
             <thead>
-              <tr className="border-b border-border text-left">
+              <tr className="border-b border-border-solid text-left">
                 <th className="pb-3 font-medium text-text-secondary">Agent</th>
                 <th className="pb-3 font-medium text-text-secondary">Today</th>
                 <th className="pb-3 font-medium text-text-secondary">This Month</th>
@@ -87,12 +87,12 @@ export default function BillingPage() {
       </div>
 
       {/* Invoices */}
-      <div className="rounded-xl border border-border bg-surface p-6">
+      <div className="card-glass p-6">
         <h3 className="text-body font-semibold text-text-primary mb-4">Invoice History</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-body-sm">
             <thead>
-              <tr className="border-b border-border text-left">
+              <tr className="border-b border-border-solid text-left">
                 <th className="pb-3 font-medium text-text-secondary">Date</th>
                 <th className="pb-3 font-medium text-text-secondary">Description</th>
                 <th className="pb-3 font-medium text-text-secondary">Amount</th>
@@ -120,7 +120,7 @@ export default function BillingPage() {
       </div>
 
       {/* Alerts */}
-      <div className="rounded-xl border border-warning/30 bg-warning/5 p-4 flex items-start gap-3">
+      <div className="rounded-2xl border border-warning/20 bg-warning/5 p-4 flex items-start gap-3 shadow-glass-sm">
         <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" />
         <div>
           <p className="text-body-sm font-medium text-text-primary">Credit usage alert</p>
