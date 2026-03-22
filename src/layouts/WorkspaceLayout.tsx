@@ -68,7 +68,7 @@ export default function WorkspaceLayout() {
                 onClick={() => setMobileOpen(false)}
                 className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm transition-all duration-200 ${
                   isActive
-                    ? 'glass-liquid-item-active text-electric font-medium'
+                    ? 'glass-liquid-item-active text-electric-bright font-medium'
                     : 'text-text-secondary hover:glass-liquid-item hover:text-text-primary'
                 } ${collapsed ? 'justify-center px-0' : ''}`}
               >
