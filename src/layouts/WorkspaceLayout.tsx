@@ -147,7 +147,7 @@ export default function WorkspaceLayout() {
             </button>
             <button className="relative text-text-secondary hover:text-text-primary transition-colors">
               <Bell className="h-[18px] w-[18px]" />
-              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-electric text-[10px] font-bold text-[#1a0f33] neon-glow-sm">
+              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-electric text-[10px] font-bold text-electric-dark neon-glow-sm">
                 3
               </span>
             </button>
