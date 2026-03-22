@@ -107,13 +107,13 @@ export default function ChatsPage() {
                     {msg.content}
                   </div>
                   {msg.toolUse && (
-                    <details className="mt-2 terminal-block retro-corners overflow-hidden">
-                      <summary className="cursor-pointer px-3 py-2 retro-label text-electric/70 flex items-center gap-1.5">
-                        <span className="text-cyan">▸</span> {msg.toolUse.tool}
+                    <details className="mt-2 rounded-xl border border-border bg-surface-elevated overflow-hidden">
+                      <summary className="cursor-pointer px-3 py-2 retro-label text-electric flex items-center gap-1.5">
+                        <span className="text-primary">▸</span> {msg.toolUse.tool}
                       </summary>
-                      <div className="border-t border-electric/10 px-3 py-2 font-mono text-[11px] text-electric/60 leading-relaxed">
-                        <p><span className="text-cyan/60">$</span> {msg.toolUse.input}</p>
-                        <p className="text-electric/80 mt-1">{msg.toolUse.output}</p>
+                      <div className="border-t border-border px-3 py-2 font-mono text-[11px] text-text-secondary leading-relaxed">
+                        <p><span className="text-primary/60">$</span> {msg.toolUse.input}</p>
+                        <p className="text-text-primary mt-1">{msg.toolUse.output}</p>
                       </div>
                     </details>
                   )}
