@@ -46,10 +46,10 @@
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06);
 
   /* Accent glows — amber */
-  --neon-glow-sm: 0 0 6px rgba(212, 160, 23, 0.25), 0 0 2px rgba(212, 160, 23, 0.15);
-  --neon-glow-md: 0 0 12px rgba(212, 160, 23, 0.3), 0 0 4px rgba(212, 160, 23, 0.2);
-  --neon-glow-lg: 0 0 24px rgba(212, 160, 23, 0.35), 0 0 8px rgba(212, 160, 23, 0.25);
-  --neon-glow-xl: 0 0 40px rgba(212, 160, 23, 0.3), 0 0 16px rgba(212, 160, 23, 0.2), 0 0 4px rgba(212, 160, 23, 0.4);
+  --neon-glow-sm: 0 0 6px rgba(245, 200, 66, 0.25), 0 0 2px rgba(245, 200, 66, 0.15);
+  --neon-glow-md: 0 0 12px rgba(245, 200, 66, 0.3), 0 0 4px rgba(245, 200, 66, 0.2);
+  --neon-glow-lg: 0 0 24px rgba(245, 200, 66, 0.35), 0 0 8px rgba(245, 200, 66, 0.25);
+  --neon-glow-xl: 0 0 40px rgba(245, 200, 66, 0.3), 0 0 16px rgba(245, 200, 66, 0.2), 0 0 4px rgba(245, 200, 66, 0.4);
 
   /* Secondary accent — soft blue */
   --cyan: #60A5FA;
