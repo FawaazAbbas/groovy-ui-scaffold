@@ -147,6 +147,13 @@ export default function WorkspaceLayout() {
                 <Command className="h-3 w-3" />K
               </kbd>
             </button>
+            <button
+              onClick={toggleDark}
+              className="text-text-secondary hover:text-text-primary transition-colors"
+              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
+            </button>
             <button className="relative text-text-secondary hover:text-text-primary transition-colors">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-electric-bright text-[10px] font-bold text-electric-dark neon-glow-sm">
