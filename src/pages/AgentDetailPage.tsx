@@ -42,7 +42,7 @@ export default function AgentDetailPage() {
             <ArrowLeft className="h-4 w-4" /> Back to Marketplace
           </Link>
           <div className="flex flex-col md:flex-row md:items-start gap-6">
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-electric-muted text-electric text-2xl font-bold">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-electric-muted text-electric-bright text-2xl font-bold">
               {agent.name[0]}
             </div>
             <div className="flex-1">

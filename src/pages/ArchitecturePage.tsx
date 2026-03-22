@@ -138,7 +138,7 @@ export default function ArchitecturePage() {
             <div>
               <p className="text-caption text-text-secondary">Type</p>
               <span className={`inline-block rounded-full px-2.5 py-0.5 text-caption font-medium capitalize ${
-                selectedNode.type === 'agent' ? 'bg-electric-muted text-electric' :
+                selectedNode.type === 'agent' ? 'bg-electric-muted text-electric-bright' :
                 selectedNode.type === 'human' ? 'bg-comfort text-comfort-text' :
                 'bg-white/50 text-text-secondary'
               }`}>{selectedNode.type}</span>

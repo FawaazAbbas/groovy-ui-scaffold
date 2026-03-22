@@ -7,7 +7,7 @@ const actionTypeColors: Record<string, string> = {
   task_created: 'bg-comfort text-comfort-text',
   task_updated: 'bg-comfort text-comfort-text',
   file_accessed: 'bg-surface-elevated text-text-secondary',
-  integration_called: 'bg-electric-muted text-electric',
+  integration_called: 'bg-electric-muted text-electric-bright',
   decision_made: 'bg-warning/10 text-warning',
   escalation: 'bg-destructive/10 text-destructive',
 };

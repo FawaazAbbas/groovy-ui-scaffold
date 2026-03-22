@@ -114,7 +114,7 @@ export default function MarketplacePage() {
                 className="group card-glass p-5"
               >
                 <div className="flex items-start gap-3 mb-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-electric-muted text-electric font-bold">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-electric-muted text-electric-bright font-bold">
                     {agent.name[0]}
                   </div>
                   <div className="min-w-0">

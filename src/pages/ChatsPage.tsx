@@ -87,7 +87,7 @@ export default function ChatsPage() {
             return (
               <div key={msg.id} className={`flex gap-3 ${isMe ? 'flex-row-reverse' : ''}`}>
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-xs font-medium ${
-                  isAgent ? 'bg-electric-muted text-electric' : 'bg-surface-elevated text-text-secondary'
+                  isAgent ? 'bg-electric-muted text-electric-bright' : 'bg-surface-elevated text-text-secondary'
                 }`}>
                   {msg.senderName[0]}
                 </div>
