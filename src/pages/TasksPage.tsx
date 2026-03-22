@@ -48,7 +48,7 @@ function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
       <div className="flex items-center justify-between">
         <div className="flex -space-x-1.5">
           {assignees.slice(0, 3).map(u => (
-            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-gradient-to-b from-primary to-[#005BB5] text-[9px] font-medium text-white">
+            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-gradient-to-b from-primary to-primary-dark text-[9px] font-medium text-white">
               {u.name.split(' ').map(n => n[0]).join('')}
             </div>
           ))}
