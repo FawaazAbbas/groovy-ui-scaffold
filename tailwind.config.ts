@@ -59,6 +59,7 @@ export default {
         electric: {
           DEFAULT: 'var(--electric)',
           muted: 'var(--electric-muted)',
+          dark: 'var(--electric-dark)',
         },
         cyan: {
           DEFAULT: 'var(--cyan)',
