@@ -50,6 +50,7 @@ export default {
         primary: {
           DEFAULT: 'var(--primary)',
           hover: 'var(--primary-hover)',
+          dark: 'var(--primary-dark)',
         },
         comfort: {
           DEFAULT: 'var(--comfort)',
