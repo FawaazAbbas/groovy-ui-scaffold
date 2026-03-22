@@ -149,7 +149,7 @@ export default function ChatsPage() {
               </div>
               <button className={`rounded-xl p-2 text-white transition-all shadow-glass-sm ${
                 selectedChat.type === 'agent'
-                  ? 'bg-electric-muted text-electric hover:bg-electric hover:text-[#0a1f07] neon-glow-sm hover:neon-glow-md'
+                  ? 'bg-electric-muted text-electric hover:bg-electric hover:text-[#1a0f33] neon-glow-sm hover:neon-glow-md'
                   : 'bg-primary hover:bg-primary-hover'
               }`}>
                 <Send className="h-4 w-4" />
