@@ -181,10 +181,10 @@
     box-shadow: var(--neon-glow-xl);
   }
   .neon-border {
-    border: 1px solid rgba(167, 139, 250, 0.2);
+    border: 1px solid rgba(212, 160, 23, 0.2);
   }
   .neon-border-strong {
-    border: 1px solid rgba(167, 139, 250, 0.4);
+    border: 1px solid rgba(212, 160, 23, 0.4);
   }
   .neon-text {
     color: var(--electric);
