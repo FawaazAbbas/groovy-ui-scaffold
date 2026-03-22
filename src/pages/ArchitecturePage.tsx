@@ -12,7 +12,7 @@ const nodeTypeStyles: Record<string, { bg: string; border: string; text: string 
   department: { bg: 'bg-primary/10', border: 'border-primary/20', text: 'text-primary' },
   team: { bg: 'bg-white/70', border: 'border-border-solid', text: 'text-text-primary' },
   human: { bg: 'bg-comfort', border: 'border-comfort', text: 'text-comfort-text' },
-  agent: { bg: 'bg-electric-muted', border: 'border-electric/30', text: 'text-electric' },
+  agent: { bg: 'bg-electric-muted', border: 'border-electric/30', text: 'text-electric-bright' },
 };
 
 const nodeIcons: Record<string, typeof Building2> = {
