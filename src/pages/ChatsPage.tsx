@@ -123,7 +123,7 @@ export default function ChatsPage() {
           })}
           {/* Typing indicator */}
           {selectedChat.type === 'agent' && (
-            <div className="flex items-center gap-2 font-mono text-[11px] text-electric/50 animate-retro-pulse">
+            <div className="flex items-center gap-2 font-mono text-[11px] text-electric/70 animate-retro-pulse">
               <span className="text-cyan">▋</span>
               {selectedChat.name} processing...
             </div>
