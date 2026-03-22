@@ -85,7 +85,7 @@ export default function WorkspaceLayout() {
         {/* User info */}
         <div className="border-t border-black/[0.04] p-3">
           <div className={`flex items-center gap-3 rounded-xl px-2 py-2 glass-liquid-item ${collapsed ? 'justify-center' : ''}`}>
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-xs font-medium text-white shadow-glass-sm">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-xs font-medium text-white shadow-glass-sm">
               {mockSession.user.name.split(' ').map(n => n[0]).join('')}
             </div>
             {!collapsed && (
