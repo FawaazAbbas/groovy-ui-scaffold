@@ -45,7 +45,7 @@ export default function WorkspaceLayout() {
 
         {/* Workspace header */}
         <div className="flex h-14 items-center gap-3 border-b border-black/[0.04] px-4">
-          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-[#005BB5] shadow-glass-sm">
+          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-primary-dark shadow-glass-sm">
             <span className="text-sm font-semibold text-white">A</span>
             <span className="absolute -bottom-0.5 -right-0.5 neon-dot animate-pulse" />
           </div>
