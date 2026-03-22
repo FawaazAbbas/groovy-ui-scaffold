@@ -62,9 +62,9 @@
   }
 
   .glass-liquid-item-active {
-    background: rgba(30, 21, 51, 0.88);
-    border: 1px solid rgba(167, 139, 250, 0.15);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(167, 139, 250, 0.06), 0 0 12px rgba(167, 139, 250, 0.08);
+    background: rgba(42, 31, 10, 0.88);
+    border: 1px solid rgba(212, 160, 23, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(212, 160, 23, 0.06), 0 0 12px rgba(212, 160, 23, 0.08);
   }
 
   /* Retro-futuristic grid overlay */
