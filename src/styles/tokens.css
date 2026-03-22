@@ -31,13 +31,14 @@
   /* Agent accent — warm amber/gold */
   --comfort: #2A1F0A;
   --comfort-text: #F5C842;
-  --electric: #F5C842;
+  --electric: #946800;
   --electric-muted: #2A1F0A;
+  --electric-bright: #F5C842;
 
   /* Status */
   --warning: #FF9F0A;
   --destructive: #FF3B30;
-  --agent: #F5C842;
+  --agent: #946800;
 
   /* Glass properties */
   --glass-blur: 40px;
