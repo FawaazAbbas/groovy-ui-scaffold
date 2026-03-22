@@ -1,57 +1,52 @@
 
 
-# Unified Color Scheme Overhaul
+# Fix Amber Contrast on Light Backgrounds
 
 ## Problem
 
-The color system has leftover violet references, hardcoded hex values, and inconsistent accent usage scattered across the app. Key issues:
+`#F5C842` (current `--electric`) has a contrast ratio of ~1.6:1 against the light background (`#F5F5F7`). WCAG requires 4.5:1 for text. Every instance of `text-electric`, `text-comfort-text`, `text-agent` on a light surface is unreadable.
 
-1. **Stale violet rgba values** in WorkspaceLayout (`rgba(167,139,250,...)`) and BillingPage
-2. **Hardcoded hex `#005BB5`** used for avatar gradients in 4 places (WorkspaceLayout, TasksPage)
-3. **Hardcoded `#1a0f33`** (old violet dark) in ChatsPage
-4. **Hardcoded `#E8EAF0` / `#EDE8F5`** (lavender tints) in WorkspaceLayout background gradient
-5. **No `--primary-dark` token** — avatar gradients use a raw hex instead of a token
+## Strategy
 
-## Plan
+Split the amber accent into two tiers:
 
-### 1. Add missing tokens to `src/styles/tokens.css`
+| Token | Value | Use |
+|-------|-------|-----|
+| `--electric` | `#946800` (dark amber) | Text on light backgrounds — passes 4.5:1 on white |
+| `--electric-bright` | `#F5C842` (current) | Glows, decorative dots, backgrounds, text on dark surfaces |
+| `--agent` | `#946800` | Agent icon color (always on light surfaces) |
+| `--comfort-text` | `#F5C842` | Kept for text on `--comfort` (dark bg `#2A1F0A`) where bright amber is readable |
 
-Add `--primary-dark: #005299` (derived from primary blue, amber-neutral) so avatar gradients use tokens. Add `--electric-dark: #2A1F0A` as the text-on-electric color (replacing `#1a0f33`).
+## Changes
 
-### 2. Fix `src/layouts/WorkspaceLayout.tsx` (5 fixes)
+### 1. `src/styles/tokens.css`
+- Change `--electric: #946800` (dark, accessible amber)
+- Add `--electric-bright: #F5C842` (decorative/glow amber)
+- Change `--agent: #946800`
+- Keep `--comfort-text: #F5C842` (used on dark `--comfort` backgrounds, already readable)
 
-- Replace background gradient hex values `#E8EAF0`, `#EDE8F5` with warm neutral tints (`#F0EDE8`, `#EDE8E0`) that complement amber
-- Replace all `to-[#005BB5]` with `to-primary/80` or the new `--primary-dark` token
-- Replace `rgba(167,139,250,0.5)` drop-shadow with `rgba(245,200,66,0.5)` (amber)
-- Replace `text-shadow-[0_0_8px_rgba(167,139,250,0.3)]` with amber equivalent
-- Replace `text-[#1a0f33]` on notification badge with `text-electric-muted`
+### 2. `tailwind.config.ts`
+- Add `bright` variant under `electric`: `bright: 'var(--electric-bright)'`
 
-### 3. Fix `src/pages/ChatsPage.tsx` (1 fix)
+### 3. `src/index.css`
+- Update glow/decorative references to use `--electric-bright` where they reference `var(--electric)` in text-shadow, box-shadow, and decorative classes
+- `.neon-text` color stays `var(--electric)` (now dark, readable) but text-shadow uses `--electric-bright`
+- `.neon-dot` background switches to `var(--electric-bright)` (decorative, no text contrast needed)
+- Glow utilities keep using the bright amber rgba values (purely decorative)
 
-- Replace `hover:text-[#1a0f33]` with `hover:text-electric-muted`
+### 4. Component files — targeted swaps
+Where bright amber is needed on dark surfaces (sidebar items, dark badges, agent badges on dark bg), swap `text-electric` → `text-electric-bright`:
+- **WorkspaceLayout.tsx**: Sidebar nav labels, notification badge — these sit on dark glass, need bright amber
+- **ChatsPage.tsx**: Agent badge "AI" label on dark bg, typing indicator
+- **ActivityPage.tsx**: Agent initials on `bg-electric-muted` (dark)
+- **BillingPage.tsx**: Feature badges on `bg-comfort` (dark)
 
-### 4. Fix `src/pages/TasksPage.tsx` (2 fixes)
+Everything on light surfaces (most instances) keeps `text-electric` which is now the darker, readable `#946800`.
 
-- Replace `to-[#005BB5]` avatar gradients with token-based value
+## Result
 
-### 5. Fix `src/pages/BillingPage.tsx` (1 fix)
-
-- Replace `rgba(167,139,250,0.3)` gauge glow with `rgba(245,200,66,0.3)` (amber)
-
-### 6. Fix `src/pages/LoginPage.tsx` (1 fix)
-
-- Replace `to-[#000000]` with `to-sidebar-solid` (already a token)
-
-### Summary
-
-| File | Hardcoded values removed |
-|------|------------------------|
-| tokens.css | +2 new tokens |
-| WorkspaceLayout.tsx | 7 hex/rgba fixes |
-| ChatsPage.tsx | 1 hex fix |
-| TasksPage.tsx | 2 hex fixes |
-| BillingPage.tsx | 1 rgba fix |
-| LoginPage.tsx | 1 hex fix |
-
-**Result**: Every color in the app will trace back to the token system. No more violet remnants, no hardcoded hex values outside of tokens.css and third-party SVGs (Google logo is fine as-is).
+- All amber text on light backgrounds passes WCAG AA (4.5:1+)
+- Amber on dark backgrounds stays vibrant with `text-electric-bright`
+- Glows and decorative elements stay bright and warm
+- No visual personality lost — the amber identity is preserved, just made accessible
 
