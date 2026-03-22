@@ -70,7 +70,7 @@ export default function ChatsPage() {
       <div className="flex flex-1 flex-col">
         {/* Header */}
         <div className="flex items-center gap-3 border-b border-border glass px-6 py-3">
-          <div className={`flex h-8 w-8 items-center justify-center rounded-xl ${selectedChat.type === 'agent' ? 'bg-electric-muted text-electric' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
+          <div className={`flex h-8 w-8 items-center justify-center rounded-xl ${selectedChat.type === 'agent' ? 'bg-electric-muted text-electric-bright' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
             {selectedChat.type === 'channel' ? '#' : selectedChat.name[0]}
           </div>
           <div>
