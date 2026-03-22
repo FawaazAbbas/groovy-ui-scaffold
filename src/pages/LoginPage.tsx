@@ -4,7 +4,7 @@ import { Mail } from 'lucide-react';
 export default function LoginPage() {
   return (
     <div className="text-center">
-      <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-b from-sidebar-solid to-[#000000] shadow-glass-md">
+      <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-b from-sidebar-solid to-sidebar-solid shadow-glass-md">
         <span className="text-2xl font-bold text-sidebar-text">G</span>
       </div>
       <h1 className="text-display-sm text-text-primary mb-2">Welcome back</h1>

@@ -192,7 +192,7 @@ export default function TasksPage() {
                 <div className="flex flex-wrap gap-2">
                   {mockUsers.filter(u => selectedTask.assigneeIds.includes(u.id)).map(u => (
                     <div key={u.id} className="flex items-center gap-2 rounded-full border border-border-solid bg-white/40 px-3 py-1">
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
+                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
                       <span className="text-caption text-text-primary">{u.name}</span>
                     </div>
                   ))}

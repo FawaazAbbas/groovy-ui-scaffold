@@ -151,7 +151,7 @@ export default function WorkspaceLayout() {
                 3
               </span>
             </button>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-[11px] font-medium text-white">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-[11px] font-medium text-white">
               {mockSession.user.name.split(' ').map(n => n[0]).join('')}
             </div>
           </div>

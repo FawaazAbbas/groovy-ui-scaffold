@@ -1,5 +1,7 @@
 :root {
   /* Apple-inspired base palette */
+  --primary-dark: #005299;
+  --electric-dark: #2A1F0A;
   --background: #F5F5F7;
   --surface: rgba(255, 255, 255, 0.72);
   --surface-solid: #FFFFFF;
