@@ -94,7 +94,7 @@ export default function ChatsPage() {
                 <div className={`max-w-[70%] ${isMe ? 'items-end' : ''}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-caption font-medium text-text-primary">{msg.senderName}</span>
-                    {isAgent && <span className="rounded-md bg-electric-muted px-1.5 py-0.5 text-[10px] font-medium text-electric neon-glow-sm">AI</span>}
+                    {isAgent && <span className="rounded-md bg-electric-muted px-1.5 py-0.5 text-[10px] font-medium text-electric-bright neon-glow-sm">AI</span>}
                     <span className="font-mono text-[10px] text-text-secondary/50 tracking-wider">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                   <div className={`rounded-2xl px-4 py-2.5 text-body-sm shadow-glass-sm ${
