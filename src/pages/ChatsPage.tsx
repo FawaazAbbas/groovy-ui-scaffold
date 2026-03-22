@@ -35,7 +35,7 @@ export default function ChatsPage() {
                 }`}
               >
                 <div className="relative shrink-0">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${chat.type === 'agent' ? 'bg-electric-muted text-electric' : chat.type === 'channel' ? 'bg-primary/10 text-primary' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${chat.type === 'agent' ? 'bg-electric-muted text-electric-bright' : chat.type === 'channel' ? 'bg-primary/10 text-primary' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
                     {chat.type === 'channel' ? '#' : chat.name[0]}
                   </div>
                   {chat.type === 'agent' && (
