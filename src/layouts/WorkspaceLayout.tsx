@@ -30,7 +30,7 @@ export default function WorkspaceLayout() {
   const sidebarWidth = collapsed ? 'w-16' : 'w-[260px]';
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background retro-grid" style={{ background: 'linear-gradient(135deg, #F5F5F7 0%, #F0EDE8 30%, #F0F2F5 50%, #EDE8E0 70%, #F5F5F7 100%)' }}>
+    <div className="flex h-screen overflow-hidden bg-background retro-grid" style={{ background: isDark ? 'linear-gradient(135deg, #1C1C1E 0%, #1A1A1C 30%, #1C1C1E 50%, #1A1A1C 70%, #1C1C1E 100%)' : 'linear-gradient(135deg, #F5F5F7 0%, #F0EDE8 30%, #F0F2F5 50%, #EDE8E0 70%, #F5F5F7 100%)' }}>
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden" onClick={() => setMobileOpen(false)} />
