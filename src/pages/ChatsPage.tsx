@@ -75,7 +75,7 @@ export default function ChatsPage() {
           </div>
           <div>
             <h3 className="text-body-sm font-semibold text-text-primary">{selectedChat.name}</h3>
-            {selectedChat.type === 'agent' && <span className="text-caption neon-text">AI Agent</span>}
+            {selectedChat.type === 'agent' && <span className="text-caption text-electric">AI Agent</span>}
           </div>
         </div>
 
