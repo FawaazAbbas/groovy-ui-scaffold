@@ -3,8 +3,9 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   MessageSquare, CheckSquare, Calendar, FolderOpen, Activity,
   Network, Puzzle, CreditCard, Search, Bell, ChevronLeft, ChevronRight,
-  Menu, X, Command,
+  Menu, X, Command, Sun, Moon,
 } from 'lucide-react';
+import { useDarkMode } from '@/hooks/use-dark-mode';
 import { mockSession } from '@/lib/mocks/session';
 import { CommandPalette } from '@/components/CommandPalette';
 
@@ -23,12 +24,13 @@ export default function WorkspaceLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
+  const { isDark, toggle: toggleDark } = useDarkMode();
   const location = useLocation();
 
   const sidebarWidth = collapsed ? 'w-16' : 'w-[260px]';
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background retro-grid" style={{ background: 'linear-gradient(135deg, #F5F5F7 0%, #F0EDE8 30%, #F0F2F5 50%, #EDE8E0 70%, #F5F5F7 100%)' }}>
+    <div className="flex h-screen overflow-hidden bg-background retro-grid" style={{ background: isDark ? 'linear-gradient(135deg, #1C1C1E 0%, #1A1A1C 30%, #1C1C1E 50%, #1A1A1C 70%, #1C1C1E 100%)' : 'linear-gradient(135deg, #F5F5F7 0%, #F0EDE8 30%, #F0F2F5 50%, #EDE8E0 70%, #F5F5F7 100%)' }}>
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden" onClick={() => setMobileOpen(false)} />
@@ -144,6 +146,13 @@ export default function WorkspaceLayout() {
               <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded-md border border-border-solid px-1.5 py-0.5 text-caption font-mono text-text-secondary/60">
                 <Command className="h-3 w-3" />K
               </kbd>
+            </button>
+            <button
+              onClick={toggleDark}
+              className="text-text-secondary hover:text-text-primary transition-colors"
+              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
             </button>
             <button className="relative text-text-secondary hover:text-text-primary transition-colors">
               <Bell className="h-[18px] w-[18px]" />
