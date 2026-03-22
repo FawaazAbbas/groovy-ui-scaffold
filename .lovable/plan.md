@@ -1,49 +1,57 @@
 
 
-# Swap Accent Colors to Warm Amber/Gold
+# Unified Color Scheme Overhaul
 
-## What changes
+## Problem
 
-Replace the current violet/purple accent system (`#A78BFA`) with a warm amber/gold (`#D4A017`) across the entire app. This is a token-level change that cascades everywhere, plus updating hardcoded `rgba(167, 139, 250, ...)` values in CSS.
+The color system has leftover violet references, hardcoded hex values, and inconsistent accent usage scattered across the app. Key issues:
 
----
+1. **Stale violet rgba values** in WorkspaceLayout (`rgba(167,139,250,...)`) and BillingPage
+2. **Hardcoded hex `#005BB5`** used for avatar gradients in 4 places (WorkspaceLayout, TasksPage)
+3. **Hardcoded `#1a0f33`** (old violet dark) in ChatsPage
+4. **Hardcoded `#E8EAF0` / `#EDE8F5`** (lavender tints) in WorkspaceLayout background gradient
+5. **No `--primary-dark` token** — avatar gradients use a raw hex instead of a token
 
-## 1. Update `src/styles/tokens.css`
+## Plan
 
-Replace accent-related tokens:
+### 1. Add missing tokens to `src/styles/tokens.css`
 
-| Token | Current (violet) | New (amber/gold) |
-|-------|------------------|-------------------|
-| `--comfort` | `#1E1533` | `#2A1F0A` (dark amber bg) |
-| `--comfort-text` | `#A78BFA` | `#D4A017` (amber text) |
-| `--electric` | `#A78BFA` | `#D4A017` |
-| `--electric-muted` | `#1E1533` | `#2A1F0A` |
-| `--agent` | `#A78BFA` | `#D4A017` |
+Add `--primary-dark: #005299` (derived from primary blue, amber-neutral) so avatar gradients use tokens. Add `--electric-dark: #2A1F0A` as the text-on-electric color (replacing `#1a0f33`).
 
-Update all glow/decorative tokens to use amber `rgba(212, 160, 23, ...)` instead of violet `rgba(167, 139, 250, ...)`:
-- `--neon-glow-sm` through `--neon-glow-xl`
-- `--grid-color`
-- `--cyan` stays as-is (secondary accent, soft blue — still works with amber)
+### 2. Fix `src/layouts/WorkspaceLayout.tsx` (5 fixes)
 
-## 2. Update `src/index.css`
+- Replace background gradient hex values `#E8EAF0`, `#EDE8F5` with warm neutral tints (`#F0EDE8`, `#EDE8E0`) that complement amber
+- Replace all `to-[#005BB5]` with `to-primary/80` or the new `--primary-dark` token
+- Replace `rgba(167,139,250,0.5)` drop-shadow with `rgba(245,200,66,0.5)` (amber)
+- Replace `text-shadow-[0_0_8px_rgba(167,139,250,0.3)]` with amber equivalent
+- Replace `text-[#1a0f33]` on notification badge with `text-electric-muted`
 
-Replace all hardcoded `rgba(167, 139, 250, ...)` references in:
-- `.glass-liquid-item-active` background and border
-- `.retro-corners` border color
-- `.terminal-block` border and shadow
-- `.neon-border`, `.neon-border-strong`
-- `.neon-text` text-shadow
-- `.retro-divider` gradient
+### 3. Fix `src/pages/ChatsPage.tsx` (1 fix)
 
-All swap to equivalent `rgba(212, 160, 23, ...)` values.
+- Replace `hover:text-[#1a0f33]` with `hover:text-electric-muted`
 
-## 3. No component file changes needed
+### 4. Fix `src/pages/TasksPage.tsx` (2 fixes)
 
-Components use token classes (`text-electric`, `bg-electric-muted`, `neon-glow-sm`, etc.) which will pick up the new values automatically.
+- Replace `to-[#005BB5]` avatar gradients with token-based value
 
----
+### 5. Fix `src/pages/BillingPage.tsx` (1 fix)
 
-## Result
+- Replace `rgba(167,139,250,0.3)` gauge glow with `rgba(245,200,66,0.3)` (amber)
 
-The app keeps its current structure and glass aesthetic but shifts from "AI purple neon" to a warm, premium amber/gold accent that feels more distinctive and intentional.
+### 6. Fix `src/pages/LoginPage.tsx` (1 fix)
+
+- Replace `to-[#000000]` with `to-sidebar-solid` (already a token)
+
+### Summary
+
+| File | Hardcoded values removed |
+|------|------------------------|
+| tokens.css | +2 new tokens |
+| WorkspaceLayout.tsx | 7 hex/rgba fixes |
+| ChatsPage.tsx | 1 hex fix |
+| TasksPage.tsx | 2 hex fixes |
+| BillingPage.tsx | 1 rgba fix |
+| LoginPage.tsx | 1 hex fix |
+
+**Result**: Every color in the app will trace back to the token system. No more violet remnants, no hardcoded hex values outside of tokens.css and third-party SVGs (Google logo is fine as-is).
 
