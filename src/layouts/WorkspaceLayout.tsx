@@ -73,7 +73,7 @@ export default function WorkspaceLayout() {
                 } ${collapsed ? 'justify-center px-0' : ''}`}
               >
                 {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-electric neon-glow-sm" />
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-electric-bright neon-glow-sm" />
                 )}
                 <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-electric drop-shadow-[0_0_6px_rgba(245,200,66,0.5)]' : ''}`} />
                 {!collapsed && <span className={isActive ? 'text-shadow-[0_0_8px_rgba(245,200,66,0.3)]' : ''}>{item.label}</span>}
