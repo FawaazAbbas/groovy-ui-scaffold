@@ -3,8 +3,9 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   MessageSquare, CheckSquare, Calendar, FolderOpen, Activity,
   Network, Puzzle, CreditCard, Search, Bell, ChevronLeft, ChevronRight,
-  Menu, X, Command,
+  Menu, X, Command, Sun, Moon,
 } from 'lucide-react';
+import { useDarkMode } from '@/hooks/use-dark-mode';
 import { mockSession } from '@/lib/mocks/session';
 import { CommandPalette } from '@/components/CommandPalette';
 
