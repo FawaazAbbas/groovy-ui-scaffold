@@ -1,52 +1,78 @@
 
 
-# Fix Amber Contrast on Light Backgrounds
+# Three Changes: Dark Mode, Font Unification, Tool-Use Block Contrast
 
-## Problem
+## 1. Unify fonts to Plus Jakarta Sans
 
-`#F5C842` (current `--electric`) has a contrast ratio of ~1.6:1 against the light background (`#F5F5F7`). WCAG requires 4.5:1 for text. Every instance of `text-electric`, `text-comfort-text`, `text-agent` on a light surface is unreadable.
+**Files changed**: `src/index.css`, `tailwind.config.ts`
 
-## Strategy
+- Replace the Google Fonts import: swap `Inter` for `Plus Jakarta Sans` (weights 400-700)
+- Update `body` font-family in `src/index.css` to `'Plus Jakarta Sans'`
+- Update `tailwind.config.ts` `fontFamily.sans` to `'"Plus Jakarta Sans"'`
+- JetBrains Mono stays as the mono font (no change)
 
-Split the amber accent into two tiers:
+## 2. Fix tool-use blocks in chat for better contrast
 
-| Token | Value | Use |
-|-------|-------|-----|
-| `--electric` | `#946800` (dark amber) | Text on light backgrounds — passes 4.5:1 on white |
-| `--electric-bright` | `#F5C842` (current) | Glows, decorative dots, backgrounds, text on dark surfaces |
-| `--agent` | `#946800` | Agent icon color (always on light surfaces) |
-| `--comfort-text` | `#F5C842` | Kept for text on `--comfort` (dark bg `#2A1F0A`) where bright amber is readable |
+**File changed**: `src/pages/ChatsPage.tsx` (lines 110-118)
 
-## Changes
+The tool-use `<details>` block currently uses `bg-surface-elevated` with `text-text-secondary` for the output area. On light mode this is low-contrast because the elevated surface is near-white and the secondary text is gray.
 
-### 1. `src/styles/tokens.css`
-- Change `--electric: #946800` (dark, accessible amber)
-- Add `--electric-bright: #F5C842` (decorative/glow amber)
-- Change `--agent: #946800`
-- Keep `--comfort-text: #F5C842` (used on dark `--comfort` backgrounds, already readable)
+Changes:
+- Give the expanded content area a light warm tint (`bg-electric/[0.04]`) so it visually separates from the message
+- Use `text-text-primary` for the output line (already done) and bump the input line from `text-primary/60` to `text-electric` for the `$` prefix
+- Add a subtle left border accent (`border-l-2 border-l-electric/20`) to the details block for visual distinction
 
-### 2. `tailwind.config.ts`
-- Add `bright` variant under `electric`: `bright: 'var(--electric-bright)'`
+## 3. Add dark mode toggle
 
-### 3. `src/index.css`
-- Update glow/decorative references to use `--electric-bright` where they reference `var(--electric)` in text-shadow, box-shadow, and decorative classes
-- `.neon-text` color stays `var(--electric)` (now dark, readable) but text-shadow uses `--electric-bright`
-- `.neon-dot` background switches to `var(--electric-bright)` (decorative, no text contrast needed)
-- Glow utilities keep using the bright amber rgba values (purely decorative)
+### 3a. Dark mode tokens (`src/styles/tokens.css`)
 
-### 4. Component files — targeted swaps
-Where bright amber is needed on dark surfaces (sidebar items, dark badges, agent badges on dark bg), swap `text-electric` → `text-electric-bright`:
-- **WorkspaceLayout.tsx**: Sidebar nav labels, notification badge — these sit on dark glass, need bright amber
-- **ChatsPage.tsx**: Agent badge "AI" label on dark bg, typing indicator
-- **ActivityPage.tsx**: Agent initials on `bg-electric-muted` (dark)
-- **BillingPage.tsx**: Feature badges on `bg-comfort` (dark)
+Add a `.dark` selector block with inverted tokens:
 
-Everything on light surfaces (most instances) keeps `text-electric` which is now the darker, readable `#946800`.
+| Token | Light value | Dark value |
+|-------|------------|------------|
+| `--background` | `#F5F5F7` | `#1C1C1E` |
+| `--surface` | `rgba(255,255,255,0.72)` | `rgba(44,44,46,0.72)` |
+| `--surface-solid` | `#FFFFFF` | `#2C2C2E` |
+| `--surface-elevated` | `rgba(255,255,255,0.9)` | `rgba(58,58,60,0.9)` |
+| `--text-primary` | `#1D1D1F` | `#F5F5F7` |
+| `--text-secondary` | `#86868B` | `#98989D` |
+| `--border` | `rgba(0,0,0,0.08)` | `rgba(255,255,255,0.08)` |
+| `--border-solid` | `#E5E5EA` | `#3A3A3C` |
+| `--sidebar` | `rgba(28,28,30,0.82)` | `rgba(0,0,0,0.6)` |
+| `--sidebar-solid` | `#1C1C1E` | `#000000` |
+| `--liquid-glass` | white-based | `rgba(44,44,46,0.45)` |
+| `--liquid-glass-border` | white-based | `rgba(255,255,255,0.1)` |
+| `--liquid-glass-inner` | white-based | `rgba(255,255,255,0.06)` |
+| Shadows | low opacity black | slightly higher opacity black |
 
-## Result
+Amber/electric tokens stay the same (they work on both light and dark).
 
-- All amber text on light backgrounds passes WCAG AA (4.5:1+)
-- Amber on dark backgrounds stays vibrant with `text-electric-bright`
-- Glows and decorative elements stay bright and warm
-- No visual personality lost — the amber identity is preserved, just made accessible
+### 3b. Dark mode hook (`src/hooks/use-dark-mode.ts`)
+
+Create a small hook that:
+- Reads initial preference from `localStorage` (key: `theme`) or falls back to system preference via `prefers-color-scheme`
+- Toggles `.dark` class on `<html>` element
+- Persists choice to `localStorage`
+- Returns `{ isDark, toggle }`
+
+### 3c. Toggle in WorkspaceLayout (`src/layouts/WorkspaceLayout.tsx`)
+
+- Add a Sun/Moon icon button in the top-right header bar (next to search/bell icons)
+- Uses the `useDarkMode` hook
+- Simple icon swap with smooth transition
+
+### 3d. Tailwind config already has `darkMode: ["class"]` — no change needed
+
+---
+
+## Summary of files
+
+| File | Change |
+|------|--------|
+| `src/index.css` | Font import swap |
+| `tailwind.config.ts` | Font family update |
+| `src/styles/tokens.css` | Add `.dark` token block |
+| `src/hooks/use-dark-mode.ts` | New file — dark mode hook |
+| `src/layouts/WorkspaceLayout.tsx` | Add toggle button |
+| `src/pages/ChatsPage.tsx` | Tool-use block contrast fix |
 
