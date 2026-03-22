@@ -7,7 +7,7 @@ const actionTypeColors: Record<string, string> = {
   task_created: 'bg-comfort text-comfort-text',
   task_updated: 'bg-comfort text-comfort-text',
   file_accessed: 'bg-surface-elevated text-text-secondary',
-  integration_called: 'bg-electric-muted text-electric',
+  integration_called: 'bg-electric-muted text-electric-bright',
   decision_made: 'bg-warning/10 text-warning',
   escalation: 'bg-destructive/10 text-destructive',
 };
@@ -87,7 +87,7 @@ export default function ActivityPage() {
                   <td className="px-4 py-3 font-mono text-[11px] text-text-secondary/60 whitespace-nowrap tracking-wider">{new Date(entry.timestamp).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric text-[10px] font-bold neon-glow-sm">{entry.agentName[0]}</div>
+                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric-bright text-[10px] font-bold neon-glow-sm">{entry.agentName[0]}</div>
                       <span className="text-text-primary font-medium">{entry.agentName}</span>
                     </div>
                   </td>

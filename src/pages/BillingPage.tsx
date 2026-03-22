@@ -37,7 +37,7 @@ export default function BillingPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             {mockPlan.features.map(f => (
-              <span key={f} className="rounded-md bg-comfort px-3 py-1 retro-label text-comfort-text neon-glow-sm">{f}</span>
+              <span key={f} className="rounded-md bg-comfort px-3 py-1 retro-label text-electric-bright neon-glow-sm">{f}</span>
             ))}
           </div>
         </div>

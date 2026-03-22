@@ -35,7 +35,7 @@ export default function ChatsPage() {
                 }`}
               >
                 <div className="relative shrink-0">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${chat.type === 'agent' ? 'bg-electric-muted text-electric' : chat.type === 'channel' ? 'bg-primary/10 text-primary' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${chat.type === 'agent' ? 'bg-electric-muted text-electric-bright' : chat.type === 'channel' ? 'bg-primary/10 text-primary' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
                     {chat.type === 'channel' ? '#' : chat.name[0]}
                   </div>
                   {chat.type === 'agent' && (
@@ -70,12 +70,12 @@ export default function ChatsPage() {
       <div className="flex flex-1 flex-col">
         {/* Header */}
         <div className="flex items-center gap-3 border-b border-border glass px-6 py-3">
-          <div className={`flex h-8 w-8 items-center justify-center rounded-xl ${selectedChat.type === 'agent' ? 'bg-electric-muted text-electric' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
+          <div className={`flex h-8 w-8 items-center justify-center rounded-xl ${selectedChat.type === 'agent' ? 'bg-electric-muted text-electric-bright' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
             {selectedChat.type === 'channel' ? '#' : selectedChat.name[0]}
           </div>
           <div>
             <h3 className="text-body-sm font-semibold text-text-primary">{selectedChat.name}</h3>
-            {selectedChat.type === 'agent' && <span className="text-caption neon-text">AI Agent</span>}
+            {selectedChat.type === 'agent' && <span className="text-caption text-electric">AI Agent</span>}
           </div>
         </div>
 
@@ -87,14 +87,14 @@ export default function ChatsPage() {
             return (
               <div key={msg.id} className={`flex gap-3 ${isMe ? 'flex-row-reverse' : ''}`}>
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-xs font-medium ${
-                  isAgent ? 'bg-electric-muted text-electric' : 'bg-surface-elevated text-text-secondary'
+                  isAgent ? 'bg-electric-muted text-electric-bright' : 'bg-surface-elevated text-text-secondary'
                 }`}>
                   {msg.senderName[0]}
                 </div>
                 <div className={`max-w-[70%] ${isMe ? 'items-end' : ''}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-caption font-medium text-text-primary">{msg.senderName}</span>
-                    {isAgent && <span className="rounded-md bg-electric-muted px-1.5 py-0.5 text-[10px] font-medium text-electric neon-glow-sm">AI</span>}
+                    {isAgent && <span className="rounded-md bg-electric-muted px-1.5 py-0.5 text-[10px] font-medium text-electric-bright neon-glow-sm">AI</span>}
                     <span className="font-mono text-[10px] text-text-secondary/50 tracking-wider">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                   <div className={`rounded-2xl px-4 py-2.5 text-body-sm shadow-glass-sm ${
@@ -123,7 +123,7 @@ export default function ChatsPage() {
           })}
           {/* Typing indicator */}
           {selectedChat.type === 'agent' && (
-            <div className="flex items-center gap-2 font-mono text-[11px] text-electric/50 animate-retro-pulse">
+            <div className="flex items-center gap-2 font-mono text-[11px] text-electric/70 animate-retro-pulse">
               <span className="text-cyan">▋</span>
               {selectedChat.name} processing...
             </div>

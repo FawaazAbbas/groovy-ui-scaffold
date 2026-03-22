@@ -217,7 +217,7 @@ export default function OnboardPage() {
                       className={`rounded-xl border p-4 text-left transition-colors ${selected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/30'}`}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-muted text-electric text-sm font-bold">{agent.name[0]}</div>
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-muted text-electric-bright text-sm font-bold">{agent.name[0]}</div>
                         {selected && <Check className="h-4 w-4 text-primary" />}
                       </div>
                       <p className="text-body-sm font-medium text-text-primary">{agent.name}</p>

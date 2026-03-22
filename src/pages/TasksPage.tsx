@@ -72,7 +72,7 @@ function Column({ id, label, tasks, onTaskClick }: { id: string; label: string; 
     <div className="flex w-72 shrink-0 flex-col">
       <div className="mb-3 flex items-center justify-between">
         <h3 className={`text-body-sm font-semibold ${id === 'done' ? 'neon-text' : 'text-text-primary'}`}>{label}</h3>
-        <span className={`rounded-full px-2 py-0.5 text-caption ${id === 'done' ? 'bg-electric-muted text-electric neon-glow-sm' : 'bg-white/50 text-text-secondary'}`}>{tasks.length}</span>
+        <span className={`rounded-full px-2 py-0.5 text-caption ${id === 'done' ? 'bg-electric-muted text-electric-bright neon-glow-sm' : 'bg-white/50 text-text-secondary'}`}>{tasks.length}</span>
       </div>
       <div ref={setNodeRef} className={`flex-1 space-y-2 rounded-2xl p-2 min-h-[200px] ${id === 'done' ? 'bg-electric/[0.04] neon-border' : 'bg-white/30'}`}>
         <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
