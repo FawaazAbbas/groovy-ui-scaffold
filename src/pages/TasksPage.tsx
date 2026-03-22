@@ -48,7 +48,7 @@ function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
       <div className="flex items-center justify-between">
         <div className="flex -space-x-1.5">
           {assignees.slice(0, 3).map(u => (
-            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-gradient-to-b from-primary to-[#005BB5] text-[9px] font-medium text-white">
+            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-gradient-to-b from-primary to-primary-dark text-[9px] font-medium text-white">
               {u.name.split(' ').map(n => n[0]).join('')}
             </div>
           ))}
@@ -192,7 +192,7 @@ export default function TasksPage() {
                 <div className="flex flex-wrap gap-2">
                   {mockUsers.filter(u => selectedTask.assigneeIds.includes(u.id)).map(u => (
                     <div key={u.id} className="flex items-center gap-2 rounded-full border border-border-solid bg-white/40 px-3 py-1">
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
+                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
                       <span className="text-caption text-text-primary">{u.name}</span>
                     </div>
                   ))}

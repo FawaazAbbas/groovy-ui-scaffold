@@ -50,6 +50,7 @@ export default {
         primary: {
           DEFAULT: 'var(--primary)',
           hover: 'var(--primary-hover)',
+          dark: 'var(--primary-dark)',
         },
         comfort: {
           DEFAULT: 'var(--comfort)',
@@ -58,6 +59,7 @@ export default {
         electric: {
           DEFAULT: 'var(--electric)',
           muted: 'var(--electric-muted)',
+          dark: 'var(--electric-dark)',
         },
         cyan: {
           DEFAULT: 'var(--cyan)',

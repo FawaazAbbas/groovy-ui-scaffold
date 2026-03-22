@@ -28,7 +28,7 @@ export default function WorkspaceLayout() {
   const sidebarWidth = collapsed ? 'w-16' : 'w-[260px]';
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background retro-grid" style={{ background: 'linear-gradient(135deg, #F5F5F7 0%, #E8EAF0 30%, #F0F2F5 50%, #EDE8F5 70%, #F5F5F7 100%)' }}>
+    <div className="flex h-screen overflow-hidden bg-background retro-grid" style={{ background: 'linear-gradient(135deg, #F5F5F7 0%, #F0EDE8 30%, #F0F2F5 50%, #EDE8E0 70%, #F5F5F7 100%)' }}>
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden" onClick={() => setMobileOpen(false)} />
@@ -45,7 +45,7 @@ export default function WorkspaceLayout() {
 
         {/* Workspace header */}
         <div className="flex h-14 items-center gap-3 border-b border-black/[0.04] px-4">
-          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-[#005BB5] shadow-glass-sm">
+          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-primary-dark shadow-glass-sm">
             <span className="text-sm font-semibold text-white">A</span>
             <span className="absolute -bottom-0.5 -right-0.5 neon-dot animate-pulse" />
           </div>
@@ -75,8 +75,8 @@ export default function WorkspaceLayout() {
                 {isActive && (
                   <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-electric neon-glow-sm" />
                 )}
-                <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-electric drop-shadow-[0_0_6px_rgba(167,139,250,0.5)]' : ''}`} />
-                {!collapsed && <span className={isActive ? 'text-shadow-[0_0_8px_rgba(167,139,250,0.3)]' : ''}>{item.label}</span>}
+                <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-electric drop-shadow-[0_0_6px_rgba(245,200,66,0.5)]' : ''}`} />
+                {!collapsed && <span className={isActive ? 'text-shadow-[0_0_8px_rgba(245,200,66,0.3)]' : ''}>{item.label}</span>}
               </Link>
             );
           })}
@@ -85,7 +85,7 @@ export default function WorkspaceLayout() {
         {/* User info */}
         <div className="border-t border-black/[0.04] p-3">
           <div className={`flex items-center gap-3 rounded-xl px-2 py-2 glass-liquid-item ${collapsed ? 'justify-center' : ''}`}>
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-xs font-medium text-white shadow-glass-sm">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-xs font-medium text-white shadow-glass-sm">
               {mockSession.user.name.split(' ').map(n => n[0]).join('')}
             </div>
             {!collapsed && (
@@ -147,11 +147,11 @@ export default function WorkspaceLayout() {
             </button>
             <button className="relative text-text-secondary hover:text-text-primary transition-colors">
               <Bell className="h-[18px] w-[18px]" />
-              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-electric text-[10px] font-bold text-[#1a0f33] neon-glow-sm">
+              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-electric text-[10px] font-bold text-electric-dark neon-glow-sm">
                 3
               </span>
             </button>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-primary to-[#005BB5] text-[11px] font-medium text-white">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-[11px] font-medium text-white">
               {mockSession.user.name.split(' ').map(n => n[0]).join('')}
             </div>
           </div>
