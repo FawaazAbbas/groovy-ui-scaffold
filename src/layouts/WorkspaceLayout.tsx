@@ -24,6 +24,7 @@ export default function WorkspaceLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
+  const { isDark, toggle: toggleDark } = useDarkMode();
   const location = useLocation();
 
   const sidebarWidth = collapsed ? 'w-16' : 'w-[260px]';
