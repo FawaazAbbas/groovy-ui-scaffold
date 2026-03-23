@@ -3,7 +3,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   MessageSquare, CheckSquare, Calendar, FolderOpen, Activity,
   Network, Puzzle, CreditCard, Search, Bell, ChevronLeft, ChevronRight,
-  Menu, X, Command, Sun, Moon,
+  Menu, X, Command, Sun, Moon, Presentation,
 } from 'lucide-react';
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { mockSession } from '@/lib/mocks/session';
@@ -17,6 +17,7 @@ const navItems = [
   { label: 'Activity', icon: Activity, path: '/activity' },
   { label: 'Architecture', icon: Network, path: '/architecture' },
   { label: 'Integrations', icon: Puzzle, path: '/integrations' },
+  { label: 'Pitch Deck', icon: Presentation, path: '/pitch-deck' },
   { label: 'Billing', icon: CreditCard, path: '/billing' },
 ];
 

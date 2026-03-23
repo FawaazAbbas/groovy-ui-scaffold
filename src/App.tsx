@@ -18,6 +18,7 @@ import FilesPage from "./pages/FilesPage";
 import ArchitecturePage from "./pages/ArchitecturePage";
 import ActivityPage from "./pages/ActivityPage";
 import IntegrationsPage from "./pages/IntegrationsPage";
+import PitchDeckPage from "./pages/PitchDeckPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ const App = () => (
             <Route path="/architecture" element={<ArchitecturePage />} />
             <Route path="/activity" element={<ActivityPage />} />
             <Route path="/integrations" element={<IntegrationsPage />} />
+            <Route path="/pitch-deck" element={<PitchDeckPage />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
