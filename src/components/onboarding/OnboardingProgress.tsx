@@ -14,16 +14,15 @@ export function OnboardingProgress({ currentStep, totalSteps }: OnboardingProgre
         return (
           <div
             key={i}
-            className="transition-all duration-300"
+            className="transition-all duration-300 rounded-full"
             style={{
               width: isActive ? 24 : 8,
               height: 8,
-              borderRadius: 4,
               background: isActive
-                ? 'var(--onb-electric-neon)'
+                ? 'var(--primary)'
                 : isComplete
-                  ? 'var(--onb-charcoal)'
-                  : 'var(--onb-parchment-dark)',
+                  ? 'var(--text-primary)'
+                  : 'var(--border-solid)',
             }}
           />
         );

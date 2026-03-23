@@ -6,7 +6,6 @@ import { HeyContent } from './steps/HeyContent';
 import { IntroContent } from './steps/IntroContent';
 import { OSChoiceContent } from './steps/OSChoiceContent';
 import { TwoClickContent } from './steps/TwoClickContent';
-import { SecondaryButton } from './SecondaryButton';
 import type { ReactNode } from 'react';
 
 export function OnboardingOverlay() {
@@ -21,9 +20,8 @@ export function OnboardingOverlay() {
   if (overlayPhase === 'transitioning') {
     return (
       <div
-        className="fixed inset-0 z-[9999]"
+        className="fixed inset-0 z-[9999] bg-background"
         style={{
-          background: 'var(--onb-parchment)',
           animation: 'onb-fade-out 600ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
         }}
       />
@@ -39,25 +37,24 @@ export function OnboardingOverlay() {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] overflow-y-auto"
-      style={{ background: 'var(--onb-parchment)' }}
+      className="fixed inset-0 z-[9999] overflow-y-auto bg-background"
     >
       {currentStep > 1 && (
         <button
           onClick={skipOnboarding}
-          className="fixed top-6 right-6 z-[10000] text-[14px] font-medium transition-colors duration-200"
-          style={{ color: 'var(--onb-warm-brown)' }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--onb-charcoal)'; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--onb-warm-brown)'; }}
+          className="fixed top-6 right-6 z-[10000] text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"
         >
           Skip
         </button>
       )}
 
       {currentStep > 1 && (
-        <div className="fixed top-6 left-6 z-[10000]">
-          <SecondaryButton onClick={prevStep}>← Back</SecondaryButton>
-        </div>
+        <button
+          onClick={prevStep}
+          className="fixed top-6 left-6 z-[10000] text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"
+        >
+          ← Back
+        </button>
       )}
 
       {currentStep >= 2 && currentStep <= 4 && (

@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
 import type { TourStep } from '@/types/onboarding';
-import { PrimaryButton } from './PrimaryButton';
-import { SecondaryButton } from './SecondaryButton';
 
 interface SpotlightTooltipProps {
   step: TourStep;
@@ -51,29 +49,44 @@ function TooltipBody({
 }: Omit<SpotlightTooltipProps, 'mode' | 'anchorRect'>) {
   return (
     <div>
-      <p className="text-[12px] font-semibold" style={{ color: 'var(--onb-electric-neon)' }}>
+      <p className="text-caption font-semibold text-electric" style={{ letterSpacing: '0.05em' }}>
         {index + 1} of {total}
       </p>
-      <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.01em]" style={{ color: 'var(--onb-charcoal)' }}>
+      <h3 className="mt-1 text-body font-semibold tracking-tight text-text-primary">
         {step.title}
       </h3>
-      <p className="mt-1.5 text-[14px] leading-[1.5]" style={{ color: 'var(--onb-warm-brown)' }}>
+      <p className="mt-1.5 text-body-sm leading-relaxed text-text-secondary">
         {step.description}
       </p>
       <div className="flex items-center gap-3 mt-4">
         {!isFirst && (
-          <SecondaryButton onClick={onBack}>← Back</SecondaryButton>
+          <button
+            onClick={onBack}
+            className="inline-flex items-center gap-1.5 text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"
+          >
+            ← Back
+          </button>
         )}
-        <PrimaryButton onClick={onNext} className="!px-5 !py-2.5 !text-[14px]">
+        <button
+          onClick={onNext}
+          className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-body-sm font-semibold text-white transition-all duration-200"
+          style={{
+            background: 'var(--primary)',
+            boxShadow: 'var(--shadow-sm)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'var(--primary-hover)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'var(--primary)';
+          }}
+        >
           {step.isFinal ? "Let's go!" : 'Next →'}
-        </PrimaryButton>
+        </button>
       </div>
       <button
         onClick={onSkip}
-        className="mt-3 text-[12px] transition-colors duration-200"
-        style={{ color: 'var(--onb-warm-brown)' }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--onb-charcoal)'; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--onb-warm-brown)'; }}
+        className="mt-3 text-caption text-text-secondary hover:text-text-primary transition-colors duration-200"
       >
         Skip tour
       </button>
@@ -109,9 +122,10 @@ export function SpotlightTooltip({
   }, [anchorRect, step.position, mode, isMobile]);
 
   const tooltipStyle = {
-    background: '#FFFFFF',
+    background: 'var(--surface-solid)',
     borderRadius: '16px',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+    boxShadow: 'var(--shadow-xl)',
+    border: '1px solid var(--border-solid)',
   };
 
   const bodyProps = { step, index, total, onNext, onBack, onSkip, isFirst };
