@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import './styles/tokens.css';
 
 @tailwind base;
@@ -240,14 +240,14 @@
   }
 }
 
-/* Onboarding tokens */
+/* Onboarding tokens — aligned with Apple aesthetic */
 :root {
-  --onb-parchment: #F3E7D3;
-  --onb-charcoal: #2B2A28;
-  --onb-comfort-green: #CDEFBC;
-  --onb-warm-brown: #A67C52;
-  --onb-electric-neon: #39FF14;
-  --onb-parchment-dark: #EAD9C0;
+  --onb-parchment: #F5F5F7;
+  --onb-charcoal: #1D1D1F;
+  --onb-comfort-green: rgba(0, 113, 227, 0.08);
+  --onb-warm-brown: #86868B;
+  --onb-electric-neon: #0071E3;
+  --onb-parchment-dark: #E5E5EA;
 }
 
 /* Onboarding keyframes */

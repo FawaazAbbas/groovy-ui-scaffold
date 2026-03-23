@@ -12,7 +12,7 @@ const brandColors: Record<OSChoice, string> = {
   slack: '#4A154B',
   teams: '#464EB8',
   lark: '#1456F0',
-  'groovy-space': '#39FF14',
+  'groovy-space': '#0071E3',
 };
 
 const brandLetters: Record<OSChoice, string> = {
@@ -30,19 +30,18 @@ export function OSCard({ os, title, description, selected, onSelect }: OSCardPro
       onClick={onSelect}
       role="radio"
       aria-checked={selected}
-      className="relative text-left rounded-2xl p-6 transition-all duration-200"
+      className="relative text-left rounded-2xl p-5 transition-all duration-200"
       style={{
-        fontFamily: "'DM Sans', sans-serif",
-        background: selected ? '#FAFFF5' : '#FFFFFF',
+        background: selected ? 'rgba(0,113,227,0.04)' : '#FFFFFF',
         border: selected ? '2px solid var(--onb-electric-neon)' : '1px solid var(--onb-parchment-dark)',
         transform: 'scale(1)',
       }}
       onMouseEnter={(e) => {
         if (!selected) {
           const el = e.currentTarget;
-          el.style.transform = 'scale(1.02)';
-          el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.06)';
-          el.style.borderColor = 'var(--onb-warm-brown)';
+          el.style.transform = 'scale(1.01)';
+          el.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)';
+          el.style.borderColor = '#86868B';
         }
       }}
       onMouseLeave={(e) => {
@@ -52,14 +51,13 @@ export function OSCard({ os, title, description, selected, onSelect }: OSCardPro
         if (!selected) el.style.borderColor = 'var(--onb-parchment-dark)';
       }}
     >
-      {/* Selected checkmark */}
       {selected && (
         <div className="absolute top-3 right-3">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <circle cx="10" cy="10" r="10" fill="var(--onb-electric-neon)" />
             <polyline
               points="6,10 9,13 14,7"
-              stroke="var(--onb-charcoal)"
+              stroke="#FFFFFF"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -69,43 +67,26 @@ export function OSCard({ os, title, description, selected, onSelect }: OSCardPro
         </div>
       )}
 
-      {/* Icon */}
       <div
-        className="flex h-10 w-10 items-center justify-center rounded-full"
-        style={{
-          background: brandColors[os],
-        }}
+        className="flex h-10 w-10 items-center justify-center rounded-xl"
+        style={{ background: brandColors[os] }}
       >
-        <span
-          className="text-sm font-bold"
-          style={{ color: isGroovy ? 'var(--onb-charcoal)' : '#FFFFFF' }}
-        >
-          {brandLetters[os]}
-        </span>
+        <span className="text-sm font-bold text-white">{brandLetters[os]}</span>
       </div>
 
-      {/* Title */}
-      <p
-        className="mt-3 text-[18px] font-medium"
-        style={{ color: 'var(--onb-charcoal)' }}
-      >
+      <p className="mt-3 text-[16px] font-semibold" style={{ color: 'var(--onb-charcoal)' }}>
         {title}
       </p>
 
-      {/* Description */}
-      <p
-        className="mt-1 text-[14px]"
-        style={{ color: 'var(--onb-warm-brown)' }}
-      >
+      <p className="mt-1 text-[14px]" style={{ color: 'var(--onb-warm-brown)' }}>
         {description}
       </p>
 
-      {/* Groovy Space badge */}
       {isGroovy && (
         <span
           className="mt-3 inline-block rounded-full px-3 py-1 text-xs font-medium"
           style={{
-            background: 'var(--onb-charcoal)',
+            background: 'var(--onb-comfort-green)',
             color: 'var(--onb-electric-neon)',
           }}
         >

@@ -40,6 +40,47 @@ function calcPosition(
   };
 }
 
+function TooltipBody({
+  step,
+  index,
+  total,
+  onNext,
+  onBack,
+  onSkip,
+  isFirst,
+}: Omit<SpotlightTooltipProps, 'mode' | 'anchorRect'>) {
+  return (
+    <div>
+      <p className="text-[12px] font-semibold" style={{ color: 'var(--onb-electric-neon)' }}>
+        {index + 1} of {total}
+      </p>
+      <h3 className="mt-1 text-[16px] font-semibold tracking-[-0.01em]" style={{ color: 'var(--onb-charcoal)' }}>
+        {step.title}
+      </h3>
+      <p className="mt-1.5 text-[14px] leading-[1.5]" style={{ color: 'var(--onb-warm-brown)' }}>
+        {step.description}
+      </p>
+      <div className="flex items-center gap-3 mt-4">
+        {!isFirst && (
+          <SecondaryButton onClick={onBack}>← Back</SecondaryButton>
+        )}
+        <PrimaryButton onClick={onNext} className="!px-5 !py-2.5 !text-[14px]">
+          {step.isFinal ? "Let's go!" : 'Next →'}
+        </PrimaryButton>
+      </div>
+      <button
+        onClick={onSkip}
+        className="mt-3 text-[12px] transition-colors duration-200"
+        style={{ color: 'var(--onb-warm-brown)' }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--onb-charcoal)'; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--onb-warm-brown)'; }}
+      >
+        Skip tour
+      </button>
+    </div>
+  );
+}
+
 export function SpotlightTooltip({
   step,
   index,
@@ -67,27 +108,23 @@ export function SpotlightTooltip({
     );
   }, [anchorRect, step.position, mode, isMobile]);
 
-  // Mobile: bottom sheet
+  const tooltipStyle = {
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+  };
+
+  const bodyProps = { step, index, total, onNext, onBack, onSkip, isFirst };
+
+  // Mobile bottom sheet
   if (isMobile && mode === 'positioned') {
     return (
       <div
         ref={ref}
         className="fixed bottom-0 left-0 right-0 z-[10000] rounded-t-2xl p-5 pb-8"
-        style={{
-          background: '#FFFFFF',
-          boxShadow: '0 -4px 20px rgba(0,0,0,0.1)',
-          fontFamily: "'DM Sans', sans-serif",
-        }}
+        style={{ ...tooltipStyle, borderRadius: '16px 16px 0 0' }}
       >
-        <TooltipContent
-          step={step}
-          index={index}
-          total={total}
-          onNext={onNext}
-          onBack={onBack}
-          onSkip={onSkip}
-          isFirst={isFirst}
-        />
+        <TooltipBody {...bodyProps} />
       </div>
     );
   }
@@ -95,24 +132,8 @@ export function SpotlightTooltip({
   // Center mode
   if (mode === 'center') {
     return (
-      <div
-        ref={ref}
-        className="w-[360px] rounded-2xl p-6"
-        style={{
-          background: '#FFFFFF',
-          boxShadow: '0 16px 48px rgba(0,0,0,0.15)',
-          fontFamily: "'DM Sans', sans-serif",
-        }}
-      >
-        <TooltipContent
-          step={step}
-          index={index}
-          total={total}
-          onNext={onNext}
-          onBack={onBack}
-          onSkip={onSkip}
-          isFirst={isFirst}
-        />
+      <div ref={ref} className="w-[360px] p-6" style={tooltipStyle}>
+        <TooltipBody {...bodyProps} />
       </div>
     );
   }
@@ -121,68 +142,15 @@ export function SpotlightTooltip({
   return (
     <div
       ref={ref}
-      className="fixed z-[10001] w-[320px] rounded-xl p-5"
+      className="fixed z-[10001] w-[320px] p-5"
       style={{
-        background: '#FFFFFF',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-        fontFamily: "'DM Sans', sans-serif",
+        ...tooltipStyle,
         top: pos?.top ?? -9999,
         left: pos?.left ?? -9999,
         transition: 'top 400ms cubic-bezier(0.25,0.1,0.25,1), left 400ms cubic-bezier(0.25,0.1,0.25,1)',
       }}
     >
-      <TooltipContent
-        step={step}
-        index={index}
-        total={total}
-        onNext={onNext}
-        onBack={onBack}
-        onSkip={onSkip}
-        isFirst={isFirst}
-      />
-    </div>
-  );
-}
-
-function TooltipContent({
-  step,
-  index,
-  total,
-  onNext,
-  onBack,
-  onSkip,
-  isFirst,
-}: Omit<SpotlightTooltipProps, 'mode' | 'anchorRect'>) {
-  return (
-    <div>
-      <p className="text-[12px] font-medium" style={{ color: 'var(--onb-warm-brown)' }}>
-        {index + 1} of {total}
-      </p>
-      <h3 className="mt-1 text-[16px] font-semibold" style={{ color: 'var(--onb-charcoal)' }}>
-        {step.title}
-      </h3>
-      <p className="mt-1.5 text-[14px] leading-[1.5]" style={{ color: 'var(--onb-warm-brown)' }}>
-        {step.description}
-      </p>
-      <div className="flex items-center gap-3 mt-4">
-        {!isFirst && (
-          <SecondaryButton onClick={onBack}>
-            ← Back
-          </SecondaryButton>
-        )}
-        <PrimaryButton onClick={onNext} className="!px-5 !py-2.5 !text-[14px]">
-          {step.isFinal ? "Let's go!" : 'Next →'}
-        </PrimaryButton>
-      </div>
-      <button
-        onClick={onSkip}
-        className="mt-3 text-[12px] transition-colors duration-200"
-        style={{ color: 'var(--onb-warm-brown)', fontFamily: "'DM Sans', sans-serif" }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--onb-charcoal)'; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--onb-warm-brown)'; }}
-      >
-        Skip tour
-      </button>
+      <TooltipBody {...bodyProps} />
     </div>
   );
 }
