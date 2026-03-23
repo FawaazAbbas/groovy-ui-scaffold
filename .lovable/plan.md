@@ -1,78 +1,61 @@
 
 
-# Three Changes: Dark Mode, Font Unification, Tool-Use Block Contrast
+# Pitch Deck Presentation Viewer
 
-## 1. Unify fonts to Plus Jakarta Sans
+## What we're building
 
-**Files changed**: `src/index.css`, `tailwind.config.ts`
+A new `/pitch-deck` route inside the WorkspaceLayout that displays a pre-built pitch deck as a fullscreen slide viewer. Users can navigate slides with arrows/keyboard, enter fullscreen presentation mode, and see a thumbnail strip for quick navigation.
 
-- Replace the Google Fonts import: swap `Inter` for `Plus Jakarta Sans` (weights 400-700)
-- Update `body` font-family in `src/index.css` to `'Plus Jakarta Sans'`
-- Update `tailwind.config.ts` `fontFamily.sans` to `'"Plus Jakarta Sans"'`
-- JetBrains Mono stays as the mono font (no change)
+## Slide content (base scaffold — 6 slides)
 
-## 2. Fix tool-use blocks in chat for better contrast
+1. **Title** — "Groovy" tagline + logo
+2. **Problem** — Pain point statement
+3. **Solution** — What Groovy does
+4. **How it works** — 3-step visual flow
+5. **Traction** — Key metrics
+6. **Call to action** — Contact / next steps
 
-**File changed**: `src/pages/ChatsPage.tsx` (lines 110-118)
+All content will be placeholder text so we can iterate on it together.
 
-The tool-use `<details>` block currently uses `bg-surface-elevated` with `text-text-secondary` for the output area. On light mode this is low-contrast because the elevated surface is near-white and the secondary text is gray.
+## Technical approach
 
-Changes:
-- Give the expanded content area a light warm tint (`bg-electric/[0.04]`) so it visually separates from the message
-- Use `text-text-primary` for the output line (already done) and bump the input line from `text-primary/60` to `text-electric` for the `$` prefix
-- Add a subtle left border accent (`border-l-2 border-l-electric/20`) to the details block for visual distinction
+### 1. New route + nav entry
 
-## 3. Add dark mode toggle
+- Add `{ label: 'Pitch Deck', icon: Presentation, path: '/pitch-deck' }` to `WorkspaceLayout.tsx` nav items
+- Add route in `App.tsx` under WorkspaceLayout
+- Create `src/pages/PitchDeckPage.tsx`
 
-### 3a. Dark mode tokens (`src/styles/tokens.css`)
+### 2. Slide viewer architecture
 
-Add a `.dark` selector block with inverted tokens:
+- Fixed 16:9 slide canvas (1920×1080) scaled via `transform: scale()` to fit the viewport
+- Parent container with `overflow: hidden`, slide centered with absolute positioning
+- Bottom thumbnail strip (horizontal scroll) showing all slides as mini previews
+- Keyboard navigation: Left/Right arrows, Escape exits fullscreen
+- Fullscreen mode via Fullscreen API with hidden UI chrome
 
-| Token | Light value | Dark value |
-|-------|------------|------------|
-| `--background` | `#F5F5F7` | `#1C1C1E` |
-| `--surface` | `rgba(255,255,255,0.72)` | `rgba(44,44,46,0.72)` |
-| `--surface-solid` | `#FFFFFF` | `#2C2C2E` |
-| `--surface-elevated` | `rgba(255,255,255,0.9)` | `rgba(58,58,60,0.9)` |
-| `--text-primary` | `#1D1D1F` | `#F5F5F7` |
-| `--text-secondary` | `#86868B` | `#98989D` |
-| `--border` | `rgba(0,0,0,0.08)` | `rgba(255,255,255,0.08)` |
-| `--border-solid` | `#E5E5EA` | `#3A3A3C` |
-| `--sidebar` | `rgba(28,28,30,0.82)` | `rgba(0,0,0,0.6)` |
-| `--sidebar-solid` | `#1C1C1E` | `#000000` |
-| `--liquid-glass` | white-based | `rgba(44,44,46,0.45)` |
-| `--liquid-glass-border` | white-based | `rgba(255,255,255,0.1)` |
-| `--liquid-glass-inner` | white-based | `rgba(255,255,255,0.06)` |
-| Shadows | low opacity black | slightly higher opacity black |
+### 3. Slide components
 
-Amber/electric tokens stay the same (they work on both light and dark).
+- `src/components/pitch-deck/SlideLayout.tsx` — wrapper that renders children at 1920×1080
+- `src/components/pitch-deck/slides/` — individual slide components (TitleSlide, ProblemSlide, etc.)
+- Each slide uses the existing token system (amber accents, Plus Jakarta Sans)
+- Dark slide backgrounds using `--sidebar-solid` / `--comfort` tokens for contrast
 
-### 3b. Dark mode hook (`src/hooks/use-dark-mode.ts`)
+### 4. Visual style
 
-Create a small hook that:
-- Reads initial preference from `localStorage` (key: `theme`) or falls back to system preference via `prefers-color-scheme`
-- Toggles `.dark` class on `<html>` element
-- Persists choice to `localStorage`
-- Returns `{ isDark, toggle }`
+- Slides use a dark-on-warm aesthetic: deep charcoal backgrounds with amber/gold accents
+- Large typography (Plus Jakarta Sans 700 for headlines, 400 for body)
+- Generous whitespace, left-aligned text, asymmetric layouts
+- Subtle gradient backgrounds per slide for variety
+- No glassmorphism on slides — clean, editorial feel
 
-### 3c. Toggle in WorkspaceLayout (`src/layouts/WorkspaceLayout.tsx`)
+### Files
 
-- Add a Sun/Moon icon button in the top-right header bar (next to search/bell icons)
-- Uses the `useDarkMode` hook
-- Simple icon swap with smooth transition
-
-### 3d. Tailwind config already has `darkMode: ["class"]` — no change needed
-
----
-
-## Summary of files
-
-| File | Change |
+| File | Action |
 |------|--------|
-| `src/index.css` | Font import swap |
-| `tailwind.config.ts` | Font family update |
-| `src/styles/tokens.css` | Add `.dark` token block |
-| `src/hooks/use-dark-mode.ts` | New file — dark mode hook |
-| `src/layouts/WorkspaceLayout.tsx` | Add toggle button |
-| `src/pages/ChatsPage.tsx` | Tool-use block contrast fix |
+| `src/pages/PitchDeckPage.tsx` | Create — viewer with nav, thumbnails, fullscreen |
+| `src/components/pitch-deck/SlideLayout.tsx` | Create — 1920×1080 scaled wrapper |
+| `src/components/pitch-deck/slides/index.ts` | Create — slide registry |
+| `src/components/pitch-deck/slides/*.tsx` | Create — 6 individual slide components |
+| `src/layouts/WorkspaceLayout.tsx` | Edit — add nav item |
+| `src/App.tsx` | Edit — add route |
 
