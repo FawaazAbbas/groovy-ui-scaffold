@@ -16,29 +16,26 @@ export function OSChoiceContent() {
 
   return (
     <div>
-      {/* Title */}
       <AnimatedEntry delay={0}>
         <h2
-          className="text-[32px] md:text-[48px] leading-[1.2] tracking-[-0.01em]"
-          style={{ fontFamily: "'DM Serif Display', serif", color: 'var(--onb-charcoal)' }}
+          className="text-[32px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.03em]"
+          style={{ color: 'var(--onb-charcoal)' }}
         >
           Where does your team work?
         </h2>
       </AnimatedEntry>
 
-      {/* Subtitle */}
       <AnimatedEntry delay={100}>
         <p
           className="mt-3 text-[15px] md:text-[17px] leading-[1.6]"
-          style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--onb-warm-brown)' }}
+          style={{ color: 'var(--onb-warm-brown)' }}
         >
           Pick where your AI employees will show up.
         </p>
       </AnimatedEntry>
 
-      {/* OS Cards */}
       <AnimatedEntry delay={200}>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4" role="radiogroup" aria-label="Choose your workspace">
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-3" role="radiogroup" aria-label="Choose your workspace">
           {osOptions.map((opt) => (
             <OSCard
               key={opt.os}
@@ -52,7 +49,6 @@ export function OSChoiceContent() {
         </div>
       </AnimatedEntry>
 
-      {/* CTA */}
       <AnimatedEntry delay={400}>
         <div className="mt-8">
           <PrimaryButton onClick={nextStep} disabled={!osChoice}>

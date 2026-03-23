@@ -9,14 +9,11 @@ export function SecondaryButton({ children, className = '', ...props }: Secondar
     <button
       className={`
         inline-flex items-center justify-center gap-1.5
-        text-[14px] font-medium tracking-[0.01em]
+        text-[14px] font-medium tracking-[-0.01em]
         transition-colors duration-200
         ${className}
       `}
-      style={{
-        fontFamily: "'DM Sans', sans-serif",
-        color: 'var(--onb-warm-brown)',
-      }}
+      style={{ color: 'var(--onb-warm-brown)' }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.color = 'var(--onb-charcoal)';
       }}

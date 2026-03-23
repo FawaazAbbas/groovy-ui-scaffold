@@ -14,11 +14,13 @@ export function GuidedSpotlight() {
   const [tourPhase, setTourPhase] = useState<TourPhase>('waiting-for-target');
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Use ref for nextTourStep to avoid re-creating pollForTarget
+  const nextTourStepRef = useRef(nextTourStep);
+  nextTourStepRef.current = nextTourStep;
 
   const tourSteps = getTourSteps(osChoice);
   const step = tourSteps[tourStepIndex] ?? null;
 
-  // Poll for DOM target
   const pollForTarget = useCallback(
     (targetId: string | null) => {
       if (pollRef.current) clearInterval(pollRef.current);
@@ -40,11 +42,12 @@ export function GuidedSpotlight() {
         } else if (attempts >= 50) {
           clearInterval(pollRef.current!);
           pollRef.current = null;
-          nextTourStep();
+          // Skip this step if target never appears
+          nextTourStepRef.current();
         }
       }, 100);
     },
-    [nextTourStep]
+    [] // no dependencies — uses ref for nextTourStep
   );
 
   // React to step/pathname changes
@@ -86,7 +89,6 @@ export function GuidedSpotlight() {
 
   if (!step) return null;
 
-  // Handlers
   const handleNext = () => {
     if (step.isFinal) {
       completeOnboarding();
@@ -112,13 +114,13 @@ export function GuidedSpotlight() {
 
   // Loading state
   if (tourPhase !== 'visible') {
-    return <div className="fixed inset-0 z-[9998] bg-black/50 transition-opacity duration-300" />;
+    return <div className="fixed inset-0 z-[9998] bg-black/40 transition-opacity duration-300" />;
   }
 
   // Final step — centred modal
   if (step.targetId === null) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
         <SpotlightTooltip
           step={step}
           index={tourStepIndex}
@@ -161,7 +163,7 @@ export function GuidedSpotlight() {
         <rect
           width="100%"
           height="100%"
-          fill="rgba(0,0,0,0.5)"
+          fill="rgba(0,0,0,0.4)"
           mask="url(#tour-mask)"
           style={{ pointerEvents: 'all' }}
         />

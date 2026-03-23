@@ -10,32 +10,30 @@ export function HeyContent() {
       {/* Logo */}
       <AnimatedEntry delay={0}>
         <div className="mb-10">
-          <span
-            className="text-[28px] font-bold"
-            style={{ fontFamily: "'DM Serif Display', serif", color: 'var(--onb-charcoal)' }}
+          <div
+            className="inline-flex h-14 w-14 items-center justify-center rounded-2xl"
+            style={{ background: 'var(--onb-charcoal)' }}
           >
-            G
-          </span>
+            <span className="text-[24px] font-bold text-white">G</span>
+          </div>
         </div>
       </AnimatedEntry>
 
       {/* Greeting */}
       <AnimatedEntry delay={150}>
         <h1
-          className="text-[72px] leading-[1.1] tracking-[-0.02em] md:text-[72px]"
-          style={{ fontFamily: "'DM Serif Display', serif", color: 'var(--onb-charcoal)' }}
+          className="text-[44px] md:text-[72px] font-bold leading-[1.05] tracking-[-0.03em]"
+          style={{ color: 'var(--onb-charcoal)' }}
         >
-          <span className="block text-[44px] md:text-[72px]">
-            Hey {userName || 'there'},
-          </span>
+          Hey {userName || 'there'},
         </h1>
       </AnimatedEntry>
 
       {/* Subtext */}
       <AnimatedEntry delay={300}>
         <p
-          className="mt-4 text-[17px] md:text-[20px] leading-[1.6]"
-          style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--onb-warm-brown)' }}
+          className="mt-4 text-[17px] md:text-[20px] leading-[1.6] font-normal"
+          style={{ color: 'var(--onb-warm-brown)' }}
         >
           Welcome to Groovy.
         </p>

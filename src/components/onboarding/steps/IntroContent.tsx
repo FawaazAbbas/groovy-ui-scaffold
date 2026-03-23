@@ -31,33 +31,33 @@ export function IntroContent() {
       {/* Title */}
       <AnimatedEntry delay={0}>
         <h2
-          className="text-[32px] md:text-[48px] leading-[1.2] tracking-[-0.01em]"
-          style={{ fontFamily: "'DM Serif Display', serif", color: 'var(--onb-charcoal)' }}
+          className="text-[32px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.03em]"
+          style={{ color: 'var(--onb-charcoal)' }}
         >
           This is what Groovy does for you.
         </h2>
       </AnimatedEntry>
 
       {/* Value props */}
-      <div className="mt-12 space-y-12">
+      <div className="mt-12 space-y-10">
         {valueProps.map((prop, i) => (
           <AnimatedEntry key={prop.num} delay={100 + i * 150}>
             <div>
               <span
-                className="text-[13px] font-medium tracking-widest uppercase"
-                style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--onb-warm-brown)' }}
+                className="text-[12px] font-semibold tracking-widest uppercase"
+                style={{ color: 'var(--onb-electric-neon)' }}
               >
                 {prop.num}
               </span>
               <h3
-                className="mt-2 text-[24px] md:text-[28px] leading-[1.3]"
-                style={{ fontFamily: "'DM Serif Display', serif", color: 'var(--onb-charcoal)' }}
+                className="mt-2 text-[22px] md:text-[26px] font-semibold leading-[1.3] tracking-[-0.02em]"
+                style={{ color: 'var(--onb-charcoal)' }}
               >
                 {prop.headline}
               </h3>
               <p
                 className="mt-2 text-[15px] md:text-[17px] leading-[1.6] max-w-[540px]"
-                style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--onb-warm-brown)' }}
+                style={{ color: 'var(--onb-warm-brown)' }}
               >
                 {prop.description}
               </p>
