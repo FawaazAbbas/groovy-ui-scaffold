@@ -1,61 +1,60 @@
 
 
-# Pitch Deck Presentation Viewer
+# Align Pitch Deck with App Aesthetic + Add 10 Slides
 
-## What we're building
+## Current State
 
-A new `/pitch-deck` route inside the WorkspaceLayout that displays a pre-built pitch deck as a fullscreen slide viewer. Users can navigate slides with arrows/keyboard, enter fullscreen presentation mode, and see a thumbnail strip for quick navigation.
+The 6 existing slides use hardcoded hex colors (`#1C1C1E`, `#F5C842`, `#98989D`, etc.) that roughly match the app's dark mode but don't use the token system. The app has a rich glassmorphism + warm amber identity with liquid glass surfaces, retro grid overlays, and neon glow utilities.
 
-## Slide content (base scaffold — 6 slides)
+## Visual Direction
 
-1. **Title** — "Groovy" tagline + logo
-2. **Problem** — Pain point statement
-3. **Solution** — What Groovy does
-4. **How it works** — 3-step visual flow
-5. **Traction** — Key metrics
-6. **Call to action** — Contact / next steps
+Bring the deck into the app's world: dark charcoal backgrounds using token values, liquid glass card surfaces, retro grid overlays on select slides, amber/gold accents via `--electric-bright` and `--electric`, and the `--cyan` secondary accent for variety. Use the existing CSS utility classes (`glass`, `neon-glow-*`, `retro-grid`, `retro-corners`, `terminal-block`) directly in slide components.
 
-All content will be placeholder text so we can iterate on it together.
+## Changes to Existing 6 Slides
 
-## Technical approach
+Update all slides to use CSS custom properties instead of hardcoded hex:
+- Backgrounds: `bg-background` (dark) or `bg-surface-solid` with gradients using token colors
+- Text: `text-text-primary`, `text-text-secondary`, `text-electric-bright` (accent on dark)
+- Cards/surfaces: Use `glass` or `glass-elevated` classes, `border-border` 
+- Accent elements: `neon-glow-*`, `neon-border`, `retro-corners` where appropriate
+- Slide section labels: keep uppercase tracking-widest style but use `text-electric-bright`
 
-### 1. New route + nav entry
+## 10 New Slides (16 total)
 
-- Add `{ label: 'Pitch Deck', icon: Presentation, path: '/pitch-deck' }` to `WorkspaceLayout.tsx` nav items
-- Add route in `App.tsx` under WorkspaceLayout
-- Create `src/pages/PitchDeckPage.tsx`
+| # | Slide | Content |
+|---|-------|---------|
+| 5 | **Market Opportunity** | TAM/SAM/SOM concentric circles, market size numbers |
+| 6 | **Product Demo** | Screenshot placeholder with feature callout annotations |
+| 7 | **Architecture** | System diagram — agents, orchestrator, integrations |
+| 8 | **Use Cases** | 4 industry verticals with icons and descriptions |
+| 9 | **Competitive Landscape** | Positioning matrix (2×2 grid) |
+| 10 | **Business Model** | Pricing tiers and revenue model |
+| 11 | **Go-to-Market** | Channel strategy and growth flywheel |
+| 12 | **Team** | Founder/team grid with roles |
+| 13 | **Roadmap** | Timeline with milestones Q1–Q4 |
+| 14 | **Financials** | Revenue projections, key metrics |
 
-### 2. Slide viewer architecture
+Final order: Title → Problem → Solution → How It Works → Market → Product Demo → Architecture → Use Cases → Competitive → Business Model → Go-to-Market → Traction → Team → Roadmap → Financials → CTA
 
-- Fixed 16:9 slide canvas (1920×1080) scaled via `transform: scale()` to fit the viewport
-- Parent container with `overflow: hidden`, slide centered with absolute positioning
-- Bottom thumbnail strip (horizontal scroll) showing all slides as mini previews
-- Keyboard navigation: Left/Right arrows, Escape exits fullscreen
-- Fullscreen mode via Fullscreen API with hidden UI chrome
-
-### 3. Slide components
-
-- `src/components/pitch-deck/SlideLayout.tsx` — wrapper that renders children at 1920×1080
-- `src/components/pitch-deck/slides/` — individual slide components (TitleSlide, ProblemSlide, etc.)
-- Each slide uses the existing token system (amber accents, Plus Jakarta Sans)
-- Dark slide backgrounds using `--sidebar-solid` / `--comfort` tokens for contrast
-
-### 4. Visual style
-
-- Slides use a dark-on-warm aesthetic: deep charcoal backgrounds with amber/gold accents
-- Large typography (Plus Jakarta Sans 700 for headlines, 400 for body)
-- Generous whitespace, left-aligned text, asymmetric layouts
-- Subtle gradient backgrounds per slide for variety
-- No glassmorphism on slides — clean, editorial feel
-
-### Files
+## Files
 
 | File | Action |
 |------|--------|
-| `src/pages/PitchDeckPage.tsx` | Create — viewer with nav, thumbnails, fullscreen |
-| `src/components/pitch-deck/SlideLayout.tsx` | Create — 1920×1080 scaled wrapper |
-| `src/components/pitch-deck/slides/index.ts` | Create — slide registry |
-| `src/components/pitch-deck/slides/*.tsx` | Create — 6 individual slide components |
-| `src/layouts/WorkspaceLayout.tsx` | Edit — add nav item |
-| `src/App.tsx` | Edit — add route |
+| `src/components/pitch-deck/slides/TitleSlide.tsx` | Rewrite — token colors, add retro-grid overlay |
+| `src/components/pitch-deck/slides/ProblemSlide.tsx` | Rewrite — token colors, neon accents |
+| `src/components/pitch-deck/slides/SolutionSlide.tsx` | Rewrite — glass cards, token colors |
+| `src/components/pitch-deck/slides/HowItWorksSlide.tsx` | Rewrite — token colors, neon-glow step circles |
+| `src/components/pitch-deck/slides/TractionSlide.tsx` | Rewrite — token colors |
+| `src/components/pitch-deck/slides/CTASlide.tsx` | Rewrite — token colors, gradient from comfort |
+| `src/components/pitch-deck/slides/MarketSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/ProductDemoSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/ArchitectureSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/UseCasesSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/CompetitiveSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/BusinessModelSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/GoToMarketSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/TeamSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/RoadmapSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/FinancialsSlide.tsx` | Create |
+| `src/components/pitch-deck/slides/index.ts` | Update — register all 16 slides |
 
