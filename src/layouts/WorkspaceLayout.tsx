@@ -10,9 +10,9 @@ import { mockSession } from '@/lib/mocks/session';
 import { CommandPalette } from '@/components/CommandPalette';
 
 const navItems = [
-  { label: 'Chats', icon: MessageSquare, path: '/chats' },
-  { label: 'Tasks', icon: CheckSquare, path: '/tasks' },
-  { label: 'Calendar', icon: Calendar, path: '/calendar' },
+  { label: 'Chats', icon: MessageSquare, path: '/chats', tourId: 'nav-chats' },
+  { label: 'Tasks', icon: CheckSquare, path: '/tasks', tourId: 'nav-tasks' },
+  { label: 'Calendar', icon: Calendar, path: '/calendar', tourId: 'nav-calendar' },
   { label: 'Files', icon: FolderOpen, path: '/files' },
   { label: 'Activity', icon: Activity, path: '/activity' },
   { label: 'Architecture', icon: Network, path: '/architecture' },
@@ -67,6 +67,7 @@ export default function WorkspaceLayout() {
               <Link
                 key={item.path}
                 to={item.path}
+                data-tour={item.tourId}
                 onClick={() => setMobileOpen(false)}
                 className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm transition-all duration-200 ${
                   isActive

@@ -75,6 +75,7 @@ export default function MarketplacePage() {
                   key={agent.id}
                   to={`/marketplace/${agent.id}`}
                   className="group card-glass p-5 hover:neon-border retro-corners transition-all"
+                  data-tour={agent === featured[0] ? 'featured-agent-card' : undefined}
                 >
                   <div className="flex items-start gap-3 mb-3">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-electric-muted text-electric-bright font-bold text-lg font-mono neon-glow-sm group-hover:neon-glow-md transition-all">
