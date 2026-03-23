@@ -18,6 +18,7 @@ import FilesPage from "./pages/FilesPage";
 import ArchitecturePage from "./pages/ArchitecturePage";
 import ActivityPage from "./pages/ActivityPage";
 import IntegrationsPage from "./pages/IntegrationsPage";
+import PitchDeckPage from "./pages/PitchDeckPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
