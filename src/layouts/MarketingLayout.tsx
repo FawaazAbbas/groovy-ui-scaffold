@@ -6,7 +6,7 @@ export default function MarketingLayout() {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-surface">
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
-          <Link to="/marketplace" className="flex items-center gap-2">
+          <Link to="/marketplace" className="flex items-center gap-2" data-tour="nav-marketplace">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sidebar">
               <span className="text-sm font-bold text-sidebar-text">G</span>
             </div>
