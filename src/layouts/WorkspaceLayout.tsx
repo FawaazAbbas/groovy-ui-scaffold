@@ -17,6 +17,7 @@ const navItems = [
   { label: 'Activity', icon: Activity, path: '/activity' },
   { label: 'Architecture', icon: Network, path: '/architecture' },
   { label: 'Integrations', icon: Puzzle, path: '/integrations' },
+  { label: 'Pitch Deck', icon: Presentation, path: '/pitch-deck' },
   { label: 'Billing', icon: CreditCard, path: '/billing' },
 ];
 
