@@ -27,7 +27,7 @@ export default function MarketingLayout() {
               Sign In
             </Link>
             <Link
-              to="/onboard"
+              to="/integrations"
               className="rounded-lg bg-primary px-4 py-2 text-body-sm font-medium text-white hover:bg-primary-hover transition-colors"
             >
               Get Started
