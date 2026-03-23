@@ -1,7 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail } from 'lucide-react';
+import { useOnboarding } from '@/contexts/OnboardingContext';
 
 export default function LoginPage() {
+  const { startOnboarding } = useOnboarding();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    startOnboarding();
+    navigate('/marketplace');
+  };
+
   return (
     <div className="text-center">
       <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-b from-sidebar-solid to-sidebar-solid shadow-glass-md">
@@ -43,7 +52,10 @@ export default function LoginPage() {
       </div>
 
       <p className="mt-8 text-caption text-text-secondary">
-        Don't have an account? <Link to="/integrations" className="text-primary hover:underline">Get started</Link>
+        Don't have an account?{' '}
+        <button onClick={handleGetStarted} className="text-primary hover:underline">
+          Get started
+        </button>
       </p>
     </div>
   );

@@ -1,11 +1,23 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
-import type { OnboardingState, OnboardingStep, OSChoice, OverlayPhase } from '@/types/onboarding';
+import { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react';
+import type { OnboardingState, OnboardingStepId, OSChoice, SignUpFormData } from '@/types/onboarding';
+
+function getStepSequence(osChoice: OSChoice | null): OnboardingStepId[] {
+  const common: OnboardingStepId[] = ['hey', 'intro', 'os-choice', 'pricing'];
+  if (osChoice === 'groovy-space') {
+    return [...common, 'workspace-setup', 'tour'];
+  }
+  return [...common, 'two-click', 'explore-marketplace', 'tour'];
+}
 
 interface OnboardingContextValue extends OnboardingState {
+  stepSequence: OnboardingStepId[];
+  currentStepIndex: number;
+  totalSteps: number;
+  startOnboarding: () => void;
   nextStep: () => void;
   prevStep: () => void;
   setOSChoice: (os: OSChoice) => void;
-  beginTour: () => void;
+  setSignUpData: (data: SignUpFormData) => void;
   nextTourStep: () => void;
   prevTourStep: () => void;
   completeOnboarding: () => void;
@@ -18,22 +30,39 @@ const STORAGE_KEY = 'groovy_onboarding';
 function loadState(): OnboardingState {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
-  } catch {}
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Migrate from old numeric state shape
+      if ('currentStep' in parsed && !('currentStepId' in parsed)) {
+        localStorage.removeItem(STORAGE_KEY);
+        return defaultState();
+      }
+      const state = parsed as OnboardingState;
+      if (state.isOnboardingComplete) {
+        return { ...state, overlayPhase: 'complete' };
+      }
+      return state;
+    }
+  } catch { /* ignore */ }
+  return defaultState();
+}
+
+function defaultState(): OnboardingState {
   return {
-    currentStep: 1,
-    overlayPhase: 'intro',
+    currentStepId: 'hey',
+    overlayPhase: 'idle',
     osChoice: null,
     tourStepIndex: 0,
     isOnboardingComplete: false,
     userName: 'Sarah',
+    signUpData: null,
   };
 }
 
 function saveState(state: OnboardingState) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {}
+  } catch { /* ignore */ }
 }
 
 const OnboardingContext = createContext<OnboardingContextValue | null>(null);
@@ -45,17 +74,53 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     saveState(state);
   }, [state]);
 
+  const stepSequence = useMemo(
+    () => getStepSequence(state.osChoice),
+    [state.osChoice],
+  );
+
+  const currentStepIndex = stepSequence.indexOf(state.currentStepId);
+  // Don't count 'tour' in the progress dots — it's a separate phase
+  const totalSteps = stepSequence.filter((s) => s !== 'tour').length;
+
+  const startOnboarding = useCallback(() => {
+    setState((s) => ({
+      ...s,
+      currentStepId: 'hey',
+      overlayPhase: 'intro',
+      osChoice: null,
+      tourStepIndex: 0,
+      isOnboardingComplete: false,
+      signUpData: null,
+    }));
+  }, []);
+
   const nextStep = useCallback(() => {
     setState((s) => {
-      if (s.currentStep >= 4) return s;
-      return { ...s, currentStep: (s.currentStep + 1) as OnboardingStep };
+      const seq = getStepSequence(s.osChoice);
+      const idx = seq.indexOf(s.currentStepId);
+      if (idx < 0 || idx >= seq.length - 1) return s;
+
+      const nextId = seq[idx + 1];
+      // If the next step is 'tour', transition to tour phase
+      if (nextId === 'tour') {
+        return {
+          ...s,
+          currentStepId: 'tour',
+          overlayPhase: 'tour',
+          tourStepIndex: 0,
+        };
+      }
+      return { ...s, currentStepId: nextId };
     });
   }, []);
 
   const prevStep = useCallback(() => {
     setState((s) => {
-      if (s.currentStep <= 1) return s;
-      return { ...s, currentStep: (s.currentStep - 1) as OnboardingStep };
+      const seq = getStepSequence(s.osChoice);
+      const idx = seq.indexOf(s.currentStepId);
+      if (idx <= 0) return s;
+      return { ...s, currentStepId: seq[idx - 1] };
     });
   }, []);
 
@@ -63,16 +128,8 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     setState((s) => ({ ...s, osChoice: os }));
   }, []);
 
-  const beginTour = useCallback(() => {
-    setState((s) => ({ ...s, overlayPhase: 'transitioning' as OverlayPhase }));
-    setTimeout(() => {
-      setState((s) => ({
-        ...s,
-        overlayPhase: 'tour' as OverlayPhase,
-        currentStep: 5 as OnboardingStep,
-        tourStepIndex: 0,
-      }));
-    }, 600);
+  const setSignUpData = useCallback((data: SignUpFormData) => {
+    setState((s) => ({ ...s, signUpData: data }));
   }, []);
 
   const nextTourStep = useCallback(() => {
@@ -89,7 +146,7 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
   const completeOnboarding = useCallback(() => {
     setState((s) => ({
       ...s,
-      overlayPhase: 'complete' as OverlayPhase,
+      overlayPhase: 'complete',
       isOnboardingComplete: true,
     }));
   }, []);
@@ -97,19 +154,20 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
   const skipOnboarding = useCallback(() => {
     setState((s) => ({
       ...s,
-      overlayPhase: 'complete' as OverlayPhase,
+      overlayPhase: 'complete',
       isOnboardingComplete: true,
     }));
   }, []);
 
   const resetOnboarding = useCallback(() => {
     setState({
-      currentStep: 1,
-      overlayPhase: 'intro',
+      currentStepId: 'hey',
+      overlayPhase: 'idle',
       osChoice: null,
       tourStepIndex: 0,
       isOnboardingComplete: false,
       userName: 'Sarah',
+      signUpData: null,
     });
   }, []);
 
@@ -117,10 +175,14 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     <OnboardingContext.Provider
       value={{
         ...state,
+        stepSequence,
+        currentStepIndex,
+        totalSteps,
+        startOnboarding,
         nextStep,
         prevStep,
         setOSChoice,
-        beginTour,
+        setSignUpData,
         nextTourStep,
         prevTourStep,
         completeOnboarding,

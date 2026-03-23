@@ -1,16 +1,35 @@
 export type OSChoice = 'slack' | 'teams' | 'lark' | 'groovy-space';
 
-export type OnboardingStep = 1 | 2 | 3 | 4 | 5;
+export type OnboardingStepId =
+  | 'hey'
+  | 'intro'
+  | 'os-choice'
+  | 'pricing'
+  | 'two-click'
+  | 'explore-marketplace'
+  | 'workspace-setup'
+  | 'tour';
 
-export type OverlayPhase = 'intro' | 'transitioning' | 'tour' | 'complete';
+export type OverlayPhase = 'idle' | 'intro' | 'transitioning' | 'tour' | 'complete';
+
+export interface SignUpFormData {
+  fullName: string;
+  businessEmail: string;
+  companyName: string;
+  companySize: string;
+  industry: string;
+  roleTitle: string;
+  selectedPlan: string;
+}
 
 export interface OnboardingState {
-  currentStep: OnboardingStep;
+  currentStepId: OnboardingStepId;
   overlayPhase: OverlayPhase;
   osChoice: OSChoice | null;
   tourStepIndex: number;
   isOnboardingComplete: boolean;
   userName: string;
+  signUpData: SignUpFormData | null;
 }
 
 export interface TourStep {

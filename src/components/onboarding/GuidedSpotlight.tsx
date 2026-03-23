@@ -6,6 +6,9 @@ import { SpotlightTooltip } from './SpotlightTooltip';
 
 type TourPhase = 'visible' | 'navigating' | 'waiting-for-target';
 
+const SPOTLIGHT_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const TIMEOUT_MS = 5000;
+
 export function GuidedSpotlight() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -13,44 +16,96 @@ export function GuidedSpotlight() {
 
   const [tourPhase, setTourPhase] = useState<TourPhase>('waiting-for-target');
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
-  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const observerRef = useRef<MutationObserver | null>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number>(0);
   const nextTourStepRef = useRef(nextTourStep);
   nextTourStepRef.current = nextTourStep;
 
-  // Memoize tour steps to prevent new references every render
   const tourSteps = useMemo(() => getTourSteps(osChoice), [osChoice]);
   const step = tourSteps[tourStepIndex] ?? null;
   const stepId = step?.id ?? null;
 
-  const pollForTarget = useCallback(
+  // Clean up all observers
+  const cleanup = useCallback(() => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+      observerRef.current = null;
+    }
+    if (resizeObserverRef.current) {
+      resizeObserverRef.current.disconnect();
+      resizeObserverRef.current = null;
+    }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
+    }
+  }, []);
+
+  // Watch target element for size/position changes
+  const watchTarget = useCallback((el: Element) => {
+    // ResizeObserver for element size changes
+    resizeObserverRef.current = new ResizeObserver(() => {
+      rafRef.current = requestAnimationFrame(() => {
+        setTargetRect(el.getBoundingClientRect());
+      });
+    });
+    resizeObserverRef.current.observe(el);
+  }, []);
+
+  // Find target using MutationObserver instead of polling
+  const findTarget = useCallback(
     (targetId: string | null) => {
-      if (pollRef.current) clearInterval(pollRef.current);
+      cleanup();
+
       if (targetId === null) {
         setTargetRect(null);
         setTourPhase('visible');
         return;
       }
 
-      let attempts = 0;
-      pollRef.current = setInterval(() => {
-        attempts++;
-        const el = document.querySelector(`[data-tour="${targetId}"]`);
-        if (el) {
-          clearInterval(pollRef.current!);
-          pollRef.current = null;
-          setTargetRect(el.getBoundingClientRect());
-          setTourPhase('visible');
-        } else if (attempts >= 50) {
-          clearInterval(pollRef.current!);
-          pollRef.current = null;
-          nextTourStepRef.current();
-        }
-      }, 100);
+      // Try immediately first
+      const existing = document.querySelector(`[data-tour="${targetId}"]`);
+      if (existing) {
+        setTargetRect(existing.getBoundingClientRect());
+        setTourPhase('visible');
+        watchTarget(existing);
+        return;
+      }
+
+      // Watch for DOM mutations
+      observerRef.current = new MutationObserver(() => {
+        rafRef.current = requestAnimationFrame(() => {
+          const el = document.querySelector(`[data-tour="${targetId}"]`);
+          if (el) {
+            cleanup();
+            setTargetRect(el.getBoundingClientRect());
+            setTourPhase('visible');
+            watchTarget(el);
+          }
+        });
+      });
+
+      observerRef.current.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+
+      // 5s timeout fallback — skip step if element never appears
+      timeoutRef.current = setTimeout(() => {
+        cleanup();
+        nextTourStepRef.current();
+      }, TIMEOUT_MS);
     },
-    []
+    [cleanup, watchTarget],
   );
 
-  // React to step/pathname changes — use stepId (string) as dependency, not object
+  // React to step/pathname changes
   useEffect(() => {
     if (!step) return;
     if (step.page !== location.pathname) {
@@ -59,33 +114,31 @@ export function GuidedSpotlight() {
       return;
     }
     setTourPhase('waiting-for-target');
-    pollForTarget(step.targetId);
-    return () => {
-      if (pollRef.current) clearInterval(pollRef.current);
-    };
-  }, [stepId, location.pathname, pollForTarget, navigate]);
+    findTarget(step.targetId);
+    return cleanup;
+  }, [stepId, location.pathname, findTarget, navigate, cleanup]);
 
-  // Update rect on scroll/resize
+  // Passive scroll listener with rAF throttle for position updates
   useEffect(() => {
     if (tourPhase !== 'visible' || !step?.targetId) return;
-    const update = () => {
-      const el = document.querySelector(`[data-tour="${step.targetId}"]`);
-      if (el) setTargetRect(el.getBoundingClientRect());
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const el = document.querySelector(`[data-tour="${step.targetId}"]`);
+        if (el) setTargetRect(el.getBoundingClientRect());
+        ticking = false;
+      });
     };
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, [tourPhase, stepId]);
 
-  useEffect(
-    () => () => {
-      if (pollRef.current) clearInterval(pollRef.current);
-    },
-    []
-  );
+  // Cleanup on unmount
+  useEffect(() => cleanup, [cleanup]);
 
   if (!step) return null;
 
@@ -112,9 +165,17 @@ export function GuidedSpotlight() {
     }
   };
 
-  // Loading state
+  // Loading/navigating state
   if (tourPhase !== 'visible') {
-    return <div className="fixed inset-0 z-[9998] bg-black/40 transition-opacity duration-300" />;
+    return (
+      <div
+        className="fixed inset-0 z-[9998]"
+        style={{
+          backgroundColor: 'rgba(0,0,0,0.4)',
+          animation: 'onb-fade-in 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards',
+        }}
+      />
+    );
   }
 
   // Final step — centred modal
@@ -135,7 +196,7 @@ export function GuidedSpotlight() {
     );
   }
 
-  // Spotlight cutout
+  // Spotlight cutout — animate via transform on SVG for GPU compositing
   const P = 8;
   const R = 12;
   const sx = (targetRect?.left ?? 0) - P;
@@ -156,7 +217,9 @@ export function GuidedSpotlight() {
               height={sh}
               rx={R}
               fill="black"
-              style={{ transition: 'all 400ms cubic-bezier(0.25,0.1,0.25,1)' }}
+              style={{
+                transition: `x 350ms ${SPOTLIGHT_EASING}, y 350ms ${SPOTLIGHT_EASING}, width 350ms ${SPOTLIGHT_EASING}, height 350ms ${SPOTLIGHT_EASING}`,
+              }}
             />
           </mask>
         </defs>

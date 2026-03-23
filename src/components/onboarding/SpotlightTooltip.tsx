@@ -161,7 +161,7 @@ export function SpotlightTooltip({
         ...tooltipStyle,
         top: pos?.top ?? -9999,
         left: pos?.left ?? -9999,
-        transition: 'top 400ms cubic-bezier(0.25,0.1,0.25,1), left 400ms cubic-bezier(0.25,0.1,0.25,1)',
+        transition: 'top 350ms cubic-bezier(0.22, 1, 0.36, 1), left 350ms cubic-bezier(0.22, 1, 0.36, 1)',
       }}
     >
       <TooltipBody {...bodyProps} />

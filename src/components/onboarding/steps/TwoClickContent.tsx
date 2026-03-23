@@ -3,15 +3,14 @@ import { AnimatedEntry } from '../AnimatedEntry';
 import { PlatformMockup } from '../PlatformMockup';
 
 export function TwoClickContent() {
-  const { osChoice, beginTour } = useOnboarding();
+  const { osChoice, nextStep } = useOnboarding();
 
-  const isGroovySpace = osChoice === 'groovy-space';
   const osLabel =
     osChoice === 'slack' ? 'Slack' : osChoice === 'teams' ? 'Teams' : osChoice === 'lark' ? 'Lark' : 'Groovy Space';
 
   const ctaButton = (label: string) => (
     <button
-      onClick={beginTour}
+      onClick={nextStep}
       className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 text-body font-semibold text-white transition-all duration-200"
       style={{
         background: 'var(--primary)',
@@ -31,43 +30,6 @@ export function TwoClickContent() {
       </svg>
     </button>
   );
-
-  if (isGroovySpace) {
-    return (
-      <div>
-        <AnimatedEntry delay={0}>
-          <h2 className="text-[32px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.03em] text-text-primary">
-            Your workspace is ready.
-          </h2>
-        </AnimatedEntry>
-
-        <AnimatedEntry delay={150}>
-          <p className="mt-4 text-[17px] md:text-[20px] leading-[1.6] text-text-secondary">
-            Groovy Space is your all-in-one workspace with agents, calendar, and team chat built in. No external tools needed.
-          </p>
-        </AnimatedEntry>
-
-        <AnimatedEntry delay={300}>
-          <div className="flex flex-wrap gap-2.5 mt-8">
-            {['🤖 Agents', '📅 Calendar', '💬 Chats'].map((pill) => (
-              <span
-                key={pill}
-                className="rounded-full px-4 py-2 text-caption font-medium bg-comfort text-electric-bright"
-              >
-                {pill}
-              </span>
-            ))}
-          </div>
-        </AnimatedEntry>
-
-        <AnimatedEntry delay={450}>
-          <div className="mt-8">
-            {ctaButton('Enter Groovy Space')}
-          </div>
-        </AnimatedEntry>
-      </div>
-    );
-  }
 
   return (
     <div>

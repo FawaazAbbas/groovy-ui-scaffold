@@ -1,7 +1,16 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import { useOnboarding } from '@/contexts/OnboardingContext';
 
 export default function MarketingLayout() {
+  const { startOnboarding } = useOnboarding();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    startOnboarding();
+    navigate('/marketplace');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-surface">
@@ -26,12 +35,12 @@ export default function MarketingLayout() {
             <Link to="/login" className="text-body-sm font-medium text-text-secondary hover:text-text-primary">
               Sign In
             </Link>
-            <Link
-              to="/integrations"
+            <button
+              onClick={handleGetStarted}
               className="rounded-lg bg-primary px-4 py-2 text-body-sm font-medium text-white hover:bg-primary-hover transition-colors"
             >
               Get Started
-            </Link>
+            </button>
           </div>
         </div>
       </header>

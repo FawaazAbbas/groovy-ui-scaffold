@@ -32,8 +32,8 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* Redirect root to integrations (onboarding overlays here) */}
-            <Route path="/" element={<Navigate to="/integrations" replace />} />
+            {/* Redirect root to marketplace */}
+            <Route path="/" element={<Navigate to="/marketplace" replace />} />
 
             {/* Marketing routes */}
             <Route element={<MarketingLayout />}>
