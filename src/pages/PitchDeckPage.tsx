@@ -54,7 +54,8 @@ export default function PitchDeckPage() {
   return (
     <div
       ref={containerRef}
-      className={`flex flex-col h-full ${isFullscreen ? 'bg-[#0a0a0a]' : 'bg-transparent'}`}
+      className={`flex flex-col ${isFullscreen ? 'bg-[#0a0a0a]' : 'bg-[#0a0a0a]'}`}
+      style={{ height: '100vh' }}
     >
       {/* Main canvas */}
       <div className="flex-1 relative min-h-0">

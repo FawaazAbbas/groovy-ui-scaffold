@@ -55,7 +55,10 @@ const App = () => (
             <Route path="/architecture" element={<ArchitecturePage />} />
             <Route path="/activity" element={<ActivityPage />} />
             <Route path="/integrations" element={<IntegrationsPage />} />
-            <Route path="/pitch-deck" element={<PitchDeckPage />} />
+          </Route>
+
+          {/* Standalone pitch deck */}
+          <Route path="/pitch-deck" element={<PitchDeckPage />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
