@@ -59,7 +59,6 @@ const App = () => (
 
           {/* Standalone pitch deck */}
           <Route path="/pitch-deck" element={<PitchDeckPage />} />
-          </Route>
 
           <Route path="*" element={<NotFound />} />
         </Routes>
