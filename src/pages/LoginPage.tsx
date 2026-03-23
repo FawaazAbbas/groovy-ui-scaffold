@@ -43,7 +43,7 @@ export default function LoginPage() {
       </div>
 
       <p className="mt-8 text-caption text-text-secondary">
-        Don't have an account? <Link to="/onboard" className="text-primary hover:underline">Get started</Link>
+        Don't have an account? <Link to="/integrations" className="text-primary hover:underline">Get started</Link>
       </p>
     </div>
   );
