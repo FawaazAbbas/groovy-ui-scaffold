@@ -10,9 +10,9 @@ import { mockSession } from '@/lib/mocks/session';
 import { CommandPalette } from '@/components/CommandPalette';
 
 const navItems = [
-  { label: 'Chats', icon: MessageSquare, path: '/chats' },
-  { label: 'Tasks', icon: CheckSquare, path: '/tasks' },
-  { label: 'Calendar', icon: Calendar, path: '/calendar' },
+  { label: 'Chats', icon: MessageSquare, path: '/chats', tourId: 'nav-chats' },
+  { label: 'Tasks', icon: CheckSquare, path: '/tasks', tourId: 'nav-tasks' },
+  { label: 'Calendar', icon: Calendar, path: '/calendar', tourId: 'nav-calendar' },
   { label: 'Files', icon: FolderOpen, path: '/files' },
   { label: 'Activity', icon: Activity, path: '/activity' },
   { label: 'Architecture', icon: Network, path: '/architecture' },
