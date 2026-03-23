@@ -1,6 +1,5 @@
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { AnimatedEntry } from '../AnimatedEntry';
-import { PrimaryButton } from '../PrimaryButton';
 import { OSCard } from '../OSCard';
 import type { OSChoice } from '@/types/onboarding';
 
@@ -17,19 +16,13 @@ export function OSChoiceContent() {
   return (
     <div>
       <AnimatedEntry delay={0}>
-        <h2
-          className="text-[32px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.03em]"
-          style={{ color: 'var(--onb-charcoal)' }}
-        >
+        <h2 className="text-[32px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.03em] text-text-primary">
           Where does your team work?
         </h2>
       </AnimatedEntry>
 
       <AnimatedEntry delay={100}>
-        <p
-          className="mt-3 text-[15px] md:text-[17px] leading-[1.6]"
-          style={{ color: 'var(--onb-warm-brown)' }}
-        >
+        <p className="mt-3 text-[15px] md:text-[17px] leading-[1.6] text-text-secondary">
           Pick where your AI employees will show up.
         </p>
       </AnimatedEntry>
@@ -51,13 +44,27 @@ export function OSChoiceContent() {
 
       <AnimatedEntry delay={400}>
         <div className="mt-8">
-          <PrimaryButton onClick={nextStep} disabled={!osChoice}>
+          <button
+            onClick={nextStep}
+            disabled={!osChoice}
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 text-body font-semibold text-white transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{
+              background: !osChoice ? 'var(--text-secondary)' : 'var(--primary)',
+              boxShadow: !osChoice ? 'none' : 'var(--shadow-md)',
+            }}
+            onMouseEnter={(e) => {
+              if (osChoice) e.currentTarget.style.background = 'var(--primary-hover)';
+            }}
+            onMouseLeave={(e) => {
+              if (osChoice) e.currentTarget.style.background = 'var(--primary)';
+            }}
+          >
             Continue
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <line x1="3" y1="8" x2="12" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
               <polyline points="9,4.5 12.5,8 9,11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
             </svg>
-          </PrimaryButton>
+          </button>
         </div>
       </AnimatedEntry>
     </div>

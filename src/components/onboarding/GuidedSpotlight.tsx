@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { getTourSteps } from '@/lib/onboarding-config';
@@ -14,12 +14,13 @@ export function GuidedSpotlight() {
   const [tourPhase, setTourPhase] = useState<TourPhase>('waiting-for-target');
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  // Use ref for nextTourStep to avoid re-creating pollForTarget
   const nextTourStepRef = useRef(nextTourStep);
   nextTourStepRef.current = nextTourStep;
 
-  const tourSteps = getTourSteps(osChoice);
+  // Memoize tour steps to prevent new references every render
+  const tourSteps = useMemo(() => getTourSteps(osChoice), [osChoice]);
   const step = tourSteps[tourStepIndex] ?? null;
+  const stepId = step?.id ?? null;
 
   const pollForTarget = useCallback(
     (targetId: string | null) => {
@@ -42,15 +43,14 @@ export function GuidedSpotlight() {
         } else if (attempts >= 50) {
           clearInterval(pollRef.current!);
           pollRef.current = null;
-          // Skip this step if target never appears
           nextTourStepRef.current();
         }
       }, 100);
     },
-    [] // no dependencies — uses ref for nextTourStep
+    []
   );
 
-  // React to step/pathname changes
+  // React to step/pathname changes — use stepId (string) as dependency, not object
   useEffect(() => {
     if (!step) return;
     if (step.page !== location.pathname) {
@@ -63,7 +63,7 @@ export function GuidedSpotlight() {
     return () => {
       if (pollRef.current) clearInterval(pollRef.current);
     };
-  }, [step, location.pathname, pollForTarget, navigate]);
+  }, [stepId, location.pathname, pollForTarget, navigate]);
 
   // Update rect on scroll/resize
   useEffect(() => {
@@ -78,7 +78,7 @@ export function GuidedSpotlight() {
       window.removeEventListener('scroll', update);
       window.removeEventListener('resize', update);
     };
-  }, [tourPhase, step]);
+  }, [tourPhase, stepId]);
 
   useEffect(
     () => () => {
