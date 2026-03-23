@@ -95,7 +95,7 @@ export function TwoClickContent() {
       </AnimatedEntry>
 
       {/* Platform mockup */}
-      {osChoice && osChoice !== 'groovy-space' && (
+      {osChoice && (
         <AnimatedEntry delay={300}>
           <div className="mt-10">
             <PlatformMockup osChoice={osChoice} />

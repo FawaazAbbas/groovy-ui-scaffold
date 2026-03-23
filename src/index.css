@@ -239,3 +239,35 @@
     background: linear-gradient(90deg, transparent, rgba(245, 200, 66, 0.15) 20%, rgba(96, 165, 250, 0.15) 80%, transparent);
   }
 }
+
+/* Onboarding tokens */
+:root {
+  --onb-parchment: #F3E7D3;
+  --onb-charcoal: #2B2A28;
+  --onb-comfort-green: #CDEFBC;
+  --onb-warm-brown: #A67C52;
+  --onb-electric-neon: #39FF14;
+  --onb-parchment-dark: #EAD9C0;
+}
+
+/* Onboarding keyframes */
+@keyframes onb-fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes onb-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes onb-fade-in-up {
+    from { opacity: 1; transform: none; }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes onb-fade-out {
+    from { opacity: 0; }
+    to { opacity: 0; }
+  }
+}
