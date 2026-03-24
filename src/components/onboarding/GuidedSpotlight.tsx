@@ -7,7 +7,18 @@ import { SpotlightTooltip } from './SpotlightTooltip';
 type TourPhase = 'visible' | 'navigating' | 'waiting-for-target';
 
 const SPOTLIGHT_EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
-const TIMEOUT_MS = 5000;
+const MAX_POLL_FRAMES = 60; // ~1 second at 60fps
+
+function rectsEqual(a: DOMRect | null, b: DOMRect | null, threshold = 1): boolean {
+  if (a === b) return true;
+  if (!a || !b) return false;
+  return (
+    Math.abs(a.top - b.top) < threshold &&
+    Math.abs(a.left - b.left) < threshold &&
+    Math.abs(a.width - b.width) < threshold &&
+    Math.abs(a.height - b.height) < threshold
+  );
+}
 
 export function GuidedSpotlight() {
   const location = useLocation();
@@ -16,93 +27,94 @@ export function GuidedSpotlight() {
 
   const [tourPhase, setTourPhase] = useState<TourPhase>('waiting-for-target');
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
-  const observerRef = useRef<MutationObserver | null>(null);
+  const lastRectRef = useRef<DOMRect | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rafRef = useRef<number>(0);
+  const pollCountRef = useRef(0);
   const nextTourStepRef = useRef(nextTourStep);
   nextTourStepRef.current = nextTourStep;
 
+  // Lock tour steps at mount so they don't change mid-tour
   const tourSteps = useMemo(() => getTourSteps(osChoice), [osChoice]);
+  const tourStepsRef = useRef(tourSteps);
+  // Only update ref if osChoice actually changes (shouldn't during tour)
+  tourStepsRef.current = tourSteps;
+
   const step = tourSteps[tourStepIndex] ?? null;
   const stepId = step?.id ?? null;
 
-  // Clean up all observers
-  const cleanup = useCallback(() => {
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-      observerRef.current = null;
+  // Memoized rect updater — only sets state if rect actually changed
+  const updateRect = useCallback((el: Element) => {
+    const rect = el.getBoundingClientRect();
+    if (!rectsEqual(rect, lastRectRef.current)) {
+      lastRectRef.current = rect;
+      setTargetRect(rect);
     }
+  }, []);
+
+  // Clean up observers and polling
+  const cleanup = useCallback(() => {
     if (resizeObserverRef.current) {
       resizeObserverRef.current.disconnect();
       resizeObserverRef.current = null;
-    }
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
     }
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = 0;
     }
+    pollCountRef.current = 0;
   }, []);
 
-  // Watch target element for size/position changes
+  // Watch target element for size changes via ResizeObserver
   const watchTarget = useCallback((el: Element) => {
-    // ResizeObserver for element size changes
     resizeObserverRef.current = new ResizeObserver(() => {
-      rafRef.current = requestAnimationFrame(() => {
-        setTargetRect(el.getBoundingClientRect());
-      });
+      rafRef.current = requestAnimationFrame(() => updateRect(el));
     });
     resizeObserverRef.current.observe(el);
-  }, []);
+  }, [updateRect]);
 
-  // Find target using MutationObserver instead of polling
+  // Find target via rAF polling (max 60 frames ≈ 1sec)
   const findTarget = useCallback(
     (targetId: string | null) => {
       cleanup();
 
       if (targetId === null) {
+        lastRectRef.current = null;
         setTargetRect(null);
         setTourPhase('visible');
         return;
       }
 
-      // Try immediately first
+      // Try immediately
       const existing = document.querySelector(`[data-tour="${targetId}"]`);
       if (existing) {
-        setTargetRect(existing.getBoundingClientRect());
+        updateRect(existing);
         setTourPhase('visible');
         watchTarget(existing);
         return;
       }
 
-      // Watch for DOM mutations
-      observerRef.current = new MutationObserver(() => {
-        rafRef.current = requestAnimationFrame(() => {
-          const el = document.querySelector(`[data-tour="${targetId}"]`);
-          if (el) {
-            cleanup();
-            setTargetRect(el.getBoundingClientRect());
-            setTourPhase('visible');
-            watchTarget(el);
-          }
-        });
-      });
-
-      observerRef.current.observe(document.body, {
-        childList: true,
-        subtree: true,
-      });
-
-      // 5s timeout fallback — skip step if element never appears
-      timeoutRef.current = setTimeout(() => {
-        cleanup();
-        nextTourStepRef.current();
-      }, TIMEOUT_MS);
+      // rAF polling loop — capped at MAX_POLL_FRAMES
+      pollCountRef.current = 0;
+      const poll = () => {
+        pollCountRef.current++;
+        const el = document.querySelector(`[data-tour="${targetId}"]`);
+        if (el) {
+          updateRect(el);
+          setTourPhase('visible');
+          watchTarget(el);
+          return;
+        }
+        if (pollCountRef.current >= MAX_POLL_FRAMES) {
+          // Element never appeared — skip to next step
+          nextTourStepRef.current();
+          return;
+        }
+        rafRef.current = requestAnimationFrame(poll);
+      };
+      rafRef.current = requestAnimationFrame(poll);
     },
-    [cleanup, watchTarget],
+    [cleanup, watchTarget, updateRect],
   );
 
   // React to step/pathname changes
@@ -118,7 +130,7 @@ export function GuidedSpotlight() {
     return cleanup;
   }, [stepId, location.pathname, findTarget, navigate, cleanup]);
 
-  // Passive scroll listener with rAF throttle for position updates
+  // Passive scroll listener with rAF throttle
   useEffect(() => {
     if (tourPhase !== 'visible' || !step?.targetId) return;
 
@@ -128,19 +140,21 @@ export function GuidedSpotlight() {
       ticking = true;
       requestAnimationFrame(() => {
         const el = document.querySelector(`[data-tour="${step.targetId}"]`);
-        if (el) setTargetRect(el.getBoundingClientRect());
+        if (el) updateRect(el);
         ticking = false;
       });
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [tourPhase, stepId]);
+  }, [tourPhase, stepId, updateRect]);
 
   // Cleanup on unmount
   useEffect(() => cleanup, [cleanup]);
 
   if (!step) return null;
+
+  const totalSteps = tourStepsRef.current.length;
 
   const handleNext = () => {
     if (step.isFinal) {
@@ -178,14 +192,14 @@ export function GuidedSpotlight() {
     );
   }
 
-  // Final step — centred modal
+  // Final step — centred modal (no spotlight cutout)
   if (step.targetId === null) {
     return (
       <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
         <SpotlightTooltip
           step={step}
           index={tourStepIndex}
-          total={tourSteps.length}
+          total={totalSteps}
           onNext={handleNext}
           onBack={handleBack}
           onSkip={completeOnboarding}
@@ -196,13 +210,22 @@ export function GuidedSpotlight() {
     );
   }
 
-  // Spotlight cutout — animate via transform on SVG for GPU compositing
+  // Spotlight cutout — use transform for GPU compositing
   const P = 8;
   const R = 12;
-  const sx = (targetRect?.left ?? 0) - P;
-  const sy = (targetRect?.top ?? 0) - P;
-  const sw = (targetRect?.width ?? 0) + P * 2;
-  const sh = (targetRect?.height ?? 0) + P * 2;
+  const cx = (targetRect?.left ?? 0) - P;
+  const cy = (targetRect?.top ?? 0) - P;
+  const cw = (targetRect?.width ?? 0) + P * 2;
+  const ch = (targetRect?.height ?? 0) + P * 2;
+
+  const cutoutStyle = {
+    position: 'fixed' as const,
+    top: cy,
+    left: cx,
+    width: cw,
+    height: ch,
+    borderRadius: R,
+  };
 
   return (
     <div className="fixed inset-0 z-[9999]" aria-modal="true" role="dialog">
@@ -210,17 +233,20 @@ export function GuidedSpotlight() {
         <defs>
           <mask id="tour-mask">
             <rect width="100%" height="100%" fill="white" />
-            <rect
-              x={sx}
-              y={sy}
-              width={sw}
-              height={sh}
-              rx={R}
-              fill="black"
-              style={{
-                transition: `x 350ms ${SPOTLIGHT_EASING}, y 350ms ${SPOTLIGHT_EASING}, width 350ms ${SPOTLIGHT_EASING}, height 350ms ${SPOTLIGHT_EASING}`,
-              }}
-            />
+            <g
+              className="tour-spotlight-cutout"
+              style={{ transform: `translate3d(${cx}px, ${cy}px, 0)` }}
+            >
+              <rect
+                width={cw}
+                height={ch}
+                rx={R}
+                fill="black"
+                style={{
+                  transition: `width 350ms ${SPOTLIGHT_EASING}, height 350ms ${SPOTLIGHT_EASING}`,
+                }}
+              />
+            </g>
           </mask>
         </defs>
         <rect
@@ -231,10 +257,22 @@ export function GuidedSpotlight() {
           style={{ pointerEvents: 'all' }}
         />
       </svg>
+
+      {/* Pulsing ring — signals "this is clickable" */}
+      <div className="tour-pulse-ring" style={{ ...cutoutStyle, zIndex: 10001, pointerEvents: 'none' }} />
+
+      {/* Transparent click-capture zone — intercepts clicks on the highlighted element */}
+      <div
+        className="tour-click-zone"
+        style={{ ...cutoutStyle, zIndex: 10002, cursor: 'pointer' }}
+        onClick={handleNext}
+        aria-label="Click to continue tour"
+      />
+
       <SpotlightTooltip
         step={step}
         index={tourStepIndex}
-        total={tourSteps.length}
+        total={totalSteps}
         onNext={handleNext}
         onBack={handleBack}
         onSkip={completeOnboarding}

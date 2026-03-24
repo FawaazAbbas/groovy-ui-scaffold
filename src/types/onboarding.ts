@@ -37,6 +37,7 @@ export interface TourStep {
   targetId: string | null;
   title: string;
   description: string;
+  instruction?: string; // "Click the agent card" — shown instead of Next button
   position: 'top' | 'bottom' | 'left' | 'right' | 'center';
   page: string;
   isFinal?: boolean;

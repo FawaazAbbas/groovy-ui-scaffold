@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { StepTransition } from './StepTransition';
 import { GuidedSpotlight } from './GuidedSpotlight';
@@ -32,6 +33,15 @@ export function OnboardingOverlay() {
     skipOnboarding,
     prevStep,
   } = useOnboarding();
+
+  // Add/remove onboarding-active class on body during tour to disable global transitions
+  useEffect(() => {
+    if (overlayPhase === 'tour') {
+      document.body.classList.add('onboarding-active');
+      return () => document.body.classList.remove('onboarding-active');
+    }
+    document.body.classList.remove('onboarding-active');
+  }, [overlayPhase]);
 
   // Don't render anything when idle or complete
   if (overlayPhase === 'idle' || overlayPhase === 'complete' || isOnboardingComplete) return null;

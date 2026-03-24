@@ -21,7 +21,7 @@ function calcPosition(
   vw: number,
   vh: number,
   gap = 16
-) {
+): { top: number; left: number } {
   const pos: Record<string, { top: number; left: number }> = {
     bottom: { top: anchor.bottom + gap, left: anchor.left + anchor.width / 2 - tw / 2 },
     top: { top: anchor.top - gap - th, left: anchor.left + anchor.width / 2 - tw / 2 },
@@ -58,32 +58,52 @@ function TooltipBody({
       <p className="mt-1.5 text-body-sm leading-relaxed text-text-secondary">
         {step.description}
       </p>
-      <div className="flex items-center gap-3 mt-4">
-        {!isFirst && (
+
+      {step.isFinal ? (
+        /* Final step — no element to click, show explicit button */
+        <div className="flex items-center gap-3 mt-4">
+          {!isFirst && (
+            <button
+              onClick={onBack}
+              className="inline-flex items-center gap-1.5 text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"
+            >
+              ← Back
+            </button>
+          )}
           <button
-            onClick={onBack}
-            className="inline-flex items-center gap-1.5 text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"
+            onClick={onNext}
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-body-sm font-semibold text-white transition-all duration-200"
+            style={{ background: 'var(--primary)', boxShadow: 'var(--shadow-sm)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--primary-hover)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--primary)'; }}
           >
-            ← Back
+            Let's go!
           </button>
-        )}
-        <button
-          onClick={onNext}
-          className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-body-sm font-semibold text-white transition-all duration-200"
-          style={{
-            background: 'var(--primary)',
-            boxShadow: 'var(--shadow-sm)',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'var(--primary-hover)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'var(--primary)';
-          }}
-        >
-          {step.isFinal ? "Let's go!" : 'Next →'}
-        </button>
-      </div>
+        </div>
+      ) : (
+        /* Interactive step — user clicks the highlighted element */
+        <div className="mt-4">
+          {step.instruction && (
+            <p
+              className="text-body-sm font-semibold"
+              style={{ color: 'var(--primary)' }}
+            >
+              👆 {step.instruction}
+            </p>
+          )}
+          <div className="flex items-center gap-3 mt-3">
+            {!isFirst && (
+              <button
+                onClick={onBack}
+                className="inline-flex items-center gap-1.5 text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"
+              >
+                ← Back
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       <button
         onClick={onSkip}
         className="mt-3 text-caption text-text-secondary hover:text-text-primary transition-colors duration-200"
@@ -106,8 +126,10 @@ export function SpotlightTooltip({
   anchorRect,
 }: SpotlightTooltipProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
+  const [pos, setPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const [isMobile, setIsMobile] = useState(false);
+  const [measured, setMeasured] = useState(false);
+  const lastAnchorRef = useRef<DOMRect | null>(null);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -115,10 +137,26 @@ export function SpotlightTooltip({
 
   useEffect(() => {
     if (mode !== 'positioned' || !anchorRect || !ref.current || isMobile) return;
+
+    // Skip if anchor hasn't meaningfully changed
+    const prev = lastAnchorRef.current;
+    if (
+      prev &&
+      Math.abs(prev.top - anchorRect.top) < 1 &&
+      Math.abs(prev.left - anchorRect.left) < 1 &&
+      Math.abs(prev.width - anchorRect.width) < 1 &&
+      Math.abs(prev.height - anchorRect.height) < 1
+    ) {
+      return;
+    }
+    lastAnchorRef.current = anchorRect;
+
     const rect = ref.current.getBoundingClientRect();
-    setPos(
-      calcPosition(anchorRect, step.position, rect.width, rect.height, window.innerWidth, window.innerHeight)
+    const newPos = calcPosition(
+      anchorRect, step.position, rect.width, rect.height, window.innerWidth, window.innerHeight
     );
+    setPos(newPos);
+    setMeasured(true);
   }, [anchorRect, step.position, mode, isMobile]);
 
   const tooltipStyle = {
@@ -152,16 +190,18 @@ export function SpotlightTooltip({
     );
   }
 
-  // Positioned mode
+  // Positioned mode — use transform for GPU compositing
   return (
     <div
       ref={ref}
-      className="fixed z-[10001] w-[320px] p-5"
+      className="fixed z-[10001] w-[320px] p-5 tour-tooltip"
       style={{
         ...tooltipStyle,
-        top: pos?.top ?? -9999,
-        left: pos?.left ?? -9999,
-        transition: 'top 350ms cubic-bezier(0.22, 1, 0.36, 1), left 350ms cubic-bezier(0.22, 1, 0.36, 1)',
+        top: 0,
+        left: 0,
+        transform: measured
+          ? `translate3d(${pos.left}px, ${pos.top}px, 0)`
+          : 'translate3d(-9999px, -9999px, 0)',
       }}
     >
       <TooltipBody {...bodyProps} />
