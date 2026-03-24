@@ -25,7 +25,7 @@ const priorityColors: Record<string, string> = {
   low: 'border-l-border-solid',
 };
 
-function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
+function TaskCard({ task, onClick, dataTour }: { task: Task; onClick: () => void; dataTour?: string }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: task.id });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 };
   const assignees = mockUsers.filter(u => task.assigneeIds.includes(u.id));
@@ -37,6 +37,7 @@ function TaskCard({ task, onClick }: { task: Task; onClick: () => void }) {
       {...attributes}
       {...listeners}
       onClick={onClick}
+      data-tour={dataTour}
       className={`cursor-grab rounded-2xl border border-border border-l-4 ${priorityColors[task.priority]} glass p-3 shadow-glass-sm hover:shadow-glass-md transition-all duration-200 active:cursor-grabbing`}
     >
       <h4 className="text-body-sm font-medium text-text-primary mb-2">{task.title}</h4>
@@ -76,8 +77,13 @@ function Column({ id, label, tasks, onTaskClick }: { id: string; label: string; 
       </div>
       <div ref={setNodeRef} className={`flex-1 space-y-2 rounded-2xl p-2 min-h-[200px] ${id === 'done' ? 'bg-electric/[0.04] neon-border' : 'bg-white/30'}`}>
         <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
-          {tasks.map(task => (
-            <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} />
+          {tasks.map((task, index) => (
+            <TaskCard
+              key={task.id}
+              task={task}
+              onClick={() => onTaskClick(task)}
+              dataTour={id === 'todo' && index === 0 ? 'first-task-card' : undefined}
+            />
           ))}
         </SortableContext>
       </div>

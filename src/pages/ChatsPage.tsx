@@ -28,6 +28,7 @@ export default function ChatsPage() {
               <button
                 key={chat.id}
                 onClick={() => setSelectedChat(chat)}
+                data-tour={chat.id === 'chat_01' ? 'leadscout-chat' : chat.id === 'chat_02' ? 'ticketsolver-chat' : undefined}
                 className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-all duration-200 ${
                   selectedChat.id === chat.id
                     ? chat.type === 'agent' ? 'bg-electric/[0.06] border-l-2 border-l-electric' : 'bg-white/60'

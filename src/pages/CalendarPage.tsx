@@ -143,6 +143,7 @@ export default function CalendarPage() {
                             <button
                               key={evt.id}
                               onClick={(e) => { e.stopPropagation(); setSelectedEvent(evt); }}
+                              data-tour={evt.id === 'evt_04' ? 'first-calendar-event' : undefined}
                               className={`w-full rounded-lg px-1.5 py-0.5 text-[10px] font-medium truncate border text-left ${sourceColors[evt.source]}`}
                             >
                               {evt.title}

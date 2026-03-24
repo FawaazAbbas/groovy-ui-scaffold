@@ -59,8 +59,8 @@ function TooltipBody({
         {step.description}
       </p>
 
-      {step.isFinal ? (
-        /* Final step — no element to click, show explicit button */
+      {(step.isFinal || step.showContinue) ? (
+        /* Final step or center-modal explanation step — show explicit button */
         <div className="flex items-center gap-3 mt-4">
           {!isFirst && (
             <button
@@ -77,7 +77,7 @@ function TooltipBody({
             onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--primary-hover)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--primary)'; }}
           >
-            Let's go!
+            {step.isFinal ? "Let's go!" : 'Continue →'}
           </button>
         </div>
       ) : (

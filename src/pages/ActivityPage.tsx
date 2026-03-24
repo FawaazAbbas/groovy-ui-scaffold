@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { mockActivity, ActivityEntry } from '@/lib/mocks/activity';
-import { ChevronDown, ChevronRight, Filter } from 'lucide-react';
+import { Fragment, useState } from 'react';
+import { mockActivity } from '@/lib/mocks/activity';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 const actionTypeColors: Record<string, string> = {
   message_sent: 'bg-primary/10 text-primary',
@@ -74,20 +74,26 @@ export default function ActivityPage() {
             </tr>
           </thead>
           <tbody>
-            {filtered.map(entry => (
-              <>
+            {filtered.map((entry, index) => (
+              <Fragment key={entry.id}>
                 <tr
-                  key={entry.id}
                   onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}
+                  data-tour={index === 0 ? 'first-activity-row' : undefined}
                   className="border-b border-border/50 cursor-pointer hover:bg-white/30 transition-colors"
                 >
                   <td className="px-4 py-3">
-                    {expandedId === entry.id ? <ChevronDown className="h-3.5 w-3.5 text-text-secondary" /> : <ChevronRight className="h-3.5 w-3.5 text-text-secondary" />}
+                    {expandedId === entry.id
+                      ? <ChevronDown className="h-3.5 w-3.5 text-text-secondary" />
+                      : <ChevronRight className="h-3.5 w-3.5 text-text-secondary" />}
                   </td>
-                  <td className="px-4 py-3 font-mono text-[11px] text-text-secondary/60 whitespace-nowrap tracking-wider">{new Date(entry.timestamp).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+                  <td className="px-4 py-3 font-mono text-[11px] text-text-secondary/60 whitespace-nowrap tracking-wider">
+                    {new Date(entry.timestamp).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                  </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric-bright text-[10px] font-bold neon-glow-sm">{entry.agentName[0]}</div>
+                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric-bright text-[10px] font-bold neon-glow-sm">
+                        {entry.agentName[0]}
+                      </div>
                       <span className="text-text-primary font-medium">{entry.agentName}</span>
                     </div>
                   </td>
@@ -98,18 +104,20 @@ export default function ActivityPage() {
                   </td>
                   <td className="px-4 py-3 text-text-primary">{entry.target}</td>
                   <td className="px-4 py-3">
-                    <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${statusColors[entry.status]}`}>{entry.status}</span>
+                    <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${statusColors[entry.status]}`}>
+                      {entry.status}
+                    </span>
                   </td>
                   <td className="px-4 py-3 font-mono text-[11px] text-electric/60">{entry.creditCost} cr</td>
                 </tr>
                 {expandedId === entry.id && (
-                  <tr key={`${entry.id}-detail`} className="border-b border-border/50 bg-white/20">
+                  <tr className="border-b border-border/50 bg-white/20">
                     <td colSpan={7} className="px-8 py-4">
                       <p className="text-body-sm text-text-primary">{entry.details}</p>
                     </td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>

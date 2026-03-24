@@ -1,98 +1,92 @@
 import type { TourStep, OSChoice } from '@/types/onboarding';
 
-const externalOSTourSteps: TourStep[] = [
+const tourSteps: TourStep[] = [
   {
-    id: 'agent-card',
-    targetId: 'featured-agent-card',
-    title: 'Meet your first agent',
-    description: 'Each agent specialises in a business function. Click one to see what it can do.',
-    instruction: 'Click the agent card',
+    id: 'marketplace-install',
+    targetId: 'leadscout-install-btn',
+    title: 'Hire your first AI agent',
+    description: 'LeadScout qualifies leads and scores prospects automatically. Add it to your workspace now.',
+    instruction: 'Click Install to hire LeadScout',
     position: 'bottom',
     page: '/space/marketplace',
+    passthrough: true,
   },
   {
-    id: 'chats-nav',
-    targetId: 'nav-chats',
-    title: 'Chat with your agents',
-    description: 'Talk to agents directly inside [OS]. Give tasks, ask questions, get updates.',
-    instruction: 'Click Chats in the sidebar',
+    id: 'nav-to-integrations',
+    targetId: 'nav-integrations',
+    title: 'Connect your tools',
+    description: 'Your agents need access to the apps you already use. Let\'s set that up.',
+    instruction: 'Click Integrations in the sidebar',
     position: 'right',
     page: '/space/marketplace',
   },
   {
-    id: 'tasks-nav',
-    targetId: 'nav-tasks',
-    title: 'Task Management',
-    description: 'Track work across your team and agents. Drag tasks between columns.',
-    instruction: 'Click Tasks in the sidebar',
+    id: 'integrations-explain',
+    targetId: null,
+    title: 'Your integration hub',
+    description: 'This is where you authorise the tools your AI agents can access — Slack, Google, Salesforce, and more. Agents can only touch what you explicitly connect here.',
+    position: 'center',
+    page: '/space/integrations',
+    showContinue: true,
+  },
+  {
+    id: 'nav-to-activity',
+    targetId: 'nav-activity',
+    title: 'See what\'s happening',
+    description: 'Every action your agents take is logged in real time.',
+    instruction: 'Click Activity in the sidebar',
+    position: 'right',
+    page: '/space/integrations',
+  },
+  {
+    id: 'activity-first-row',
+    targetId: 'first-activity-row',
+    title: 'Live activity feed',
+    description: 'Every tool call, decision, and task your agents perform appears here instantly.',
+    instruction: 'Click an entry to inspect it',
+    position: 'bottom',
+    page: '/space/activity',
+    passthrough: true,
+  },
+  {
+    id: 'activity-explain',
+    targetId: null,
+    title: 'Full visibility, always',
+    description: 'You can see exactly what each agent did, why, and what changed. Nothing happens in a black box.',
+    position: 'center',
+    page: '/space/activity',
+    showContinue: true,
+  },
+  {
+    id: 'nav-to-chats',
+    targetId: 'nav-chats',
+    title: 'Talk to your agents',
+    description: 'Your agents are conversational too — ask them anything, delegate tasks, get live updates.',
+    instruction: 'Click Chats in the sidebar',
+    position: 'right',
+    page: '/space/activity',
+  },
+  {
+    id: 'chats-ticketsolver',
+    targetId: 'ticketsolver-chat',
+    title: 'Your AI team in action',
+    description: 'Every agent you hire gets a dedicated chat thread. TicketSolver just auto-resolved 8 support tickets — click to see exactly what it did.',
+    instruction: 'Click TicketSolver to open the thread',
     position: 'right',
     page: '/space/chats',
+    passthrough: true,
   },
   {
     id: 'tour-complete',
     targetId: null,
     title: "You're all set",
-    description: 'Your [OS] workspace is connected. Go hire some agents from the marketplace.',
+    description: 'Your workspace is live. Head to the marketplace anytime to grow your AI team.',
     position: 'center',
     page: '/space/chats',
     isFinal: true,
   },
 ];
 
-const groovySpaceTourSteps: TourStep[] = [
-  {
-    id: 'chats-nav',
-    targetId: 'nav-chats',
-    title: 'Team Chat + Agent Chat',
-    description: 'Talk to your agents and your team in one place.',
-    instruction: 'Click Chats in the sidebar',
-    position: 'right',
-    page: '/space/chats',
-  },
-  {
-    id: 'tasks-nav',
-    targetId: 'nav-tasks',
-    title: 'Task Management',
-    description: 'Track tasks across your team. Agents create and complete tasks for you.',
-    instruction: 'Click Tasks in the sidebar',
-    position: 'right',
-    page: '/space/chats',
-  },
-  {
-    id: 'calendar-nav',
-    targetId: 'nav-calendar',
-    title: 'Your Calendar',
-    description: 'Agents schedule, remind, and manage events for your team.',
-    instruction: 'Click Calendar in the sidebar',
-    position: 'right',
-    page: '/space/tasks',
-  },
-  {
-    id: 'agent-card',
-    targetId: 'featured-agent-card',
-    title: 'The Marketplace',
-    description: 'Find specialist agents to grow your AI team.',
-    instruction: 'Click the agent card',
-    position: 'bottom',
-    page: '/space/calendar',
-  },
-  {
-    id: 'tour-complete',
-    targetId: null,
-    title: "You're all set",
-    description: 'Your Groovy Space is ready. Agents, calendar, chat — all here. Go explore.',
-    position: 'center',
-    page: '/space/marketplace',
-    isFinal: true,
-  },
-];
-
-export function getTourSteps(osChoice: OSChoice | null): TourStep[] {
-  if (osChoice === 'groovy-space') return groovySpaceTourSteps;
-  const label =
-    osChoice === 'slack' ? 'Slack' : osChoice === 'teams' ? 'Teams' : osChoice === 'lark' ? 'Lark' : 'your';
-  return externalOSTourSteps.map((s) => ({
-    ...s,
-    description: s.description.replace('[OS]', label),
-  }));
+export function getTourSteps(_osChoice: OSChoice | null): TourStep[] {
+  return tourSteps;
 }

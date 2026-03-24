@@ -41,4 +41,6 @@ export interface TourStep {
   position: 'top' | 'bottom' | 'left' | 'right' | 'center';
   page: string;
   isFinal?: boolean;
+  passthrough?: boolean; // also fire a real click on the target element so the page responds
+  showContinue?: boolean; // show a "Continue →" button on center-modal steps that aren't the final step
 }

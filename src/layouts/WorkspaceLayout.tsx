@@ -14,10 +14,10 @@ const navItems = [
   { label: 'Tasks', icon: CheckSquare, path: '/space/tasks', tourId: 'nav-tasks' },
   { label: 'Calendar', icon: Calendar, path: '/space/calendar', tourId: 'nav-calendar' },
   { label: 'Files', icon: FolderOpen, path: '/space/files' },
-  { label: 'Activity', icon: Activity, path: '/space/activity' },
+  { label: 'Activity', icon: Activity, path: '/space/activity', tourId: 'nav-activity' },
   { label: 'Architecture', icon: Network, path: '/space/architecture' },
   { label: 'Marketplace', icon: Store, path: '/space/marketplace', tourId: 'nav-marketplace' },
-  { label: 'Integrations', icon: Puzzle, path: '/space/integrations' },
+  { label: 'Integrations', icon: Puzzle, path: '/space/integrations', tourId: 'nav-integrations' },
   { label: 'Billing', icon: CreditCard, path: '/space/billing' },
 ];
 

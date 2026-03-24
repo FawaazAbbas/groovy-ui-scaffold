@@ -265,7 +265,12 @@ export function GuidedSpotlight() {
       <div
         className="tour-click-zone"
         style={{ ...cutoutStyle, zIndex: 10002, cursor: 'pointer' }}
-        onClick={handleNext}
+        onClick={() => {
+          if (step.passthrough && step.targetId) {
+            (document.querySelector(`[data-tour="${step.targetId}"]`) as HTMLElement)?.click();
+          }
+          handleNext();
+        }}
         aria-label="Click to continue tour"
       />
 
