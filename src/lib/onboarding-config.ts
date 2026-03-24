@@ -8,7 +8,7 @@ const externalOSTourSteps: TourStep[] = [
     description: 'Each agent specialises in a business function. Click one to see what it can do.',
     instruction: 'Click the agent card',
     position: 'bottom',
-    page: '/marketplace',
+    page: '/space/marketplace',
   },
   {
     id: 'chats-nav',
@@ -17,7 +17,7 @@ const externalOSTourSteps: TourStep[] = [
     description: 'Talk to agents directly inside [OS]. Give tasks, ask questions, get updates.',
     instruction: 'Click Chats in the sidebar',
     position: 'right',
-    page: '/chats',
+    page: '/space/marketplace',
   },
   {
     id: 'tasks-nav',
@@ -26,7 +26,7 @@ const externalOSTourSteps: TourStep[] = [
     description: 'Track work across your team and agents. Drag tasks between columns.',
     instruction: 'Click Tasks in the sidebar',
     position: 'right',
-    page: '/chats',
+    page: '/space/chats',
   },
   {
     id: 'tour-complete',
@@ -34,7 +34,7 @@ const externalOSTourSteps: TourStep[] = [
     title: "You're all set",
     description: 'Your [OS] workspace is connected. Go hire some agents from the marketplace.',
     position: 'center',
-    page: '/chats',
+    page: '/space/chats',
     isFinal: true,
   },
 ];
@@ -47,7 +47,7 @@ const groovySpaceTourSteps: TourStep[] = [
     description: 'Talk to your agents and your team in one place.',
     instruction: 'Click Chats in the sidebar',
     position: 'right',
-    page: '/chats',
+    page: '/space/chats',
   },
   {
     id: 'tasks-nav',
@@ -56,7 +56,7 @@ const groovySpaceTourSteps: TourStep[] = [
     description: 'Track tasks across your team. Agents create and complete tasks for you.',
     instruction: 'Click Tasks in the sidebar',
     position: 'right',
-    page: '/chats',
+    page: '/space/chats',
   },
   {
     id: 'calendar-nav',
@@ -65,7 +65,7 @@ const groovySpaceTourSteps: TourStep[] = [
     description: 'Agents schedule, remind, and manage events for your team.',
     instruction: 'Click Calendar in the sidebar',
     position: 'right',
-    page: '/chats',
+    page: '/space/tasks',
   },
   {
     id: 'agent-card',
@@ -74,7 +74,7 @@ const groovySpaceTourSteps: TourStep[] = [
     description: 'Find specialist agents to grow your AI team.',
     instruction: 'Click the agent card',
     position: 'bottom',
-    page: '/marketplace',
+    page: '/space/calendar',
   },
   {
     id: 'tour-complete',
@@ -82,7 +82,7 @@ const groovySpaceTourSteps: TourStep[] = [
     title: "You're all set",
     description: 'Your Groovy Space is ready. Agents, calendar, chat — all here. Go explore.',
     position: 'center',
-    page: '/marketplace',
+    page: '/space/marketplace',
     isFinal: true,
   },
 ];

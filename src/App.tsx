@@ -9,6 +9,7 @@ import MarketingLayout from "./layouts/MarketingLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import WorkspaceLayout from "./layouts/WorkspaceLayout";
 import MarketplacePage from "./pages/MarketplacePage";
+import WorkspaceMarketplacePage from "./pages/WorkspaceMarketplacePage";
 import AgentDetailPage from "./pages/AgentDetailPage";
 import LoginPage from "./pages/LoginPage";
 import ChatsPage from "./pages/ChatsPage";
@@ -48,14 +49,33 @@ const App = () => (
 
             {/* Workspace routes */}
             <Route element={<WorkspaceLayout />}>
-              <Route path="/chats" element={<ChatsPage />} />
-              <Route path="/tasks" element={<TasksPage />} />
-              <Route path="/calendar" element={<CalendarPage />} />
-              <Route path="/billing" element={<BillingPage />} />
-              <Route path="/files" element={<FilesPage />} />
-              <Route path="/architecture" element={<ArchitecturePage />} />
-              <Route path="/activity" element={<ActivityPage />} />
-              <Route path="/integrations" element={<IntegrationsPage />} />
+              <Route path="/space/chats" element={<ChatsPage />} />
+              <Route path="/space/tasks" element={<TasksPage />} />
+              <Route path="/space/calendar" element={<CalendarPage />} />
+              <Route path="/space/billing" element={<BillingPage />} />
+              <Route path="/space/files" element={<FilesPage />} />
+              <Route path="/space/architecture" element={<ArchitecturePage />} />
+              <Route path="/space/activity" element={<ActivityPage />} />
+              <Route path="/space/integrations" element={<IntegrationsPage />} />
+              <Route path="/space/marketplace" element={<WorkspaceMarketplacePage />} />
+            </Route>
+
+            {/* Auth routes */}
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<LoginPage />} />
+            </Route>
+
+            {/* Workspace routes */}
+            <Route element={<WorkspaceLayout />}>
+              <Route path="/space/chats" element={<ChatsPage />} />
+              <Route path="/space/tasks" element={<TasksPage />} />
+              <Route path="/space/calendar" element={<CalendarPage />} />
+              <Route path="/space/billing" element={<BillingPage />} />
+              <Route path="/space/files" element={<FilesPage />} />
+              <Route path="/space/architecture" element={<ArchitecturePage />} />
+              <Route path="/space/activity" element={<ActivityPage />} />
+              <Route path="/space/integrations" element={<IntegrationsPage />} />
+              <Route path="/space/marketplace" element={<WorkspaceMarketplacePage />} />
             </Route>
 
             {/* Standalone pitch deck */}

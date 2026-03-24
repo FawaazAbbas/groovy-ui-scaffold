@@ -10,15 +10,15 @@ import { mockSession } from '@/lib/mocks/session';
 import { CommandPalette } from '@/components/CommandPalette';
 
 const navItems = [
-  { label: 'Chats', icon: MessageSquare, path: '/chats', tourId: 'nav-chats' },
-  { label: 'Tasks', icon: CheckSquare, path: '/tasks', tourId: 'nav-tasks' },
-  { label: 'Calendar', icon: Calendar, path: '/calendar', tourId: 'nav-calendar' },
-  { label: 'Files', icon: FolderOpen, path: '/files' },
-  { label: 'Activity', icon: Activity, path: '/activity' },
-  { label: 'Architecture', icon: Network, path: '/architecture' },
-  { label: 'Marketplace', icon: Store, path: '/marketplace', tourId: 'nav-marketplace' },
-  { label: 'Integrations', icon: Puzzle, path: '/integrations' },
-  { label: 'Billing', icon: CreditCard, path: '/billing' },
+  { label: 'Chats', icon: MessageSquare, path: '/space/chats', tourId: 'nav-chats' },
+  { label: 'Tasks', icon: CheckSquare, path: '/space/tasks', tourId: 'nav-tasks' },
+  { label: 'Calendar', icon: Calendar, path: '/space/calendar', tourId: 'nav-calendar' },
+  { label: 'Files', icon: FolderOpen, path: '/space/files' },
+  { label: 'Activity', icon: Activity, path: '/space/activity' },
+  { label: 'Architecture', icon: Network, path: '/space/architecture' },
+  { label: 'Marketplace', icon: Store, path: '/space/marketplace', tourId: 'nav-marketplace' },
+  { label: 'Integrations', icon: Puzzle, path: '/space/integrations' },
+  { label: 'Billing', icon: CreditCard, path: '/space/billing' },
 ];
 
 export default function WorkspaceLayout() {
@@ -131,10 +131,10 @@ export default function WorkspaceLayout() {
               <Menu className="h-5 w-5" />
             </button>
             <nav className="hidden md:flex items-center gap-1.5 text-body-sm text-text-secondary">
-              <Link to="/chats" className="hover:text-text-primary transition-colors">Workspace</Link>
+              <Link to="/space/chats" className="hover:text-text-primary transition-colors">Workspace</Link>
               <span className="text-electric/30 font-mono">//</span>
               <span className="font-mono text-text-primary font-medium capitalize tracking-wide">
-                {location.pathname.split('/')[1] || 'chats'}
+                {location.pathname.split('/')[2] || 'chats'}
               </span>
             </nav>
           </div>
