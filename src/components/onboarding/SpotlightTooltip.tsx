@@ -49,9 +49,15 @@ function TooltipBody({
 }: Omit<SpotlightTooltipProps, 'mode' | 'anchorRect'>) {
   return (
     <div>
-      <p className="text-caption font-semibold text-electric" style={{ letterSpacing: '0.05em' }}>
-        {index + 1} of {total}
-      </p>
+      <div className="flex items-center gap-2 mb-1">
+        <div className="flex-1 h-1 rounded-full bg-black/[0.06] overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${((index + 1) / total) * 100}%`, background: 'var(--primary)' }}
+          />
+        </div>
+        <span className="text-caption text-text-secondary tabular-nums shrink-0">{index + 1}/{total}</span>
+      </div>
       <h3 className="mt-1 text-body font-semibold tracking-tight text-text-primary">
         {step.title}
       </h3>

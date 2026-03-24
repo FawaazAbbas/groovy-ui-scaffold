@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { mockActivity } from '@/lib/mocks/activity';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { mockApprovals, type TaskApproval } from '@/lib/mocks/approvals';
+import { ChevronDown, ChevronRight, CheckCircle2, XCircle, Clock, AlertTriangle, ShieldAlert, DollarSign, Database, Globe, Monitor, MessageSquare } from 'lucide-react';
 
 const actionTypeColors: Record<string, string> = {
   message_sent: 'bg-primary/10 text-primary',
@@ -18,11 +19,26 @@ const statusColors: Record<string, string> = {
   pending: 'bg-warning/10 text-warning',
 };
 
+const riskConfig = {
+  low: { label: 'Low', className: 'bg-comfort text-comfort-text' },
+  medium: { label: 'Medium', className: 'bg-warning/10 text-warning' },
+  high: { label: 'High', className: 'bg-destructive/10 text-destructive' },
+} as const;
+
+const categoryIcons = {
+  financial: DollarSign,
+  data: Database,
+  external: Globe,
+  system: Monitor,
+  communication: MessageSquare,
+} as const;
+
 export default function ActivityPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [filterAgent, setFilterAgent] = useState('all');
   const [filterType, setFilterType] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [approvals, setApprovals] = useState(mockApprovals);
 
   const uniqueAgents = [...new Set(mockActivity.map(a => a.agentName))];
   const uniqueTypes = [...new Set(mockActivity.map(a => a.actionType))];
@@ -34,12 +50,96 @@ export default function ActivityPage() {
     return true;
   });
 
+  const handleApproval = (id: string, action: 'approve' | 'reject') => {
+    setApprovals(prev => prev.filter(a => a.id !== id));
+  };
+
   return (
     <div className="p-6 max-w-6xl">
       <div className="flex items-center gap-3 mb-6">
         <h1 className="text-heading font-semibold text-text-primary">AI Activity Log</h1>
         <span className="retro-label cyan-text animate-retro-pulse">● LIVE</span>
       </div>
+
+      {/* Task Approvals */}
+      {approvals.length > 0 && (
+        <section className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-warning/10">
+              <Clock className="h-4 w-4 text-warning" />
+            </div>
+            <div>
+              <h2 className="text-body font-semibold text-text-primary">Pending Approvals</h2>
+              <p className="text-caption text-text-secondary">{approvals.length} action{approvals.length !== 1 ? 's' : ''} waiting for your sign-off</p>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            {approvals.map(approval => {
+              const risk = riskConfig[approval.risk];
+              const CategoryIcon = categoryIcons[approval.category];
+
+              return (
+                <div key={approval.id} className="card-glass p-5">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-electric-muted text-electric-bright font-bold text-sm font-mono">
+                      {approval.agentName[0]}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="text-body-sm font-semibold text-text-primary">{approval.action}</h3>
+                        <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-caption font-medium ${risk.className}`}>
+                          <AlertTriangle className="h-3 w-3" /> {risk.label} risk
+                        </span>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-white/50 px-2 py-0.5 text-caption font-medium text-text-secondary">
+                          <CategoryIcon className="h-3 w-3" /> {approval.category}
+                        </span>
+                      </div>
+                      <p className="text-caption text-text-secondary mb-2">{approval.description}</p>
+
+                      <div className="flex items-center gap-4 text-caption text-text-secondary mb-3">
+                        <span className="font-medium text-text-primary">{approval.agentName}</span>
+                        <span>{new Date(approval.requestedAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                        {approval.triggeredGuardrail && (
+                          <span className="inline-flex items-center gap-1 text-warning">
+                            <ShieldAlert className="h-3 w-3" /> {approval.triggeredGuardrail}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Context details */}
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {Object.entries(approval.context).map(([key, value]) => (
+                          <span key={key} className="rounded-md bg-white/50 px-2 py-0.5 text-[10px] font-mono text-text-secondary">
+                            {key}: <span className="text-text-primary font-medium">{value}</span>
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Action buttons */}
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleApproval(approval.id, 'approve')}
+                          className="flex items-center gap-1.5 rounded-xl bg-comfort px-4 py-2 text-caption font-medium text-comfort-text hover:bg-comfort/80 transition-colors"
+                        >
+                          <CheckCircle2 className="h-3.5 w-3.5" /> Approve
+                        </button>
+                        <button
+                          onClick={() => handleApproval(approval.id, 'reject')}
+                          className="flex items-center gap-1.5 rounded-xl border border-destructive/30 px-4 py-2 text-caption font-medium text-destructive hover:bg-destructive/5 transition-colors"
+                        >
+                          <XCircle className="h-3.5 w-3.5" /> Reject
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
@@ -111,7 +211,7 @@ export default function ActivityPage() {
                   <td className="px-4 py-3 font-mono text-[11px] text-electric/60">{entry.creditCost} cr</td>
                 </tr>
                 {expandedId === entry.id && (
-                  <tr className="border-b border-border/50 bg-white/20">
+                  <tr data-tour={index === 0 ? 'expanded-activity-row' : undefined} className="border-b border-border/50 bg-white/20">
                     <td colSpan={7} className="px-8 py-4">
                       <p className="text-body-sm text-text-primary">{entry.details}</p>
                     </td>

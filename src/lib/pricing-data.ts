@@ -17,50 +17,6 @@ export interface PricingPlan {
 
 export const PRICING_PLANS: PricingPlan[] = [
   {
-    id: 'free-trial',
-    name: 'Free Trial',
-    tagline: '14 days, full access',
-    price: 0,
-    period: 'trial',
-    currency: '£',
-    agents: 'All agents',
-    runsPerMonth: '50 tasks',
-    overageRate: null,
-    overageCap: null,
-    maxBill: null,
-    features: [
-      'All agents — Slack + Teams install',
-      '50 free agent tasks',
-      'Unlimited documents + storage',
-      'Up to 5 team members',
-      'Full Groovy workspace',
-    ],
-    isPopular: false,
-    trialDays: 14,
-  },
-  {
-    id: 'workspace-only',
-    name: 'Workspace Only',
-    tagline: 'Platform + app store',
-    price: 25,
-    period: 'mo',
-    currency: '£',
-    agents: 'Buy separately',
-    runsPerMonth: '—',
-    overageRate: null,
-    overageCap: null,
-    maxBill: '£25',
-    features: [
-      'Workspace included',
-      'Slack + Teams connection',
-      'Unlimited storage',
-      'Unlimited team members',
-      'Agent app store access',
-    ],
-    isPopular: false,
-    trialDays: null,
-  },
-  {
     id: 'starter',
     name: 'Starter',
     tagline: '5 AI agents',
@@ -79,7 +35,7 @@ export const PRICING_PLANS: PricingPlan[] = [
       'Email support',
     ],
     isPopular: false,
-    trialDays: null,
+    trialDays: 14,
   },
   {
     id: 'growth',
@@ -100,7 +56,7 @@ export const PRICING_PLANS: PricingPlan[] = [
       'Usage dashboard + priority support',
     ],
     isPopular: true,
-    trialDays: null,
+    trialDays: 14,
   },
   {
     id: 'scale',
@@ -121,7 +77,7 @@ export const PRICING_PLANS: PricingPlan[] = [
       'Custom workflows + onboarding call',
     ],
     isPopular: false,
-    trialDays: null,
+    trialDays: 14,
   },
 ];
 

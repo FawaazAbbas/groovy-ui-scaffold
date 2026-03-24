@@ -20,20 +20,32 @@ export interface Chat {
   messages: ChatMessage[];
 }
 
+export function createAgentChat(agent: { id: string; name: string }): Chat {
+  return {
+    id: `chat_${agent.id}`,
+    type: 'agent',
+    name: agent.name,
+    avatar: '',
+    lastMessage: `Hey! I'm ${agent.name}, ready to help.`,
+    lastMessageTime: new Date().toISOString(),
+    unreadCount: 1,
+    members: ['usr_001', agent.id],
+    messages: [{
+      id: `msg_${agent.id}_welcome`,
+      senderId: agent.id,
+      senderName: agent.name,
+      senderType: 'agent',
+      content: `Hey Sarah! I'm ${agent.name}. I'm all set up and ready to go. What can I help you with?`,
+      timestamp: new Date().toISOString(),
+    }],
+  };
+}
+
 export const mockChats: Chat[] = [
   {
-    id: 'chat_01', type: 'agent', name: 'LeadScout', avatar: '', lastMessage: 'Found 12 new qualified leads from this morning\'s inbound...', lastMessageTime: '2026-03-17T09:45:00Z', unreadCount: 3, members: ['usr_001', 'agt_01'],
+    id: 'chat_01', type: 'agent', name: 'Setup Engineer', avatar: '', lastMessage: "Hey Sarah! I'm your Setup Engineer...", lastMessageTime: '2026-03-17T09:45:00Z', unreadCount: 1, members: ['usr_001', 'agt_01'],
     messages: [
-      { id: 'msg_01', senderId: 'usr_001', senderName: 'Sarah Chen', senderType: 'human', content: 'Hey LeadScout, what\'s the lead pipeline looking like this morning?', timestamp: '2026-03-17T09:30:00Z' },
-      { id: 'msg_02', senderId: 'agt_01', senderName: 'LeadScout', senderType: 'agent', content: 'Good morning, Sarah! I\'ve been scanning overnight. Here\'s a summary:', timestamp: '2026-03-17T09:30:15Z', toolUse: { tool: 'CRM Query', input: 'Fetch leads from last 12 hours with score > 70', output: '12 leads found, 3 enterprise-tier, 9 mid-market' } },
-      { id: 'msg_03', senderId: 'agt_01', senderName: 'LeadScout', senderType: 'agent', content: 'Found 12 new qualified leads from this morning\'s inbound traffic. 3 are enterprise-tier (scores: 92, 87, 84). I\'ve already enriched their profiles and assigned to Priya\'s team.', timestamp: '2026-03-17T09:30:30Z' },
-      { id: 'msg_04', senderId: 'usr_001', senderName: 'Sarah Chen', senderType: 'human', content: 'Nice! What\'s the top lead?', timestamp: '2026-03-17T09:31:00Z' },
-      { id: 'msg_05', senderId: 'agt_01', senderName: 'LeadScout', senderType: 'agent', content: 'TechNova Inc — CTO signed up for the enterprise demo. Company has 2,400 employees, $180M ARR, currently using a competitor. Score: 92. I recommend a same-day follow-up.', timestamp: '2026-03-17T09:31:15Z', toolUse: { tool: 'Company Lookup', input: 'TechNova Inc enrichment', output: 'Industry: SaaS, Employees: 2400, ARR: $180M, Tech Stack: Competitor X' } },
-      { id: 'msg_06', senderId: 'usr_001', senderName: 'Sarah Chen', senderType: 'human', content: 'Perfect, assign that to Priya directly and send her a Slack notification.', timestamp: '2026-03-17T09:32:00Z' },
-      { id: 'msg_07', senderId: 'agt_01', senderName: 'LeadScout', senderType: 'agent', content: 'Done! Assigned TechNova Inc to Priya and sent her a Slack DM with the full brief. She\'ll get a calendar invite suggestion for a 30-min discovery call too.', timestamp: '2026-03-17T09:32:10Z' },
-      { id: 'msg_08', senderId: 'usr_001', senderName: 'Sarah Chen', senderType: 'human', content: 'Great work. Keep monitoring and flag anything above 80.', timestamp: '2026-03-17T09:33:00Z' },
-      { id: 'msg_09', senderId: 'agt_01', senderName: 'LeadScout', senderType: 'agent', content: 'Will do! I\'ll send you a summary at noon and 5pm. 🎯', timestamp: '2026-03-17T09:33:10Z' },
-      { id: 'msg_10', senderId: 'agt_01', senderName: 'LeadScout', senderType: 'agent', content: 'Quick update — another enterprise lead just came in. CloudBridge Solutions, VP of Eng, score 85. Want me to route this to Marcus?', timestamp: '2026-03-17T09:45:00Z' },
+      { id: 'msg_setup_01', senderId: 'agt_01', senderName: 'Setup Engineer', senderType: 'agent', content: "Hey Sarah! I'm your Setup Engineer. I'll help you get your workspace configured \u2014 connect your tools, pick the right agents, and make sure everything's running smoothly. What would you like to start with?", timestamp: '2026-03-17T09:45:00Z' },
     ],
   },
   {

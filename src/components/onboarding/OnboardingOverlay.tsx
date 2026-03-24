@@ -64,22 +64,24 @@ export function OnboardingOverlay() {
   }
 
   // Intro phase — step content
-  const showNav = currentStepId !== 'hey';
-  const showProgress = currentStepId !== 'hey' && currentStepId !== 'tour';
+  const isHey = currentStepId === 'hey';
+  const showProgress = !isHey && currentStepId !== 'tour';
   const isPricing = currentStepId === 'pricing';
 
   return (
     <div className="fixed inset-0 z-[9999] overflow-y-auto bg-background">
-      {showNav && (
-        <button
-          onClick={skipOnboarding}
-          className="fixed top-6 right-6 z-[10000] text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"
-        >
-          Skip
-        </button>
-      )}
+      <button
+        onClick={skipOnboarding}
+        className="fixed top-6 right-6 z-[10000] flex h-8 w-8 items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-black/[0.04] transition-all duration-200"
+        aria-label="Skip onboarding"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+          <line x1="4" y1="4" x2="12" y2="12" />
+          <line x1="12" y1="4" x2="4" y2="12" />
+        </svg>
+      </button>
 
-      {showNav && (
+      {!isHey && (
         <button
           onClick={prevStep}
           className="fixed top-6 left-6 z-[10000] text-body-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"

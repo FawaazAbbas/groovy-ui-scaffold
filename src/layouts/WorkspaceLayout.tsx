@@ -3,22 +3,24 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   MessageSquare, CheckSquare, Calendar, FolderOpen, Activity,
   Network, Puzzle, CreditCard, Search, Bell, ChevronLeft, ChevronRight,
-  Menu, X, Command, Sun, Moon, Presentation, Store,
+  Menu, X, Command, Sun, Moon, Presentation, Store, ShieldCheck, ShieldAlert, Lock,
 } from 'lucide-react';
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { mockSession } from '@/lib/mocks/session';
 import { CommandPalette } from '@/components/CommandPalette';
 
 const navItems = [
-  { label: 'Chats', icon: MessageSquare, path: '/space/chats', tourId: 'nav-chats' },
   { label: 'Tasks', icon: CheckSquare, path: '/space/tasks', tourId: 'nav-tasks' },
-  { label: 'Calendar', icon: Calendar, path: '/space/calendar', tourId: 'nav-calendar' },
   { label: 'Files', icon: FolderOpen, path: '/space/files' },
   { label: 'Activity', icon: Activity, path: '/space/activity', tourId: 'nav-activity' },
   { label: 'Architecture', icon: Network, path: '/space/architecture' },
   { label: 'Marketplace', icon: Store, path: '/space/marketplace', tourId: 'nav-marketplace' },
   { label: 'Integrations', icon: Puzzle, path: '/space/integrations', tourId: 'nav-integrations' },
+  { label: 'Permissions', icon: ShieldCheck, path: '/space/permissions' },
+  { label: 'Guardrails', icon: ShieldAlert, path: '/space/guardrails' },
   { label: 'Billing', icon: CreditCard, path: '/space/billing' },
+  { label: 'Chats', icon: MessageSquare, path: '/space/chats', tourId: 'nav-chats', locked: true },
+  { label: 'Calendar', icon: Calendar, path: '/space/calendar', tourId: 'nav-calendar', locked: true },
 ];
 
 export default function WorkspaceLayout() {
@@ -63,7 +65,26 @@ export default function WorkspaceLayout() {
         {/* Nav items */}
         <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
           {navItems.map((item) => {
-            const isActive = location.pathname.startsWith(item.path);
+            const isActive = !item.locked && location.pathname.startsWith(item.path);
+
+            if (item.locked) {
+              return (
+                <div
+                  key={item.path}
+                  title="Coming soon"
+                  className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm opacity-25 cursor-not-allowed select-none ${collapsed ? 'justify-center px-0' : ''}`}
+                >
+                  <item.icon className="h-[18px] w-[18px] shrink-0 text-text-secondary/50" />
+                  {!collapsed && (
+                    <>
+                      <span className="text-text-secondary/50">{item.label}</span>
+                      <Lock className="h-3 w-3 text-text-secondary/40 ml-auto shrink-0" />
+                    </>
+                  )}
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={item.path}

@@ -20,6 +20,8 @@ import FilesPage from "./pages/FilesPage";
 import ArchitecturePage from "./pages/ArchitecturePage";
 import ActivityPage from "./pages/ActivityPage";
 import IntegrationsPage from "./pages/IntegrationsPage";
+import PermissionsPage from "./pages/PermissionsPage";
+import GuardrailsPage from "./pages/GuardrailsPage";
 import PitchDeckPage from "./pages/PitchDeckPage";
 import NotFound from "./pages/NotFound";
 
@@ -49,33 +51,18 @@ const App = () => (
 
             {/* Workspace routes */}
             <Route element={<WorkspaceLayout />}>
-              <Route path="/space/chats" element={<ChatsPage />} />
+              {/* Locked for MVP — redirect to marketplace */}
+              <Route path="/space/chats" element={<Navigate to="/space/marketplace" replace />} />
               <Route path="/space/tasks" element={<TasksPage />} />
-              <Route path="/space/calendar" element={<CalendarPage />} />
+              <Route path="/space/calendar" element={<Navigate to="/space/marketplace" replace />} />
               <Route path="/space/billing" element={<BillingPage />} />
               <Route path="/space/files" element={<FilesPage />} />
               <Route path="/space/architecture" element={<ArchitecturePage />} />
               <Route path="/space/activity" element={<ActivityPage />} />
               <Route path="/space/integrations" element={<IntegrationsPage />} />
               <Route path="/space/marketplace" element={<WorkspaceMarketplacePage />} />
-            </Route>
-
-            {/* Auth routes */}
-            <Route element={<AuthLayout />}>
-              <Route path="/login" element={<LoginPage />} />
-            </Route>
-
-            {/* Workspace routes */}
-            <Route element={<WorkspaceLayout />}>
-              <Route path="/space/chats" element={<ChatsPage />} />
-              <Route path="/space/tasks" element={<TasksPage />} />
-              <Route path="/space/calendar" element={<CalendarPage />} />
-              <Route path="/space/billing" element={<BillingPage />} />
-              <Route path="/space/files" element={<FilesPage />} />
-              <Route path="/space/architecture" element={<ArchitecturePage />} />
-              <Route path="/space/activity" element={<ActivityPage />} />
-              <Route path="/space/integrations" element={<IntegrationsPage />} />
-              <Route path="/space/marketplace" element={<WorkspaceMarketplacePage />} />
+              <Route path="/space/permissions" element={<PermissionsPage />} />
+              <Route path="/space/guardrails" element={<GuardrailsPage />} />
             </Route>
 
             {/* Standalone pitch deck */}

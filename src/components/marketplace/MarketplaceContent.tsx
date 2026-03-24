@@ -129,7 +129,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                         ) : (
                           <button
                             onClick={() => onInstall?.(agent.id)}
-                            data-tour={agent === featured[0] ? 'leadscout-install-btn' : undefined}
+                            data-tour={agent === featured[0] ? 'featured-install-btn' : undefined}
                             className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-2 text-body-sm font-medium text-white hover:bg-primary-hover transition-colors"
                           >
                             <Plus className="h-4 w-4" /> Install

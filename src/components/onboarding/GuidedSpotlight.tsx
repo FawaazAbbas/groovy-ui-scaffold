@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { getTourSteps } from '@/lib/onboarding-config';
 import { SpotlightTooltip } from './SpotlightTooltip';
@@ -159,6 +160,10 @@ export function GuidedSpotlight() {
   const handleNext = () => {
     if (step.isFinal) {
       completeOnboarding();
+      toast('Your workspace is live', {
+        description: 'Head to the marketplace anytime to grow your AI team.',
+        duration: 5000,
+      });
       return;
     }
     nextTourStep();
@@ -266,6 +271,8 @@ export function GuidedSpotlight() {
         className="tour-click-zone"
         style={{ ...cutoutStyle, zIndex: 10002, cursor: 'pointer' }}
         onClick={() => {
+          // showContinue steps advance via the tooltip button, not element click
+          if (step.showContinue) return;
           if (step.passthrough && step.targetId) {
             (document.querySelector(`[data-tour="${step.targetId}"]`) as HTMLElement)?.click();
           }

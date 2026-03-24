@@ -3,11 +3,11 @@ import { AnimatedEntry } from '../AnimatedEntry';
 import { OSCard } from '../OSCard';
 import type { OSChoice } from '@/types/onboarding';
 
-const osOptions: { os: OSChoice; title: string; description: string }[] = [
+const osOptions: { os: OSChoice; title: string; description: string; disabled?: boolean }[] = [
   { os: 'slack', title: 'Slack', description: 'Connect your existing Slack workspace' },
   { os: 'teams', title: 'Microsoft Teams', description: 'Connect your existing Teams workspace' },
   { os: 'lark', title: 'Lark', description: 'Connect your existing Lark workspace' },
-  { os: 'groovy-space', title: 'Groovy Space', description: "Use Groovy's built-in workspace — start now" },
+  { os: 'groovy-space', title: 'Groovy Space', description: "Use Groovy's built-in workspace", disabled: true },
 ];
 
 export function OSChoiceContent() {
@@ -37,6 +37,7 @@ export function OSChoiceContent() {
               description={opt.description}
               selected={osChoice === opt.os}
               onSelect={() => setOSChoice(opt.os)}
+              disabled={opt.disabled}
             />
           ))}
         </div>

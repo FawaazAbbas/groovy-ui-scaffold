@@ -1,3 +1,4 @@
+import { Lock } from 'lucide-react';
 import type { OSChoice } from '@/types/onboarding';
 
 interface OSCardProps {
@@ -6,6 +7,7 @@ interface OSCardProps {
   description: string;
   selected: boolean;
   onSelect: () => void;
+  disabled?: boolean;
 }
 
 const brandColors: Record<OSChoice, string> = {
@@ -22,21 +24,24 @@ const brandLetters: Record<OSChoice, string> = {
   'groovy-space': 'G',
 };
 
-export function OSCard({ os, title, description, selected, onSelect }: OSCardProps) {
+export function OSCard({ os, title, description, selected, onSelect, disabled }: OSCardProps) {
   const isGroovy = os === 'groovy-space';
 
   return (
     <button
-      onClick={onSelect}
+      onClick={disabled ? undefined : onSelect}
       role="radio"
-      aria-checked={selected}
+      aria-checked={disabled ? false : selected}
+      aria-disabled={disabled}
       className={`relative text-left rounded-2xl p-5 transition-all duration-200 ${
-        selected
-          ? 'border-2 border-primary bg-primary/[0.04]'
-          : 'border border-border-solid bg-surface-solid hover:shadow-md'
+        disabled
+          ? 'opacity-50 cursor-not-allowed border border-border-solid bg-surface-solid'
+          : selected
+            ? 'border-2 border-primary bg-primary/[0.04]'
+            : 'border border-border-solid bg-surface-solid hover:shadow-md'
       }`}
     >
-      {selected && (
+      {selected && !disabled && (
         <div className="absolute top-3 right-3">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <circle cx="10" cy="10" r="10" fill="var(--primary)" />
@@ -68,9 +73,15 @@ export function OSCard({ os, title, description, selected, onSelect }: OSCardPro
       </p>
 
       {isGroovy && (
-        <span className="mt-3 inline-block rounded-full px-3 py-1 text-caption font-medium bg-comfort text-electric-bright">
-          No setup needed
-        </span>
+        disabled ? (
+          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-caption font-medium bg-text-secondary/10 text-text-secondary">
+            <Lock className="h-3 w-3" /> Coming Soon
+          </span>
+        ) : (
+          <span className="mt-3 inline-block rounded-full px-3 py-1 text-caption font-medium bg-comfort text-electric-bright">
+            No setup needed
+          </span>
+        )
       )}
     </button>
   );

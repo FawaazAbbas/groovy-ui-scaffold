@@ -29,15 +29,19 @@ function PricingCard({
         ${plan.isPopular ? 'md:scale-[1.02]' : ''}
       `}
     >
-      {plan.isPopular && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-0.5 text-[11px] font-semibold text-white tracking-wide">
-          Most Popular
-        </span>
-      )}
-      {plan.trialDays && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-0.5 text-[11px] font-semibold text-white tracking-wide">
-          {plan.trialDays}-day free
-        </span>
+      {(plan.isPopular || plan.trialDays) && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
+          {plan.isPopular && (
+            <span className="rounded-full bg-primary px-3 py-0.5 text-[11px] font-semibold text-white tracking-wide whitespace-nowrap">
+              Most Popular
+            </span>
+          )}
+          {plan.trialDays && (
+            <span className="rounded-full bg-emerald-500 px-3 py-0.5 text-[11px] font-semibold text-white tracking-wide whitespace-nowrap">
+              {plan.trialDays}-day free trial
+            </span>
+          )}
+        </div>
       )}
 
       <div className="flex items-baseline gap-1 mb-1">
@@ -260,7 +264,7 @@ export function PricingContent() {
 
       {/* Pricing cards */}
       <AnimatedEntry delay={100}>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {PRICING_PLANS.map((plan) => (
             <PricingCard
               key={plan.id}

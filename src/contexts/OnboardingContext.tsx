@@ -38,6 +38,10 @@ function loadState(): OnboardingState {
         return defaultState();
       }
       const state = parsed as OnboardingState;
+      // Reset locked OS choice from stale localStorage
+      if (state.osChoice === 'groovy-space') {
+        state.osChoice = null;
+      }
       if (state.isOnboardingComplete) {
         return { ...state, overlayPhase: 'complete' };
       }
@@ -125,6 +129,7 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setOSChoice = useCallback((os: OSChoice) => {
+    if (os === 'groovy-space') return; // Locked for MVP
     setState((s) => ({ ...s, osChoice: os }));
   }, []);
 
