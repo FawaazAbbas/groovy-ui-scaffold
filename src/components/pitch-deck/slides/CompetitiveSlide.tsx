@@ -3,45 +3,62 @@ import SlideLayout from '../SlideLayout';
 export default function CompetitiveSlide() {
   return (
     <SlideLayout className="bg-gradient-to-br from-background to-electric-dark">
-      <div className="flex flex-col justify-center h-full px-[160px]">
-        <span className="text-[18px] font-semibold tracking-widest uppercase text-electric-bright mb-6">Competitive Landscape</span>
-        <h2 className="text-[64px] font-bold leading-[1.1] text-text-primary mb-16">
-          Where we stand.
-        </h2>
+      <div className="flex h-full">
+        {/* Left: Why we're the best */}
+        <div className="flex flex-col justify-center w-[50%] px-[160px]">
+          <span className="text-[18px] font-semibold tracking-widest uppercase text-electric-bright mb-6">Why We're the Best</span>
+          <h2 className="text-[56px] font-bold leading-[1.1] text-text-primary mb-12">
+            Built different.
+          </h2>
 
-        <div className="relative w-[900px] h-[500px] mx-auto">
-          {/* Axes */}
-          <div className="absolute inset-0 border-l-2 border-b-2 border-border-solid/30">
-            {/* Y axis label */}
-            <span className="absolute -left-8 top-1/2 -translate-y-1/2 -rotate-90 text-[14px] text-text-secondary font-mono tracking-widest uppercase whitespace-nowrap">Autonomy Level</span>
-            {/* X axis label */}
-            <span className="absolute bottom-[-32px] left-1/2 -translate-x-1/2 text-[14px] text-text-secondary font-mono tracking-widest uppercase">Integration Depth</span>
+          <div className="space-y-5">
+            {[
+              '2-click solution to integrate with Slack',
+              'Narrow-spec AI agents — precision over generality',
+              'Unlimited context per agent',
+              'Integration with any agent framework',
+              'Works with Slack, Teams, Lark, and Groovy Space',
+              'LLM model switching based on task complexity',
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-4">
+                <span className="text-electric-bright text-[22px] mt-0.5 shrink-0">✓</span>
+                <span className="text-[22px] text-text-secondary leading-relaxed">{item}</span>
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* Quadrant labels */}
-          <span className="absolute top-4 left-8 text-[13px] text-text-secondary/50">Narrow Automation</span>
-          <span className="absolute top-4 right-4 text-[13px] text-text-secondary/50">Full Orchestration</span>
-          <span className="absolute bottom-8 left-8 text-[13px] text-text-secondary/50">Manual Tools</span>
-          <span className="absolute bottom-8 right-4 text-[13px] text-text-secondary/50">Connected but Manual</span>
+        {/* Right: Competition */}
+        <div className="flex flex-col justify-center w-[50%] pr-[120px]">
+          <span className="text-[18px] font-semibold tracking-widest uppercase text-text-secondary mb-8">Competition</span>
 
-          {/* Competitors */}
-          {[
-            { name: 'Zapier', x: '70%', y: '75%', size: 'w-16 h-16' },
-            { name: 'UiPath', x: '35%', y: '35%', size: 'w-14 h-14' },
-            { name: 'AutoGPT', x: '25%', y: '20%', size: 'w-12 h-12' },
-            { name: 'Make', x: '55%', y: '65%', size: 'w-12 h-12' },
-          ].map((c) => (
-            <div key={c.name} className="absolute flex flex-col items-center" style={{ left: c.x, bottom: c.y }}>
-              <div className={`${c.size} rounded-full bg-text-secondary/10 border border-border-solid/30 flex items-center justify-center`}>
-                <span className="text-[12px] font-medium text-text-secondary">{c.name}</span>
+          <div className="space-y-6">
+            <div>
+              <span className="text-[16px] font-semibold tracking-widest uppercase text-electric-bright/60 block mb-4">Direct</span>
+              <div className="space-y-4">
+                <div className="glass-elevated rounded-xl p-6 neon-border">
+                  <h4 className="text-[22px] font-semibold text-text-primary mb-2">Paperclip</h4>
+                  <p className="text-[18px] text-text-secondary leading-relaxed">Built for technical users with very small companies. Not targeting the SME market we serve.</p>
+                </div>
+                <div className="glass-elevated rounded-xl p-6 neon-border">
+                  <h4 className="text-[22px] font-semibold text-text-primary mb-2">Motion</h4>
+                  <p className="text-[18px] text-text-secondary leading-relaxed">Broad-spec agents that are internally simple workflows. Lacks the depth of narrow-spec specialisation.</p>
+                </div>
               </div>
             </div>
-          ))}
 
-          {/* Groovy */}
-          <div className="absolute flex flex-col items-center" style={{ right: '10%', top: '10%' }}>
-            <div className="w-24 h-24 rounded-full bg-electric-bright/20 border-2 border-electric-bright flex items-center justify-center neon-glow-lg">
-              <span className="text-[18px] font-bold text-electric-bright">Groovy</span>
+            <div>
+              <span className="text-[16px] font-semibold tracking-widest uppercase text-electric-bright/60 block mb-4">Indirect</span>
+              <div className="space-y-4">
+                <div className="glass-elevated rounded-xl p-6 neon-border">
+                  <h4 className="text-[22px] font-semibold text-text-primary mb-2">Claude</h4>
+                  <p className="text-[18px] text-text-secondary leading-relaxed">Brilliant tool, but can't run multiple tasks simultaneously, holds limited context, and isn't designed for company-wide use.</p>
+                </div>
+                <div className="glass-elevated rounded-xl p-6 neon-border">
+                  <h4 className="text-[22px] font-semibold text-text-primary mb-2">n8n</h4>
+                  <p className="text-[18px] text-text-secondary leading-relaxed">Business owners have to learn how to build and optimise AI agents themselves. Hard to get right without domain expertise.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -65,12 +65,6 @@ function PricingCard({
         ))}
       </div>
 
-      {plan.overageCap && (
-        <p className="mt-3 text-[10px] text-text-secondary/70 font-mono">
-          Max bill: {plan.maxBill}
-        </p>
-      )}
-
       {/* Selection indicator */}
       <div
         className={`

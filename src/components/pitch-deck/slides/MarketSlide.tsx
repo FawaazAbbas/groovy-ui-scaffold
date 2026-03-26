@@ -7,10 +7,10 @@ export default function MarketSlide() {
         <div className="flex flex-col justify-center w-[50%] px-[160px]">
           <span className="text-[18px] font-semibold tracking-widest uppercase text-electric-bright mb-6">Market Opportunity</span>
           <h2 className="text-[64px] font-bold leading-[1.1] text-text-primary mb-10">
-            A massive, expanding market.
+            TAM / SAM / SOM
           </h2>
           <p className="text-[24px] text-text-secondary leading-relaxed max-w-[600px]">
-            Enterprise AI automation is projected to grow 38% CAGR through 2030, driven by labour shortages and rising operational costs.
+            E-commerce stores with $500K–$5M in revenue using e-commerce builder platforms.
           </p>
         </div>
 
@@ -23,19 +23,19 @@ export default function MarketSlide() {
                 {/* SOM */}
                 <div className="w-[140px] h-[140px] rounded-full border-2 border-electric-bright/50 bg-electric-bright/20 flex items-center justify-center neon-glow-md">
                   <div className="text-center">
-                    <span className="text-[28px] font-bold text-electric-bright block">$2.4B</span>
-                    <span className="text-[14px] text-text-secondary block mt-1">SOM</span>
+                    <span className="text-[24px] font-bold text-electric-bright block">$29M</span>
+                    <span className="text-[12px] text-text-secondary block mt-1">SOM · 13.4K</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="absolute top-2 right-16 text-right">
-              <span className="text-[36px] font-bold text-text-primary block">$180B</span>
-              <span className="text-[16px] text-text-secondary">TAM</span>
+            <div className="absolute top-2 right-12 text-right">
+              <span className="text-[36px] font-bold text-text-primary block">$1.6B</span>
+              <span className="text-[16px] text-text-secondary">TAM · 760K stores</span>
             </div>
-            <div className="absolute bottom-24 right-8 text-right">
-              <span className="text-[28px] font-bold text-text-primary block">$32B</span>
-              <span className="text-[16px] text-text-secondary">SAM</span>
+            <div className="absolute bottom-24 right-4 text-right">
+              <span className="text-[28px] font-bold text-text-primary block">$288M</span>
+              <span className="text-[16px] text-text-secondary">SAM · 134K in Europe</span>
             </div>
           </div>
         </div>

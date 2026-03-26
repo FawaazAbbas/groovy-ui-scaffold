@@ -45,7 +45,8 @@ export const mockActiveAgents: ActiveAgent[] = [
 ];
 
 export const mockPlan = {
-  name: 'Business',
+  id: 'growth',
+  name: 'Growth',
   price: 499,
   billingCycle: 'monthly' as const,
   creditsIncluded: 10000,

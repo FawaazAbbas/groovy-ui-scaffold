@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail } from 'lucide-react';
+import { GroovyLogo } from '@/components/ui/GroovyLogo';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 
 export default function LoginPage() {
@@ -14,7 +15,7 @@ export default function LoginPage() {
   return (
     <div className="text-center">
       <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-b from-sidebar-solid to-sidebar-solid shadow-glass-md">
-        <span className="text-2xl font-bold text-sidebar-text">G</span>
+        <GroovyLogo className="h-8 w-8 text-sidebar-text" />
       </div>
       <h1 className="text-display-sm text-text-primary mb-2">Welcome back</h1>
       <p className="text-body text-text-secondary mb-8">Sign in to your Groovy workspace</p>

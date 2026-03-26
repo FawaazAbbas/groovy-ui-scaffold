@@ -7,9 +7,6 @@ export interface PricingPlan {
   currency: string;
   agents: string;
   runsPerMonth: string;
-  overageRate: string | null;
-  overageCap: string | null;
-  maxBill: string | null;
   features: string[];
   isPopular: boolean;
   trialDays: number | null;
@@ -25,9 +22,6 @@ export const PRICING_PLANS: PricingPlan[] = [
     currency: '£',
     agents: '5 agents',
     runsPerMonth: '500/mo',
-    overageRate: '£10 per 100 runs',
-    overageCap: '£30/mo',
-    maxBill: '£129',
     features: [
       '5 agents — Slack or Teams',
       '500 runs per month',
@@ -46,9 +40,6 @@ export const PRICING_PLANS: PricingPlan[] = [
     currency: '£',
     agents: '10 agents',
     runsPerMonth: '1,000/mo',
-    overageRate: '£8 per 100 runs',
-    overageCap: '£50/mo',
-    maxBill: '£229',
     features: [
       '10 agents — Slack + Teams',
       '1,000 runs per month',
@@ -67,9 +58,6 @@ export const PRICING_PLANS: PricingPlan[] = [
     currency: '£',
     agents: '20 agents',
     runsPerMonth: '2,000/mo',
-    overageRate: '£7 per 100 runs',
-    overageCap: '£80/mo',
-    maxBill: '£429',
     features: [
       '20 agents — all channels + API',
       '2,000 runs per month',

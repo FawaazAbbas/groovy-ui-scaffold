@@ -5,18 +5,30 @@ export default function SolutionSlide() {
     <SlideLayout className="bg-background">
       <div className="flex flex-col justify-center h-full px-[160px]">
         <span className="text-[18px] font-semibold tracking-widest uppercase text-electric-bright mb-6">The Solution</span>
-        <h2 className="text-[72px] font-bold leading-[1.1] text-text-primary mb-6 max-w-[1100px]">
-          Autonomous agents that actually <span className="text-electric-bright">get things done.</span>
+        <h2 className="text-[64px] font-bold leading-[1.1] text-text-primary mb-6 max-w-[1200px]">
+          Integrate ready-made AI employees into your workspace with a <span className="text-electric-bright">2-click solution.</span>
         </h2>
-        <p className="text-[28px] text-text-secondary leading-relaxed max-w-[900px] mb-16">
-          Groovy deploys purpose-built AI agents into your existing workflows. They handle the grunt work while your team focuses on what matters.
+        <p className="text-[26px] text-text-secondary leading-relaxed max-w-[900px] mb-16">
+          No developers, no training, no overhead. Just plug in and go.
         </p>
 
         <div className="grid grid-cols-3 gap-10">
           {[
-            { icon: '⚡', title: 'Instant Deploy', desc: 'Agents spin up from a marketplace of pre-built skills. No custom training required.' },
-            { icon: '🔗', title: 'Deep Integration', desc: 'Connects to Slack, Jira, Gmail, Notion, and 40+ tools your team already uses.' },
-            { icon: '🛡️', title: 'Human in the Loop', desc: 'Agents escalate decisions. You approve, they execute. Full audit trail included.' },
+            {
+              icon: '🔌',
+              title: '2-Click Integration',
+              desc: 'Connect to Slack, Teams, or Lark instantly. Or use Groovy Space, a workspace built for companies not yet on institutional systems.',
+            },
+            {
+              icon: '🎯',
+              title: 'Narrow-Spec Agents',
+              desc: 'Purpose-built agents that fit the needs of specific tasks rather than broad workflows. Precision over generality.',
+            },
+            {
+              icon: '🏠',
+              title: 'Groovy Space',
+              desc: 'A workspace built for companies that aren\'t on institutional systems. Everything they need, in one place.',
+            },
           ].map((card) => (
             <div key={card.title} className="glass-elevated rounded-2xl p-10 neon-border">
               <span className="text-[48px] block mb-6">{card.icon}</span>

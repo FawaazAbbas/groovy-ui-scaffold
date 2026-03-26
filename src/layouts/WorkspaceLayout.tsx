@@ -3,7 +3,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   MessageSquare, CheckSquare, Calendar, FolderOpen, Activity,
   Network, Puzzle, CreditCard, Search, Bell, ChevronLeft, ChevronRight,
-  Menu, X, Command, Sun, Moon, Presentation, Store, ShieldCheck, ShieldAlert, Lock,
+  Menu, X, Command, Sun, Moon, Presentation, Store, ShieldCheck, ShieldAlert, Lock, Settings,
 } from 'lucide-react';
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { mockSession } from '@/lib/mocks/session';
@@ -19,6 +19,7 @@ const navItems = [
   { label: 'Permissions', icon: ShieldCheck, path: '/space/permissions' },
   { label: 'Guardrails', icon: ShieldAlert, path: '/space/guardrails' },
   { label: 'Billing', icon: CreditCard, path: '/space/billing' },
+  { label: 'Settings', icon: Settings, path: '/space/settings' },
   { label: 'Chats', icon: MessageSquare, path: '/space/chats', tourId: 'nav-chats', locked: true },
   { label: 'Calendar', icon: Calendar, path: '/space/calendar', tourId: 'nav-calendar', locked: true },
 ];

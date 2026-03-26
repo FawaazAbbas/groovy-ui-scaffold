@@ -22,6 +22,8 @@ import ActivityPage from "./pages/ActivityPage";
 import IntegrationsPage from "./pages/IntegrationsPage";
 import PermissionsPage from "./pages/PermissionsPage";
 import GuardrailsPage from "./pages/GuardrailsPage";
+import PricingPage from "./pages/PricingPage";
+import SettingsPage from "./pages/SettingsPage";
 import PitchDeckPage from "./pages/PitchDeckPage";
 import NotFound from "./pages/NotFound";
 
@@ -42,6 +44,7 @@ const App = () => (
             <Route element={<MarketingLayout />}>
               <Route path="/marketplace" element={<MarketplacePage />} />
               <Route path="/marketplace/:agentId" element={<AgentDetailPage />} />
+              <Route path="/pricing" element={<PricingPage />} />
             </Route>
 
             {/* Auth routes */}
@@ -63,6 +66,7 @@ const App = () => (
               <Route path="/space/marketplace" element={<WorkspaceMarketplacePage />} />
               <Route path="/space/permissions" element={<PermissionsPage />} />
               <Route path="/space/guardrails" element={<GuardrailsPage />} />
+              <Route path="/space/settings" element={<SettingsPage />} />
             </Route>
 
             {/* Standalone pitch deck */}

@@ -1,5 +1,6 @@
 import { Lock } from 'lucide-react';
 import type { OSChoice } from '@/types/onboarding';
+import { GroovyLogo } from '@/components/ui/GroovyLogo';
 
 interface OSCardProps {
   os: OSChoice;
@@ -61,7 +62,11 @@ export function OSCard({ os, title, description, selected, onSelect, disabled }:
         className="flex h-10 w-10 items-center justify-center rounded-xl"
         style={{ background: brandColors[os] }}
       >
-        <span className="text-sm font-bold text-white">{brandLetters[os]}</span>
+        {os === 'groovy-space' ? (
+          <GroovyLogo className="h-5 w-5 text-white" />
+        ) : (
+          <span className="text-sm font-bold text-white">{brandLetters[os]}</span>
+        )}
       </div>
 
       <p className="mt-3 text-body font-semibold text-text-primary">

@@ -1,5 +1,6 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import { GroovyLogo } from '@/components/ui/GroovyLogo';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 
 export default function MarketingLayout() {
@@ -17,7 +18,7 @@ export default function MarketingLayout() {
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
           <Link to="/marketplace" className="flex items-center gap-2" data-tour="nav-marketplace">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sidebar">
-              <span className="text-sm font-bold text-sidebar-text">G</span>
+              <GroovyLogo className="h-5 w-5 text-sidebar-text" />
             </div>
             <span className="text-heading-sm font-semibold text-text-primary">Groovy</span>
           </Link>
@@ -32,6 +33,9 @@ export default function MarketingLayout() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <Link to="/pricing" className="text-body-sm font-medium text-text-secondary hover:text-text-primary">
+              Pricing
+            </Link>
             <Link to="/login" className="text-body-sm font-medium text-text-secondary hover:text-text-primary">
               Sign In
             </Link>

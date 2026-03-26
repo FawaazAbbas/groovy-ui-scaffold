@@ -1,4 +1,6 @@
 import { mockDailyUsage, mockInvoices, mockActiveAgents, mockPlan } from '@/lib/mocks/billing';
+import { PRICING_PLANS } from '@/lib/pricing-data';
+import { PricingCard } from '@/components/PricingCard';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { AlertTriangle } from 'lucide-react';
 
@@ -40,6 +42,21 @@ export default function BillingPage() {
               <span key={f} className="rounded-md bg-comfort px-3 py-1 retro-label text-electric-bright neon-glow-sm">{f}</span>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Compare Plans */}
+      <div>
+        <h3 className="text-body font-semibold text-text-primary mb-4">Compare Plans</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {PRICING_PLANS.map(plan => (
+            <PricingCard
+              key={plan.id}
+              plan={plan}
+              variant="billing"
+              currentPlanId={mockPlan.id}
+            />
+          ))}
         </div>
       </div>
 

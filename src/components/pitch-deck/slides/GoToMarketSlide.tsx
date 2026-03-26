@@ -1,42 +1,52 @@
 import SlideLayout from '../SlideLayout';
 
 export default function GoToMarketSlide() {
-  const channels = [
-    { label: 'Product-Led Growth', desc: 'Free tier → self-serve upgrade. Marketplace discovery drives organic adoption.', pct: '45%' },
-    { label: 'Outbound Sales', desc: 'Enterprise-focused sales team targeting Fortune 2000 operations leaders.', pct: '35%' },
-    { label: 'Partnerships', desc: 'SI and consulting partnerships for enterprise deployment and customization.', pct: '20%' },
-  ];
-
   return (
     <SlideLayout className="bg-gradient-to-br from-background via-background to-cyan-muted">
-      <div className="flex flex-col justify-center h-full px-[160px]">
-        <span className="text-[18px] font-semibold tracking-widest uppercase text-cyan mb-6">Go-to-Market</span>
-        <h2 className="text-[64px] font-bold leading-[1.1] text-text-primary mb-16">
-          Multi-channel growth engine.
-        </h2>
+      <div className="flex h-full">
+        <div className="flex flex-col justify-center w-[50%] px-[160px]">
+          <span className="text-[18px] font-semibold tracking-widest uppercase text-cyan mb-6">Go-to-Market</span>
+          <h2 className="text-[56px] font-bold leading-[1.1] text-text-primary mb-10">
+            Vertical-first, then expand.
+          </h2>
+          <p className="text-[24px] text-text-secondary leading-relaxed max-w-[600px] mb-12">
+            Begin vertically with marketing and finance agents for e-commerce SMEs, then broaden.
+          </p>
 
-        <div className="flex flex-col gap-8 mb-16">
-          {channels.map((ch) => (
-            <div key={ch.label} className="flex items-start gap-8">
-              <div className="w-[80px] shrink-0">
-                <span className="text-[36px] font-bold text-cyan">{ch.pct}</span>
+          <div className="glass-elevated rounded-2xl p-8 neon-border mb-8">
+            <h3 className="text-[22px] font-semibold text-electric-bright mb-4">Lead Generation</h3>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <span className="text-electric-bright text-[20px] mt-0.5">→</span>
+                <p className="text-[20px] text-text-secondary leading-relaxed">
+                  A list of the top 22K Shopify websites with their contact emails
+                </p>
               </div>
-              <div className="flex-1">
-                <h3 className="text-[28px] font-semibold text-text-primary mb-2">{ch.label}</h3>
-                <p className="text-[20px] text-text-secondary leading-relaxed">{ch.desc}</p>
+              <div className="flex items-start gap-3">
+                <span className="text-electric-bright text-[20px] mt-0.5">→</span>
+                <p className="text-[20px] text-text-secondary leading-relaxed">
+                  Scraping job descriptions for companies that use high-synergy tools — these are companies most likely to convert
+                </p>
               </div>
-              <div className="flex-1 h-3 rounded-full bg-cyan-muted/50 self-center">
-                <div className="h-full rounded-full bg-cyan/60 cyan-glow-sm" style={{ width: ch.pct }} />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col justify-center w-[50%] pr-[120px] gap-6">
+          <span className="text-[18px] font-semibold tracking-widest uppercase text-cyan mb-2">Growth Channels</span>
+          {[
+            { icon: '📋', title: 'Waitlist Warm-Up', desc: 'Building demand before launch with targeted sign-up flows' },
+            { icon: '💬', title: 'Subreddit Engagement', desc: 'Organic community presence in e-commerce and SaaS subreddits' },
+            { icon: '📢', title: 'Paid Marketing', desc: 'Google Ads and LinkedIn Ads targeting SME decision-makers' },
+          ].map((ch) => (
+            <div key={ch.title} className="glass-elevated rounded-2xl p-6 neon-border flex items-start gap-5">
+              <span className="text-[36px]">{ch.icon}</span>
+              <div>
+                <h3 className="text-[22px] font-semibold text-text-primary mb-1">{ch.title}</h3>
+                <p className="text-[18px] text-text-secondary leading-relaxed">{ch.desc}</p>
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="terminal-block rounded-2xl p-8 cyan-border">
-          <span className="text-[16px] font-mono text-cyan block mb-2">// Growth Flywheel</span>
-          <span className="text-[20px] text-text-secondary">
-            Agent deployed → Delivers value → Team invites colleagues → More agents deployed → Network effects compound
-          </span>
         </div>
       </div>
     </SlideLayout>

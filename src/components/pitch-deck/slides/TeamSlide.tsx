@@ -1,41 +1,41 @@
 import SlideLayout from '../SlideLayout';
 
 export default function TeamSlide() {
-  const team = [
-    { name: 'Alex Chen', role: 'CEO & Co-founder', bg: 'Ex-Google AI, Stanford CS', initials: 'AC' },
-    { name: 'Maya Patel', role: 'CTO & Co-founder', bg: 'Ex-Stripe, MIT EECS', initials: 'MP' },
-    { name: 'Jordan Lee', role: 'VP Engineering', bg: 'Ex-Datadog, 15yr infra', initials: 'JL' },
-    { name: 'Sarah Kim', role: 'VP Product', bg: 'Ex-Notion, Ex-Figma', initials: 'SK' },
-    { name: 'David Okoro', role: 'Head of Sales', bg: 'Ex-Salesforce, $50M+ quota', initials: 'DO' },
-    { name: 'Lena Müller', role: 'Head of Design', bg: 'Ex-Apple, Ex-Airbnb', initials: 'LM' },
+  const founders = [
+    {
+      name: 'Yunlan',
+      role: 'Co-founder',
+      bg: 'Ex-Citadel',
+      initials: 'Y',
+    },
+    {
+      name: 'Fawaaz',
+      role: 'Co-founder',
+      bg: 'Ex-Ecom',
+      initials: 'F',
+    },
   ];
 
   return (
     <SlideLayout className="bg-background">
-      <div className="flex flex-col justify-center h-full px-[160px]">
-        <span className="text-[18px] font-semibold tracking-widest uppercase text-electric-bright mb-6">Team</span>
-        <h2 className="text-[64px] font-bold leading-[1.1] text-text-primary mb-16">
-          Built by operators, for operators.
+      <div className="flex flex-col items-center justify-center h-full px-[200px] text-center">
+        <span className="text-[18px] font-semibold tracking-widest uppercase text-electric-bright mb-6">Founders</span>
+        <h2 className="text-[72px] font-bold leading-[1.1] text-text-primary mb-20">
+          The team behind Groovy.
         </h2>
 
-        <div className="grid grid-cols-3 gap-8">
-          {team.map((t) => (
-            <div key={t.name} className="glass-elevated rounded-2xl p-8 neon-border flex items-start gap-5">
-              <div className="w-16 h-16 rounded-full bg-electric-bright/15 border border-electric-bright/30 flex items-center justify-center shrink-0">
-                <span className="text-[20px] font-bold text-electric-bright">{t.initials}</span>
+        <div className="flex gap-16 justify-center">
+          {founders.map((f) => (
+            <div key={f.name} className="glass-elevated rounded-2xl p-12 neon-border flex flex-col items-center w-[360px]">
+              <div className="w-24 h-24 rounded-full bg-electric-bright/15 border-2 border-electric-bright/30 flex items-center justify-center mb-8">
+                <span className="text-[40px] font-bold text-electric-bright">{f.initials}</span>
               </div>
-              <div>
-                <span className="text-[22px] font-semibold text-text-primary block">{t.name}</span>
-                <span className="text-[18px] text-electric-bright block mt-1">{t.role}</span>
-                <span className="text-[16px] text-text-secondary block mt-2">{t.bg}</span>
-              </div>
+              <span className="text-[32px] font-semibold text-text-primary block mb-2">{f.name}</span>
+              <span className="text-[24px] text-electric-bright block mb-3">{f.role}</span>
+              <span className="text-[20px] text-text-secondary">{f.bg}</span>
             </div>
           ))}
         </div>
-
-        <p className="text-[18px] text-text-secondary mt-12">
-          42 team members · Backed by Sequoia, a16z, and Y Combinator
-        </p>
       </div>
     </SlideLayout>
   );
