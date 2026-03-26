@@ -1,60 +1,87 @@
 
 
-# Align Pitch Deck with App Aesthetic + Add 10 Slides
+# Pitch Deck — Complete Liquid Glass Redesign
 
-## Current State
+## Design Direction
 
-The 6 existing slides use hardcoded hex colors (`#1C1C1E`, `#F5C842`, `#98989D`, etc.) that roughly match the app's dark mode but don't use the token system. The app has a rich glassmorphism + warm amber identity with liquid glass surfaces, retro grid overlays, and neon glow utilities.
+The current deck is a generic "dark mode with amber accents and card grids" — every slide follows the same formula (section label → big heading → glass-elevated cards). The new design will be a **liquid glass presentation** — translucent layered panels floating over rich gradient backgrounds, with depth created through blur, refraction, and layered transparency rather than borders and card outlines.
 
-## Visual Direction
+**Core aesthetic**: Apple WWDC keynote meets frosted glass UI. Soft white/translucent panels, deep blurred backgrounds with color gradients, typographic hierarchy doing the heavy lifting. No retro-grid, no neon-glow, no terminal-block.
 
-Bring the deck into the app's world: dark charcoal backgrounds using token values, liquid glass card surfaces, retro grid overlays on select slides, amber/gold accents via `--electric-bright` and `--electric`, and the `--cyan` secondary accent for variety. Use the existing CSS utility classes (`glass`, `neon-glow-*`, `retro-grid`, `retro-corners`, `terminal-block`) directly in slide components.
+## Viewer Redesign (PitchDeckPage.tsx)
 
-## Changes to Existing 6 Slides
+- Remove the thumbnail strip entirely — it renders 16 full slide components and dominates the experience
+- Replace with a minimal **dot indicator** row at the bottom (like iOS page dots)
+- Invisible click zones: left half = prev, right half = next (no arrow buttons cluttering the slide)
+- Subtle slide label appears on hover near the dots
+- Background: `#000000` with no chrome — the slides ARE the experience
+- Keep fullscreen toggle (minimal, bottom-right corner)
+- Keep keyboard navigation
 
-Update all slides to use CSS custom properties instead of hardcoded hex:
-- Backgrounds: `bg-background` (dark) or `bg-surface-solid` with gradients using token colors
-- Text: `text-text-primary`, `text-text-secondary`, `text-electric-bright` (accent on dark)
-- Cards/surfaces: Use `glass` or `glass-elevated` classes, `border-border` 
-- Accent elements: `neon-glow-*`, `neon-border`, `retro-corners` where appropriate
-- Slide section labels: keep uppercase tracking-widest style but use `text-electric-bright`
+## SlideLayout.tsx
 
-## 10 New Slides (16 total)
+- Keep the 1920×1080 canvas and ScaledSlide scaling logic (it works)
+- Remove all class-based styling from SlideLayout — slides own their own backgrounds
 
-| # | Slide | Content |
-|---|-------|---------|
-| 5 | **Market Opportunity** | TAM/SAM/SOM concentric circles, market size numbers |
-| 6 | **Product Demo** | Screenshot placeholder with feature callout annotations |
-| 7 | **Architecture** | System diagram — agents, orchestrator, integrations |
-| 8 | **Use Cases** | 4 industry verticals with icons and descriptions |
-| 9 | **Competitive Landscape** | Positioning matrix (2×2 grid) |
-| 10 | **Business Model** | Pricing tiers and revenue model |
-| 11 | **Go-to-Market** | Channel strategy and growth flywheel |
-| 12 | **Team** | Founder/team grid with roles |
-| 13 | **Roadmap** | Timeline with milestones Q1–Q4 |
-| 14 | **Financials** | Revenue projections, key metrics |
+## Slide Visual Language
 
-Final order: Title → Problem → Solution → How It Works → Market → Product Demo → Architecture → Use Cases → Competitive → Business Model → Go-to-Market → Traction → Team → Roadmap → Financials → CTA
+Each slide uses a unique gradient background (not `bg-background` everywhere). Content sits inside **liquid glass panels** — `backdrop-filter: blur(40px) saturate(1.8)`, semi-transparent white/dark fills, subtle inner highlights via `inset box-shadow`, rounded-[32px] corners.
 
-## Files
+**Typography**: Plus Jakarta Sans. Massive display headings (96–120px, weight 700), generous letter-spacing. Section labels are small (14px), uppercase, tracking-[0.2em], in a muted tone — not screaming amber.
+
+**Color strategy per slide** — each slide has its own gradient palette rather than a uniform dark theme:
+- Title: deep indigo → black
+- Problem: warm dark red-brown → charcoal
+- Solution: deep teal → black
+- Market: deep purple → navy
+- etc.
+
+Gold/amber accent used sparingly — only for key numbers and the logo.
+
+## 16 Slides — Content Preserved, Layout Rethought
+
+All business content stays the same. Layouts rebuilt:
+
+| Slide | Layout Change |
+|-------|--------------|
+| **Title** | Centered logo + wordmark, no card. Gradient bg with floating glass orbs |
+| **Problem** | Single large glass panel, stats as oversized typography inline — not separate bordered blocks |
+| **Solution** | Three glass columns with frosted backgrounds, no emoji icons — use simple line icons or just bold text |
+| **How It Works** | Horizontal glass timeline strip — numbered steps flow left-to-right inside one long panel |
+| **Market** | Concentric circles rebuilt with glass fills and blur, cleaner labels |
+| **Product Demo** | Full-bleed glass panel simulating a browser window with frosted chrome |
+| **Architecture** | Stacked horizontal glass layers — each layer is a frosted bar |
+| **Use Cases** | 2×2 glass cards but with more padding, no emoji, industry name as the hero element |
+| **Competitive** | Split panel — glass left panel (our strengths), frosted right panel (competitors) |
+| **Business Model** | Three glass pricing columns, featured tier has brighter glass fill |
+| **Go-to-Market** | Left narrative + right channel cards, all in glass |
+| **Traction** | Four oversized metric numbers with subtle glass backing |
+| **Team** | Two large glass cards with initials, centered layout |
+| **Roadmap** | Horizontal glass timeline, current quarter highlighted |
+| **Financials** | Glass bar chart + metric cards below |
+| **CTA** | Minimal — logo, one line, domain. Maximum whitespace |
+
+## Files Changed
 
 | File | Action |
 |------|--------|
-| `src/components/pitch-deck/slides/TitleSlide.tsx` | Rewrite — token colors, add retro-grid overlay |
-| `src/components/pitch-deck/slides/ProblemSlide.tsx` | Rewrite — token colors, neon accents |
-| `src/components/pitch-deck/slides/SolutionSlide.tsx` | Rewrite — glass cards, token colors |
-| `src/components/pitch-deck/slides/HowItWorksSlide.tsx` | Rewrite — token colors, neon-glow step circles |
-| `src/components/pitch-deck/slides/TractionSlide.tsx` | Rewrite — token colors |
-| `src/components/pitch-deck/slides/CTASlide.tsx` | Rewrite — token colors, gradient from comfort |
-| `src/components/pitch-deck/slides/MarketSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/ProductDemoSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/ArchitectureSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/UseCasesSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/CompetitiveSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/BusinessModelSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/GoToMarketSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/TeamSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/RoadmapSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/FinancialsSlide.tsx` | Create |
-| `src/components/pitch-deck/slides/index.ts` | Update — register all 16 slides |
+| `src/pages/PitchDeckPage.tsx` | Rewrite — dot nav, click zones, no thumbnails |
+| `src/components/pitch-deck/SlideLayout.tsx` | Minimal cleanup |
+| `src/components/pitch-deck/slides/TitleSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/ProblemSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/SolutionSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/HowItWorksSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/MarketSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/ProductDemoSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/ArchitectureSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/UseCasesSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/CompetitiveSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/BusinessModelSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/GoToMarketSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/TractionSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/TeamSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/RoadmapSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/FinancialsSlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/CTASlide.tsx` | Rewrite |
+| `src/components/pitch-deck/slides/index.ts` | No change (slide order stays) |
 
