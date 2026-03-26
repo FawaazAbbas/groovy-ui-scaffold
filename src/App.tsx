@@ -3,8 +3,10 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { OnboardingOverlay } from "@/components/onboarding/OnboardingOverlay";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import MarketingLayout from "./layouts/MarketingLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import WorkspaceLayout from "./layouts/WorkspaceLayout";
@@ -31,6 +33,7 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <AuthProvider>
     <TooltipProvider>
       <OnboardingProvider>
         <Toaster />
@@ -52,7 +55,8 @@ const App = () => (
               <Route path="/login" element={<LoginPage />} />
             </Route>
 
-            {/* Workspace routes */}
+            {/* Workspace routes (protected) */}
+            <Route element={<ProtectedRoute />}>
             <Route element={<WorkspaceLayout />}>
               {/* Locked for MVP — redirect to marketplace */}
               <Route path="/space/chats" element={<Navigate to="/space/marketplace" replace />} />
@@ -68,6 +72,7 @@ const App = () => (
               <Route path="/space/guardrails" element={<GuardrailsPage />} />
               <Route path="/space/settings" element={<SettingsPage />} />
             </Route>
+            </Route>
 
             {/* Standalone pitch deck */}
             <Route path="/pitch-deck" element={<PitchDeckPage />} />
@@ -80,6 +85,7 @@ const App = () => (
         </BrowserRouter>
       </OnboardingProvider>
     </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
