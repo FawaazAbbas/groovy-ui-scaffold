@@ -13,11 +13,8 @@ export const supabase = createClient(
   supabaseAnonKey || 'placeholder-key',
   {
     auth: {
-      // Point auth requests to our separate GoTrue service
-      ...(supabaseAuthUrl && {
-        // Override the default auth URL
-        // GoTrue runs on a separate Cloud Run service
-      }),
+      // Point auth requests to our separate GoTrue Cloud Run service
+      ...(supabaseAuthUrl && { url: supabaseAuthUrl }),
       autoRefreshToken: true,
       persistSession: true,
       detectSessionInUrl: true,

@@ -14,6 +14,7 @@ import MarketplacePage from "./pages/MarketplacePage";
 import WorkspaceMarketplacePage from "./pages/WorkspaceMarketplacePage";
 import AgentDetailPage from "./pages/AgentDetailPage";
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 import ChatsPage from "./pages/ChatsPage";
 import TasksPage from "./pages/TasksPage";
 import CalendarPage from "./pages/CalendarPage";
@@ -53,6 +54,7 @@ const App = () => (
             {/* Auth routes */}
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
             </Route>
 
             {/* Workspace routes (protected) */}
