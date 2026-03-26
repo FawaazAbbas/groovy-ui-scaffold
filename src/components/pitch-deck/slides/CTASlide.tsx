@@ -3,20 +3,24 @@ import { GroovyLogo } from '@/components/ui/GroovyLogo';
 
 export default function CTASlide() {
   return (
-    <SlideLayout className="bg-gradient-to-br from-comfort via-background to-background">
-      <div className="flex flex-col items-center justify-center h-full text-center px-[200px]">
-        <div className="w-20 h-20 rounded-2xl bg-gradient-to-b from-electric-bright to-electric flex items-center justify-center mb-12 neon-glow-lg">
-          <GroovyLogo className="h-10 w-10 text-background" />
+    <SlideLayout>
+      <div className="relative w-full h-full overflow-hidden" style={{ background: 'linear-gradient(145deg, #0d0a18 0%, #0a0a12 50%, #080808 100%)' }}>
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-15" style={{ background: 'radial-gradient(circle, rgba(245,200,66,0.25) 0%, transparent 70%)', filter: 'blur(100px)' }} />
+
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
+          <div className="w-16 h-16 rounded-[18px] flex items-center justify-center mb-10" style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.9), rgba(200,160,40,0.8))', boxShadow: '0 0 50px rgba(245,200,66,0.2)' }}>
+            <GroovyLogo className="h-8 w-8 text-black" />
+          </div>
+          <h2 className="text-[96px] font-bold leading-[1.05] text-white mb-6 tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            Invest in <span style={{ color: '#F5C842' }}>Groovy.</span>
+          </h2>
+          <p className="text-[28px] text-white/30 mb-4" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            Please.
+          </p>
+          <p className="text-[16px] text-white/15 mt-20" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            groovy.ai
+          </p>
         </div>
-        <h2 className="text-[80px] font-bold leading-[1.05] text-text-primary mb-8">
-          Invest in <span className="text-electric-bright">Groovy.</span>
-        </h2>
-        <p className="text-[32px] text-text-secondary leading-relaxed max-w-[800px] mb-4">
-          Please.
-        </p>
-        <p className="text-[18px] text-text-secondary/60 mt-16">
-          groovy.ai
-        </p>
       </div>
     </SlideLayout>
   );
