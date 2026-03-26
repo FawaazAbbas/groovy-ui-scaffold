@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Maximize, Minimize } from 'lucide-react';
+import { Maximize, Minimize } from 'lucide-react';
 import { ScaledSlide } from '@/components/pitch-deck/SlideLayout';
 import { slides } from '@/components/pitch-deck/slides';
 
 export default function PitchDeckPage() {
   const [current, setCurrent] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [hoveredDot, setHoveredDot] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const thumbStripRef = useRef<HTMLDivElement>(null);
 
   const goTo = useCallback((i: number) => {
     setCurrent(Math.max(0, Math.min(i, slides.length - 1)));
@@ -16,7 +16,6 @@ export default function PitchDeckPage() {
   const prev = useCallback(() => goTo(current - 1), [current, goTo]);
   const next = useCallback(() => goTo(current + 1), [current, goTo]);
 
-  // Keyboard nav
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') prev();
@@ -27,7 +26,6 @@ export default function PitchDeckPage() {
     return () => window.removeEventListener('keydown', handler);
   }, [prev, next, isFullscreen]);
 
-  // Fullscreen API
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
       containerRef.current?.requestFullscreen();
@@ -42,84 +40,63 @@ export default function PitchDeckPage() {
     return () => document.removeEventListener('fullscreenchange', handler);
   }, []);
 
-  // Scroll active thumbnail into view
-  useEffect(() => {
-    const strip = thumbStripRef.current;
-    const active = strip?.children[current] as HTMLElement | undefined;
-    active?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-  }, [current]);
-
   const SlideComponent = slides[current].component;
 
   return (
     <div
       ref={containerRef}
-      className={`flex flex-col ${isFullscreen ? 'bg-[#0a0a0a]' : 'bg-[#0a0a0a]'}`}
-      style={{ height: '100vh' }}
+      className="relative w-full h-screen bg-black overflow-hidden select-none"
     >
-      {/* Main canvas */}
-      <div className="flex-1 relative min-h-0">
+      {/* Slide canvas */}
+      <div className="absolute inset-0">
         <ScaledSlide>
           <SlideComponent />
         </ScaledSlide>
-
-        {/* Nav arrows */}
-        {!isFullscreen && (
-          <>
-            <button
-              onClick={prev}
-              disabled={current === 0}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/50 disabled:opacity-0 transition-all flex items-center justify-center"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={next}
-              disabled={current === slides.length - 1}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/50 disabled:opacity-0 transition-all flex items-center justify-center"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </>
-        )}
-
-        {/* Slide counter + fullscreen toggle */}
-        <div className="absolute bottom-3 right-3 flex items-center gap-2">
-          <span className="text-xs font-mono text-white/50 bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-md">
-            {current + 1} / {slides.length}
-          </span>
-          <button
-            onClick={toggleFullscreen}
-            className="w-8 h-8 rounded-md bg-black/30 backdrop-blur-sm text-white/50 hover:text-white transition-colors flex items-center justify-center"
-          >
-            {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
-          </button>
-        </div>
       </div>
 
-      {/* Thumbnail strip */}
-      {!isFullscreen && (
-        <div className="shrink-0 border-t border-border bg-black/5 backdrop-blur-sm px-4 py-3">
-          <div ref={thumbStripRef} className="flex gap-3 overflow-x-auto scrollbar-hide">
-            {slides.map((slide, i) => (
-              <button
-                key={slide.id}
-                onClick={() => goTo(i)}
-                className={`shrink-0 rounded-lg overflow-hidden transition-all duration-200 ${
-                  i === current
-                    ? 'ring-2 ring-[#F5C842] ring-offset-2 ring-offset-background scale-[1.02]'
-                    : 'opacity-60 hover:opacity-90'
-                }`}
-                style={{ width: 160, height: 90 }}
-              >
-                <div className="w-[1920px] h-[1080px] origin-top-left" style={{ transform: `scale(${160 / 1920})` }}>
-                  <slide.component />
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Invisible click zones */}
+      <div
+        className="absolute left-0 top-0 w-1/2 h-full cursor-w-resize z-10"
+        onClick={prev}
+      />
+      <div
+        className="absolute right-0 top-0 w-1/2 h-full cursor-e-resize z-10"
+        onClick={next}
+      />
+
+      {/* Dot indicators */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+        {slides.map((slide, i) => (
+          <button
+            key={slide.id}
+            onClick={() => goTo(i)}
+            onMouseEnter={() => setHoveredDot(i)}
+            onMouseLeave={() => setHoveredDot(null)}
+            className="relative p-1 group"
+          >
+            <div
+              className={`rounded-full transition-all duration-300 ${
+                i === current
+                  ? 'w-6 h-2 bg-white'
+                  : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+              }`}
+            />
+            {hoveredDot === i && (
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-3 py-1.5 rounded-lg bg-black/70 backdrop-blur-xl text-white/90 text-[11px] font-medium tracking-wide whitespace-nowrap">
+                {slide.label}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Fullscreen toggle */}
+      <button
+        onClick={toggleFullscreen}
+        className="absolute bottom-8 right-8 z-20 w-8 h-8 rounded-full bg-white/10 backdrop-blur-xl text-white/40 hover:text-white/80 hover:bg-white/20 transition-all flex items-center justify-center"
+      >
+        {isFullscreen ? <Minimize className="w-3.5 h-3.5" /> : <Maximize className="w-3.5 h-3.5" />}
+      </button>
     </div>
   );
 }
