@@ -1,10 +1,22 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useRef, type ReactNode } from 'react';
 import { type User, type Session } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import {
+  type Workspace,
+  type UserProfile,
+  fetchUserProfile,
+  fetchUserWorkspace,
+  createWorkspace as createWs,
+  joinWorkspace as joinWs,
+  ensureUserProfile,
+} from '@/lib/workspace';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
+  profile: UserProfile | null;
+  workspace: Workspace | null;
+  hasWorkspace: boolean;
   loading: boolean;
   signInWithEmail: (email: string) => Promise<{ error: Error | null }>;
   signInWithPassword: (email: string, password: string) => Promise<{ error: Error | null }>;
@@ -12,6 +24,9 @@ interface AuthContextType {
   signInWithMicrosoft: () => Promise<{ error: Error | null }>;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
+  createWorkspace: (name: string) => Promise<{ error: string | null }>;
+  joinWorkspace: (inviteCode: string) => Promise<{ error: string | null }>;
+  refreshWorkspace: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,7 +34,42 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [loading, setLoading] = useState(true);
+  const loadingRef = useRef(false);
+
+  // Load profile + workspace for a given user
+  const loadWorkspaceData = useCallback(async (currentUser: User | null) => {
+    if (!currentUser || !isSupabaseConfigured) {
+      setProfile(null);
+      setWorkspace(null);
+      return;
+    }
+
+    // Prevent concurrent loads
+    if (loadingRef.current) return;
+    loadingRef.current = true;
+
+    try {
+      await ensureUserProfile(currentUser.user_metadata?.full_name);
+      const userProfile = await fetchUserProfile();
+      setProfile(userProfile);
+
+      if (userProfile?.workspace_id) {
+        const ws = await fetchUserWorkspace();
+        setWorkspace(ws);
+      } else {
+        setWorkspace(null);
+      }
+    } catch (err) {
+      console.error('Error loading workspace data:', err);
+      setProfile(null);
+      setWorkspace(null);
+    } finally {
+      loadingRef.current = false;
+    }
+  }, []);
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
@@ -27,24 +77,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    let mounted = true;
+
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
+    supabase.auth.getSession().then(async ({ data: { session: s } }) => {
+      if (!mounted) return;
+      setSession(s);
+      setUser(s?.user ?? null);
+      if (s?.user) {
+        await loadWorkspaceData(s.user);
+      }
+      if (mounted) setLoading(false);
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
+      (_event, newSession) => {
+        if (!mounted) return;
+        setSession(newSession);
+        const newUser = newSession?.user ?? null;
+        setUser(newUser);
+
+        // Load workspace data in background (don't await to avoid blocking)
+        if (newUser) {
+          loadWorkspaceData(newUser);
+        } else {
+          setProfile(null);
+          setWorkspace(null);
+        }
         setLoading(false);
       }
     );
 
-    return () => subscription.unsubscribe();
-  }, []);
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, [loadWorkspaceData]);
 
   const signInWithEmail = async (email: string) => {
     const { error } = await supabase.auth.signInWithOtp({
@@ -88,7 +157,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/space/marketplace`,
+        emailRedirectTo: `${window.location.origin}/workspace-setup`,
       },
     });
     return { error: error as Error | null };
@@ -96,14 +165,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    setProfile(null);
+    setWorkspace(null);
   };
+
+  const createWorkspace = async (name: string) => {
+    const { workspace: ws, error } = await createWs(name);
+    if (ws) {
+      setWorkspace(ws);
+      const updatedProfile = await fetchUserProfile();
+      setProfile(updatedProfile);
+    }
+    return { error };
+  };
+
+  const joinWorkspace = async (inviteCode: string) => {
+    const { workspace: ws, error } = await joinWs(inviteCode);
+    if (ws) {
+      setWorkspace(ws);
+      const updatedProfile = await fetchUserProfile();
+      setProfile(updatedProfile);
+    }
+    return { error };
+  };
+
+  const refreshWorkspace = useCallback(async () => {
+    if (user) {
+      await loadWorkspaceData(user);
+    }
+  }, [user, loadWorkspaceData]);
 
   return (
     <AuthContext.Provider value={{
-      user, session, loading,
+      user, session, profile, workspace,
+      hasWorkspace: !!workspace,
+      loading,
       signInWithEmail, signInWithPassword,
       signInWithGoogle, signInWithMicrosoft,
       signUp, signOut,
+      createWorkspace, joinWorkspace, refreshWorkspace,
     }}>
       {children}
     </AuthContext.Provider>

@@ -52,7 +52,7 @@ export default function SettingsPage() {
             {/* Avatar */}
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-lg font-semibold text-white">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-lg font-semibold text-white">
                   {profile.name.split(' ').map(n => n[0]).join('')}
                 </div>
                 <button className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-white border border-border shadow-sm hover:bg-surface-elevated transition-colors">

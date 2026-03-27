@@ -49,7 +49,7 @@ function TaskCard({ task, onClick, dataTour }: { task: Task; onClick: () => void
       <div className="flex items-center justify-between">
         <div className="flex -space-x-1.5">
           {assignees.slice(0, 3).map(u => (
-            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-gradient-to-b from-primary to-primary-dark text-[9px] font-medium text-white">
+            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] font-medium text-white">
               {u.name.split(' ').map(n => n[0]).join('')}
             </div>
           ))}
@@ -73,9 +73,9 @@ function Column({ id, label, tasks, onTaskClick }: { id: string; label: string; 
     <div className="flex w-72 shrink-0 flex-col">
       <div className="mb-3 flex items-center justify-between">
         <h3 className={`text-body-sm font-semibold ${id === 'done' ? 'neon-text' : 'text-text-primary'}`}>{label}</h3>
-        <span className={`rounded-full px-2 py-0.5 text-caption ${id === 'done' ? 'bg-electric-muted text-electric-bright neon-glow-sm' : 'bg-white/50 text-text-secondary'}`}>{tasks.length}</span>
+        <span className={`rounded-full px-2 py-0.5 text-caption ${id === 'done' ? 'bg-primary-muted text-primary neon-glow-sm' : 'bg-white/50 text-text-secondary'}`}>{tasks.length}</span>
       </div>
-      <div ref={setNodeRef} className={`flex-1 space-y-2 rounded-2xl p-2 min-h-[200px] ${id === 'done' ? 'bg-electric/[0.04] neon-border' : 'bg-white/30'}`}>
+      <div ref={setNodeRef} className={`flex-1 space-y-2 rounded-2xl p-2 min-h-[200px] ${id === 'done' ? 'bg-primary/[0.04] neon-border' : 'bg-white/30'}`}>
         <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
           {tasks.map((task, index) => (
             <TaskCard
@@ -198,7 +198,7 @@ export default function TasksPage() {
                 <div className="flex flex-wrap gap-2">
                   {mockUsers.filter(u => selectedTask.assigneeIds.includes(u.id)).map(u => (
                     <div key={u.id} className="flex items-center gap-2 rounded-full border border-border-solid bg-white/40 px-3 py-1">
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
+                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
                       <span className="text-caption text-text-primary">{u.name}</span>
                     </div>
                   ))}

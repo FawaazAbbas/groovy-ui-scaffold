@@ -71,7 +71,7 @@ export function AgentSetupWizard({ agent, open, onOpenChange, onInstallComplete 
           <div className="p-6">
             {/* Agent header */}
             <div className="flex items-start gap-3 mb-6">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-electric-muted text-electric-bright font-bold text-lg font-mono">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-muted text-primary font-bold text-lg font-mono">
                 {agent.name[0]}
               </div>
               <div className="min-w-0">

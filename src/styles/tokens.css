@@ -1,95 +1,98 @@
 :root {
-  /* Apple-inspired base palette */
-  --primary-dark: #005299;
-  --electric-dark: #2A1F0A;
-  --background: #F5F5F7;
-  --surface: rgba(255, 255, 255, 0.72);
+  /* Contemporary Design System — from SKILL.md */
+  --primary: #C800DF;
+  --primary-hover: #D420EF;
+  --primary-dark: #A000B3;
+  --secondary: #E60076;
+  --secondary-hover: #F01886;
+
+  /* Surfaces */
+  --background: #FAFAFA;
+  --surface: rgba(255, 255, 255, 0.88);
   --surface-solid: #FFFFFF;
-  --surface-elevated: rgba(255, 255, 255, 0.9);
-  --text-primary: #1D1D1F;
-  --text-secondary: #86868B;
-  --border: rgba(0, 0, 0, 0.08);
-  --border-solid: #E5E5EA;
+  --surface-elevated: rgba(255, 255, 255, 0.95);
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --border: rgba(0, 0, 0, 0.06);
+  --border-solid: #E5E7EB;
 
-  /* Sidebar — frosted dark */
-  --sidebar: rgba(28, 28, 30, 0.82);
-  --sidebar-solid: #1C1C1E;
-  --sidebar-text: #F5F5F7;
+  /* Sidebar */
+  --sidebar: rgba(17, 24, 39, 0.95);
+  --sidebar-solid: #111827;
+  --sidebar-text: #F9FAFB;
 
-  /* Liquid glass sidebar */
-  --liquid-glass: rgba(255, 255, 255, 0.45);
-  --liquid-glass-border: rgba(255, 255, 255, 0.6);
-  --liquid-glass-inner: rgba(255, 255, 255, 0.25);
+  /* Liquid glass */
+  --liquid-glass: rgba(255, 255, 255, 0.55);
+  --liquid-glass-border: rgba(255, 255, 255, 0.65);
+  --liquid-glass-inner: rgba(255, 255, 255, 0.3);
   --liquid-glass-blur: 48px;
-  --liquid-glass-saturation: 2;
-  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  --liquid-glass-saturation: 1.8;
+  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 
-  /* Primary — Apple blue-black */
-  --primary: #0071E3;
-  --primary-hover: #0077ED;
+  /* Accent tokens (mapped to primary) */
+  --comfort: rgba(200, 0, 223, 0.06);
+  --comfort-text: #C800DF;
+  --electric: #C800DF;
+  --electric-muted: rgba(200, 0, 223, 0.06);
+  --electric-bright: #C800DF;
+  --electric-dark: rgba(200, 0, 223, 0.08);
 
-  /* Agent accent — warm amber/gold */
-  --comfort: #2A1F0A;
-  --comfort-text: #F5C842;
-  --electric: #946800;
-  --electric-muted: #2A1F0A;
-  --electric-bright: #F5C842;
-
-  /* Status */
-  --warning: #FF9F0A;
-  --destructive: #FF3B30;
-  --agent: #946800;
+  /* Status — from SKILL.md */
+  --success: #16A34A;
+  --warning: #D97706;
+  --destructive: #DC2626;
+  --agent: #C800DF;
 
   /* Glass properties */
   --glass-blur: 40px;
-  --glass-saturation: 1.8;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --glass-saturation: 1.6;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1);
 
-  /* Accent glows — amber */
-  --neon-glow-sm: 0 0 6px rgba(245, 200, 66, 0.25), 0 0 2px rgba(245, 200, 66, 0.15);
-  --neon-glow-md: 0 0 12px rgba(245, 200, 66, 0.3), 0 0 4px rgba(245, 200, 66, 0.2);
-  --neon-glow-lg: 0 0 24px rgba(245, 200, 66, 0.35), 0 0 8px rgba(245, 200, 66, 0.25);
-  --neon-glow-xl: 0 0 40px rgba(245, 200, 66, 0.3), 0 0 16px rgba(245, 200, 66, 0.2), 0 0 4px rgba(245, 200, 66, 0.4);
+  /* Primary glow */
+  --neon-glow-sm: 0 0 6px rgba(200, 0, 223, 0.15);
+  --neon-glow-md: 0 0 12px rgba(200, 0, 223, 0.2);
+  --neon-glow-lg: 0 0 24px rgba(200, 0, 223, 0.25);
+  --neon-glow-xl: 0 0 40px rgba(200, 0, 223, 0.2), 0 0 16px rgba(200, 0, 223, 0.15);
 
-  /* Secondary accent — soft blue */
-  --cyan: #60A5FA;
-  --cyan-muted: #0F1A2E;
-  --cyan-glow-sm: 0 0 6px rgba(96, 165, 250, 0.25), 0 0 2px rgba(96, 165, 250, 0.15);
-  --cyan-glow-md: 0 0 12px rgba(96, 165, 250, 0.3), 0 0 4px rgba(96, 165, 250, 0.2);
+  /* Secondary glow */
+  --cyan: #E60076;
+  --cyan-muted: rgba(230, 0, 118, 0.06);
+  --cyan-glow-sm: 0 0 6px rgba(230, 0, 118, 0.15);
+  --cyan-glow-md: 0 0 12px rgba(230, 0, 118, 0.2);
 
-  /* Retro grid */
-  --grid-color: rgba(245, 200, 66, 0.04);
-  --grid-size: 40px;
-  --scanline-opacity: 0.02;
+  /* Grid (minimal) */
+  --grid-color: rgba(200, 0, 223, 0.02);
+  --grid-size: 48px;
+  --scanline-opacity: 0;
 }
 
 .dark {
-  --background: #1C1C1E;
-  --surface: rgba(44, 44, 46, 0.72);
-  --surface-solid: #2C2C2E;
-  --surface-elevated: rgba(58, 58, 60, 0.9);
-  --text-primary: #F5F5F7;
-  --text-secondary: #98989D;
+  --background: #0F0F11;
+  --surface: rgba(30, 30, 35, 0.85);
+  --surface-solid: #1A1A1F;
+  --surface-elevated: rgba(40, 40, 48, 0.9);
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
   --border: rgba(255, 255, 255, 0.08);
-  --border-solid: #3A3A3C;
+  --border-solid: #2D2D35;
 
-  --sidebar: rgba(0, 0, 0, 0.6);
-  --sidebar-solid: #000000;
-  --sidebar-text: #F5F5F7;
+  --sidebar: rgba(0, 0, 0, 0.7);
+  --sidebar-solid: #0A0A0C;
+  --sidebar-text: #F9FAFB;
 
-  --liquid-glass: rgba(44, 44, 46, 0.45);
-  --liquid-glass-border: rgba(255, 255, 255, 0.1);
-  --liquid-glass-inner: rgba(255, 255, 255, 0.06);
-  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  --liquid-glass: rgba(30, 30, 35, 0.5);
+  --liquid-glass-border: rgba(255, 255, 255, 0.08);
+  --liquid-glass-inner: rgba(255, 255, 255, 0.04);
+  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.16), 0 1px 4px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.24), 0 4px 16px rgba(0, 0, 0, 0.16);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.35);
 
-  --grid-color: rgba(245, 200, 66, 0.03);
-  --scanline-opacity: 0.03;
+  --grid-color: rgba(200, 0, 223, 0.02);
+  --scanline-opacity: 0;
 }

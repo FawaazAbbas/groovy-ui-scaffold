@@ -83,7 +83,7 @@ export function OSCard({ os, title, description, selected, onSelect, disabled }:
             <Lock className="h-3 w-3" /> Coming Soon
           </span>
         ) : (
-          <span className="mt-3 inline-block rounded-full px-3 py-1 text-caption font-medium bg-comfort text-electric-bright">
+          <span className="mt-3 inline-block rounded-full px-3 py-1 text-caption font-medium bg-comfort text-primary">
             No setup needed
           </span>
         )

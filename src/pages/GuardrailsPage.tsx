@@ -276,7 +276,7 @@ export default function GuardrailsPage() {
                   {agentNames ? (
                     <div className="flex flex-wrap gap-2">
                       {agentNames.map(name => (
-                        <span key={name} className="inline-flex items-center gap-1.5 rounded-lg bg-electric-muted px-2.5 py-1 text-caption font-medium text-electric-bright">
+                        <span key={name} className="inline-flex items-center gap-1.5 rounded-lg bg-primary-muted px-2.5 py-1 text-caption font-medium text-primary">
                           <Bot className="h-3 w-3" /> {name}
                         </span>
                       ))}

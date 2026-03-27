@@ -12,7 +12,7 @@ const nodeTypeStyles: Record<string, { bg: string; border: string; text: string 
   department: { bg: 'bg-primary/10', border: 'border-primary/20', text: 'text-primary' },
   team: { bg: 'bg-white/70', border: 'border-border-solid', text: 'text-text-primary' },
   human: { bg: 'bg-comfort', border: 'border-comfort', text: 'text-comfort-text' },
-  agent: { bg: 'bg-electric-muted', border: 'border-electric/30', text: 'text-electric-bright' },
+  agent: { bg: 'bg-primary-muted', border: 'border-electric/30', text: 'text-primary' },
 };
 
 const nodeIcons: Record<string, typeof Building2> = {
@@ -138,7 +138,7 @@ export default function ArchitecturePage() {
             <div>
               <p className="text-caption text-text-secondary">Type</p>
               <span className={`inline-block rounded-full px-2.5 py-0.5 text-caption font-medium capitalize ${
-                selectedNode.type === 'agent' ? 'bg-electric-muted text-electric-bright' :
+                selectedNode.type === 'agent' ? 'bg-primary-muted text-primary' :
                 selectedNode.type === 'human' ? 'bg-comfort text-comfort-text' :
                 'bg-white/50 text-text-secondary'
               }`}>{selectedNode.type}</span>

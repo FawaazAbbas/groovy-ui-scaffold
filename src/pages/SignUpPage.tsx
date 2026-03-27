@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Loader2, UserPlus, Eye, EyeOff, Check } from 'lucide-react';
 import { GroovyLogo } from '@/components/ui/GroovyLogo';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,7 +7,7 @@ import { isSupabaseConfigured } from '@/lib/supabase';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 
 export default function SignUpPage() {
-  const { signUp, user } = useAuth();
+  const { signUp, signInWithGoogle, signInWithMicrosoft, user } = useAuth();
   const { startOnboarding } = useOnboarding();
   const navigate = useNavigate();
   const [fullName, setFullName] = useState('');
@@ -22,8 +22,7 @@ export default function SignUpPage() {
 
   // If already logged in, redirect to workspace
   if (user) {
-    navigate('/space/marketplace', { replace: true });
-    return null;
+    return <Navigate to="/space/marketplace" replace />;
   }
 
   const passwordChecks = {
@@ -47,7 +46,7 @@ export default function SignUpPage() {
     if (!isSupabaseConfigured) {
       // Demo mode — just navigate
       startOnboarding();
-      navigate('/space/marketplace');
+      navigate('/workspace-setup');
       return;
     }
 
@@ -61,26 +60,34 @@ export default function SignUpPage() {
     }
   };
 
-  const handleGoogleSignUp = () => {
+  const handleGoogleSignUp = async () => {
     if (!isSupabaseConfigured) {
       startOnboarding();
-      navigate('/space/marketplace');
+      navigate('/workspace-setup');
+      return;
     }
-    // OAuth requires provider config in GoTrue — placeholder for now
+
+    setError(null);
+    const { error } = await signInWithGoogle();
+    if (error) setError(error.message);
   };
 
-  const handleMicrosoftSignUp = () => {
+  const handleMicrosoftSignUp = async () => {
     if (!isSupabaseConfigured) {
       startOnboarding();
-      navigate('/space/marketplace');
+      navigate('/workspace-setup');
+      return;
     }
-    // OAuth requires provider config in GoTrue — placeholder for now
+
+    setError(null);
+    const { error } = await signInWithMicrosoft();
+    if (error) setError(error.message);
   };
 
   if (success) {
     return (
       <div className="text-center">
-        <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-b from-green-400 to-green-600 shadow-glass-md">
+        <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#16A34A] shadow-glass-md">
           <Check className="h-8 w-8 text-white" />
         </div>
         <h1 className="text-display-sm text-text-primary mb-2">You're all set!</h1>
@@ -88,13 +95,13 @@ export default function SignUpPage() {
           Your account has been created successfully.
         </p>
         <p className="text-body-sm text-text-secondary mb-8">
-          You can now sign in to your Groovy workspace.
+          Now let's set up your workspace.
         </p>
         <Link
-          to="/login"
+          to="/workspace-setup"
           className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-body-sm font-medium text-white hover:bg-primary-hover transition-colors shadow-glass-sm"
         >
-          Go to Sign In
+          Set Up Workspace
         </Link>
       </div>
     );

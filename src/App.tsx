@@ -27,6 +27,7 @@ import PermissionsPage from "./pages/PermissionsPage";
 import GuardrailsPage from "./pages/GuardrailsPage";
 import PricingPage from "./pages/PricingPage";
 import SettingsPage from "./pages/SettingsPage";
+import WorkspaceSetupPage from "./pages/WorkspaceSetupPage";
 import PitchDeckPage from "./pages/PitchDeckPage";
 import NotFound from "./pages/NotFound";
 
@@ -55,6 +56,11 @@ const App = () => (
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUpPage />} />
+            </Route>
+
+            {/* Workspace setup (needs auth, no workspace yet) */}
+            <Route element={<AuthLayout />}>
+              <Route path="/workspace-setup" element={<WorkspaceSetupPage />} />
             </Route>
 
             {/* Workspace routes (protected) */}

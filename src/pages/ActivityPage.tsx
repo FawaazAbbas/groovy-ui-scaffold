@@ -8,7 +8,7 @@ const actionTypeColors: Record<string, string> = {
   task_created: 'bg-comfort text-comfort-text',
   task_updated: 'bg-comfort text-comfort-text',
   file_accessed: 'bg-surface-elevated text-text-secondary',
-  integration_called: 'bg-electric-muted text-electric-bright',
+  integration_called: 'bg-primary-muted text-primary',
   decision_made: 'bg-warning/10 text-warning',
   escalation: 'bg-destructive/10 text-destructive',
 };
@@ -58,7 +58,7 @@ export default function ActivityPage() {
     <div className="p-6 max-w-6xl">
       <div className="flex items-center gap-3 mb-6">
         <h1 className="text-heading font-semibold text-text-primary">AI Activity Log</h1>
-        <span className="retro-label cyan-text animate-retro-pulse">● LIVE</span>
+        <span className="retro-label cyan-text animate-pulse">● LIVE</span>
       </div>
 
       {/* Task Approvals */}
@@ -82,7 +82,7 @@ export default function ActivityPage() {
               return (
                 <div key={approval.id} className="card-glass p-5">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-electric-muted text-electric-bright font-bold text-sm font-mono">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-muted text-primary font-bold text-sm font-mono">
                       {approval.agentName[0]}
                     </div>
 
@@ -191,7 +191,7 @@ export default function ActivityPage() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-electric-muted text-electric-bright text-[10px] font-bold neon-glow-sm">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary-muted text-primary text-[10px] font-bold neon-glow-sm">
                         {entry.agentName[0]}
                       </div>
                       <span className="text-text-primary font-medium">{entry.agentName}</span>
@@ -208,7 +208,7 @@ export default function ActivityPage() {
                       {entry.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 font-mono text-[11px] text-electric/60">{entry.creditCost} cr</td>
+                  <td className="px-4 py-3 font-mono text-[11px] text-primary/60">{entry.creditCost} cr</td>
                 </tr>
                 {expandedId === entry.id && (
                   <tr data-tour={index === 0 ? 'expanded-activity-row' : undefined} className="border-b border-border/50 bg-white/20">

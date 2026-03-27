@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Mail, Loader2, Eye, EyeOff, LogIn } from 'lucide-react';
 import { GroovyLogo } from '@/components/ui/GroovyLogo';
 import { useAuth } from '@/contexts/AuthContext';
@@ -22,8 +22,7 @@ export default function LoginPage() {
 
   // If already logged in, redirect to workspace
   if (user) {
-    navigate('/space/marketplace', { replace: true });
-    return null;
+    return <Navigate to="/space/marketplace" replace />;
   }
 
   const handlePasswordLogin = async (e: React.FormEvent) => {

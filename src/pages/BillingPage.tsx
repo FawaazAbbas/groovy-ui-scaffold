@@ -15,7 +15,7 @@ export default function BillingPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Credit gauge */}
         <div className="card-glass p-6 flex flex-col items-center">
-          <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120" style={{ filter: usagePercent <= 60 ? 'drop-shadow(0 0 6px rgba(245,200,66,0.3))' : 'none' }}>
+          <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120" style={{ filter: usagePercent <= 60 ? 'drop-shadow(0 0 6px rgba(200,0,223,0.3))' : 'none' }}>
             <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border-solid)" strokeWidth="10" />
             <circle cx="60" cy="60" r="50" fill="none" stroke={gaugeColor} strokeWidth="10" strokeLinecap="round"
               strokeDasharray={`${usagePercent * 3.14} ${314 - usagePercent * 3.14}`} />
@@ -39,7 +39,7 @@ export default function BillingPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             {mockPlan.features.map(f => (
-              <span key={f} className="rounded-md bg-comfort px-3 py-1 retro-label text-electric-bright neon-glow-sm">{f}</span>
+              <span key={f} className="rounded-md bg-comfort px-3 py-1 retro-label text-primary neon-glow-sm">{f}</span>
             ))}
           </div>
         </div>

@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { isSupabaseConfigured } from '@/lib/supabase';
 
 export default function ProtectedRoute() {
-  const { user, loading } = useAuth();
+  const { user, hasWorkspace, loading } = useAuth();
 
   if (loading) {
     return (
@@ -15,8 +16,18 @@ export default function ProtectedRoute() {
     );
   }
 
+  // Demo mode — allow through without real auth
+  if (!isSupabaseConfigured) {
+    return <Outlet />;
+  }
+
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+
+  // Authenticated but no workspace — redirect to setup
+  if (!hasWorkspace) {
+    return <Navigate to="/workspace-setup" replace />;
   }
 
   return <Outlet />;

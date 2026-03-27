@@ -19,7 +19,7 @@ function PermissionBadge({ level }: { level: 'full' | 'limited' | 'approval' }) 
   const config = {
     full: { label: 'Full Access', icon: ShieldCheck, className: 'bg-comfort text-comfort-text' },
     limited: { label: 'Limited', icon: Shield, className: 'bg-warning/10 text-warning' },
-    approval: { label: 'Approval Required', icon: ShieldAlert, className: 'bg-electric/10 text-electric-bright' },
+    approval: { label: 'Approval Required', icon: ShieldAlert, className: 'bg-primary/10 text-primary' },
   }[level];
   const Icon = config.icon;
   return (
@@ -159,8 +159,8 @@ export default function PermissionsPage() {
         </div>
         <div className="card-glass p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-electric/10">
-              <ShieldAlert className="h-5 w-5 text-electric-bright" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
+              <ShieldAlert className="h-5 w-5 text-primary" />
             </div>
             <div>
               <p className="text-heading-sm font-semibold text-text-primary">
@@ -189,7 +189,7 @@ export default function PermissionsPage() {
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-electric-muted text-electric-bright font-bold text-sm font-mono">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-muted text-primary font-bold text-sm font-mono">
                       {agent.name[0]}
                     </div>
                     <div className="absolute -bottom-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-agent">
@@ -258,7 +258,7 @@ export default function PermissionsPage() {
                 {/* Header */}
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-electric-muted text-electric-bright font-bold text-lg font-mono">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-muted text-primary font-bold text-lg font-mono">
                       {agent.name[0]}
                     </div>
                     <div className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-agent">
@@ -280,7 +280,7 @@ export default function PermissionsPage() {
                     className="flex w-full items-center justify-between"
                   >
                     <div className="flex items-center gap-3">
-                      <ShieldAlert className="h-5 w-5 text-electric-bright" />
+                      <ShieldAlert className="h-5 w-5 text-primary" />
                       <div className="text-left">
                         <p className="text-body-sm font-medium text-text-primary">Require approval</p>
                         <p className="text-caption text-text-secondary">Actions need human sign-off before executing</p>

@@ -9,7 +9,7 @@ export function HeyContent() {
     <div className="text-center">
       <AnimatedEntry delay={0}>
         <div className="mb-10">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-b from-primary to-primary-dark shadow-glass-sm">
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-glass-sm">
             <GroovyLogo className="h-7 w-7 text-white" />
           </div>
         </div>

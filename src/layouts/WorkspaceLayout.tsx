@@ -8,6 +8,8 @@ import {
 import { useDarkMode } from '@/hooks/use-dark-mode';
 import { mockSession } from '@/lib/mocks/session';
 import { CommandPalette } from '@/components/CommandPalette';
+import { useAuth } from '@/contexts/AuthContext';
+import { isSupabaseConfigured } from '@/lib/supabase';
 
 const navItems = [
   { label: 'Tasks', icon: CheckSquare, path: '/space/tasks', tourId: 'nav-tasks' },
@@ -30,11 +32,18 @@ export default function WorkspaceLayout() {
   const [cmdOpen, setCmdOpen] = useState(false);
   const { isDark, toggle: toggleDark } = useDarkMode();
   const location = useLocation();
+  const { user, profile, workspace, signOut } = useAuth();
+
+  // Use real data if Supabase is configured, otherwise fall back to mock
+  const displayName = isSupabaseConfigured && profile ? profile.full_name : mockSession.user.name;
+  const displayRole = isSupabaseConfigured && profile ? profile.role : mockSession.user.role;
+  const displayWorkspace = isSupabaseConfigured && workspace ? workspace.name : mockSession.workspace.name;
+  const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase();
 
   const sidebarWidth = collapsed ? 'w-16' : 'w-[260px]';
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background retro-grid" style={{ background: isDark ? 'linear-gradient(135deg, #1C1C1E 0%, #1F1D1A 25%, #1C1C1E 50%, #1A1D1F 75%, #1C1C1E 100%)' : 'linear-gradient(135deg, #F5F5F7 0%, #F0EDE8 30%, #F0F2F5 50%, #EDE8E0 70%, #F5F5F7 100%)', transition: 'background 0.5s cubic-bezier(0.25, 1, 0.5, 1)' }}>
+    <div className="flex h-screen overflow-hidden bg-background">
       {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden" onClick={() => setMobileOpen(false)} />
@@ -46,19 +55,19 @@ export default function WorkspaceLayout() {
           mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
-        {/* Retro accent line */}
+        {/* Accent line */}
         <div className="retro-divider" />
 
         {/* Workspace header */}
         <div className="flex h-14 items-center gap-3 border-b border-black/[0.04] px-4">
-          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-b from-primary to-primary-dark shadow-glass-sm">
-            <span className="text-sm font-semibold text-white">A</span>
+          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary shadow-glass-sm">
+            <span className="text-sm font-semibold text-white">{displayWorkspace[0]}</span>
             <span className="absolute -bottom-0.5 -right-0.5 neon-dot animate-pulse" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <span className="truncate text-body-sm font-semibold tracking-tight text-text-primary block">{mockSession.workspace.name}</span>
-              <span className="retro-label text-electric/40 animate-retro-pulse">SYS:ONLINE</span>
+              <span className="truncate text-body-sm font-semibold tracking-tight text-text-primary block">{displayWorkspace}</span>
+              <span className="retro-label text-primary/40">ONLINE</span>
             </div>
           )}
         </div>
@@ -94,15 +103,15 @@ export default function WorkspaceLayout() {
                 onClick={() => setMobileOpen(false)}
                 className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm transition-all duration-200 ${
                   isActive
-                    ? 'glass-liquid-item-active text-electric-bright font-medium'
+                    ? 'glass-liquid-item-active text-primary font-medium'
                     : 'text-text-secondary hover:glass-liquid-item hover:text-text-primary'
                 } ${collapsed ? 'justify-center px-0' : ''}`}
               >
                 {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-electric-bright neon-glow-sm" />
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-primary neon-glow-sm" />
                 )}
-                <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-electric-bright drop-shadow-[0_0_6px_rgba(245,200,66,0.5)]' : ''}`} />
-                {!collapsed && <span className={isActive ? 'text-shadow-[0_0_8px_rgba(245,200,66,0.3)]' : ''}>{item.label}</span>}
+                <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-primary' : ''}`} />
+                {!collapsed && <span>{item.label}</span>}
               </Link>
             );
           })}
@@ -111,24 +120,24 @@ export default function WorkspaceLayout() {
         {/* User info */}
         <div className="border-t border-black/[0.04] p-3">
           <div className={`flex items-center gap-3 rounded-xl px-2 py-2 glass-liquid-item ${collapsed ? 'justify-center' : ''}`}>
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-xs font-medium text-white shadow-glass-sm">
-              {mockSession.user.name.split(' ').map(n => n[0]).join('')}
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-medium text-white shadow-glass-sm">
+              {initials}
             </div>
             {!collapsed && (
               <div className="min-w-0">
-                <p className="truncate text-body-sm font-medium text-text-primary">{mockSession.user.name}</p>
-                <p className="truncate text-caption text-text-secondary">{mockSession.user.role}</p>
+                <p className="truncate text-body-sm font-medium text-text-primary">{displayName}</p>
+                <p className="truncate text-caption text-text-secondary capitalize">{displayRole}</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* Retro divider + version */}
+        {/* Divider + version */}
         <div className="retro-divider" />
         {!collapsed && (
           <div className="flex items-center justify-between px-4 py-1.5">
             <span className="retro-label text-text-secondary/40">v2.4.1</span>
-            <span className="retro-label cyan-text">ELIXA</span>
+            <span className="retro-label text-primary/60">GROOVY</span>
           </div>
         )}
 
@@ -154,7 +163,7 @@ export default function WorkspaceLayout() {
             </button>
             <nav className="hidden md:flex items-center gap-1.5 text-body-sm text-text-secondary">
               <Link to="/space/chats" className="hover:text-text-primary transition-colors">Workspace</Link>
-              <span className="text-electric/30 font-mono">//</span>
+              <span className="text-primary/30 font-mono">//</span>
               <span className="font-mono text-text-primary font-medium capitalize tracking-wide">
                 {location.pathname.split('/')[2] || 'chats'}
               </span>
@@ -180,12 +189,12 @@ export default function WorkspaceLayout() {
             </button>
             <button className="relative text-text-secondary hover:text-text-primary transition-colors">
               <Bell className="h-[18px] w-[18px]" />
-              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-electric-bright text-[10px] font-bold text-electric-dark neon-glow-sm">
+              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white neon-glow-sm">
                 3
               </span>
             </button>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-primary to-primary-dark text-[11px] font-medium text-white">
-              {mockSession.user.name.split(' ').map(n => n[0]).join('')}
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-[11px] font-medium text-white">
+              {initials}
             </div>
           </div>
         </header>
