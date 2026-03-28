@@ -98,7 +98,7 @@ export default function LoginPage() {
   if (magicLinkSent) {
     return (
       <div className="text-center">
-        <div className="mx-auto mb-8">
+        <div className="mx-auto mb-8 flex justify-center">
           <GroovyLogo className="h-16 w-16 text-primary" />
         </div>
         <h1 className="text-display-sm text-text-primary mb-2">Check your email</h1>
@@ -120,7 +120,7 @@ export default function LoginPage() {
 
   return (
     <div className="text-center">
-      <div className="mx-auto mb-8">
+      <div className="mx-auto mb-8 flex justify-center">
         <GroovyLogo className="h-16 w-16 text-primary" />
       </div>
       <h1 className="text-display-sm text-text-primary mb-2">Welcome back</h1>

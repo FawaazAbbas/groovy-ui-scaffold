@@ -82,7 +82,7 @@ export default function WorkspaceSetupPage() {
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="mx-auto mb-6">
+          <div className="mx-auto mb-6 flex justify-center">
             <GroovyLogo className="h-16 w-16 text-primary" />
           </div>
           <h1 className="text-2xl font-bold text-text-primary mb-2">

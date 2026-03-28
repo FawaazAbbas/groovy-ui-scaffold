@@ -87,7 +87,7 @@ export default function SignUpPage() {
   if (success) {
     return (
       <div className="text-center">
-        <div className="mx-auto mb-8">
+        <div className="mx-auto mb-8 flex justify-center">
           <GroovyLogo className="h-16 w-16 text-[#16A34A]" />
         </div>
         <h1 className="text-display-sm text-text-primary mb-2">You're all set!</h1>
