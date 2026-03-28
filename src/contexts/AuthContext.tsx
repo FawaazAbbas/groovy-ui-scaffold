@@ -73,16 +73,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let mounted = true;
 
     // getSession() reads from localStorage — fast, no network needed for cached sessions
-    supabase.auth.getSession().then(async ({ data: { session: s } }) => {
-      if (!mounted) return;
-      const currentUser = s?.user ?? null;
-      setSession(s);
-      setUser(currentUser);
-      if (currentUser) {
-        await loadWorkspaceData(currentUser);
-      }
-      if (mounted) setLoading(false);
-    });
+    supabase.auth.getSession()
+      .then(async ({ data: { session: s } }) => {
+        if (!mounted) return;
+        const currentUser = s?.user ?? null;
+        setSession(s);
+        setUser(currentUser);
+        if (currentUser) {
+          await loadWorkspaceData(currentUser);
+        }
+        if (mounted) setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error in getSession():', err);
+        if (mounted) setLoading(false);
+      });
 
     // onAuthStateChange handles subsequent auth events ONLY (sign in, sign out, token refresh)
     // We explicitly skip INITIAL_SESSION since getSession() already handles it
