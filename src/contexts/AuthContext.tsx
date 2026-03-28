@@ -192,7 +192,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const createWorkspace = async (name: string, industry?: string, size?: string, jobTitle?: string) => {
-    const { workspace: ws, error } = await createWs(name, industry, size, jobTitle);
+    const { workspace: ws, error } = await createWs(name, user, industry, size, jobTitle);
     if (ws && user) {
       setWorkspace(ws);
       const updatedProfile = await fetchUserProfile(user);
@@ -202,7 +202,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const joinWorkspace = async (inviteCode: string, jobTitle?: string) => {
-    const { workspace: ws, error } = await joinWs(inviteCode, jobTitle);
+    const { workspace: ws, error } = await joinWs(inviteCode, user, jobTitle);
     if (ws && user) {
       setWorkspace(ws);
       const updatedProfile = await fetchUserProfile(user);

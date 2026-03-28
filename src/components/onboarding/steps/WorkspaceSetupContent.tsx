@@ -41,15 +41,20 @@ export function WorkspaceSetupContent() {
     setLoading(true);
     setError(null);
 
-    const { error: wsError } = await createWorkspace(workspaceName.trim());
-    setLoading(false);
+    try {
+      const { error: wsError } = await createWorkspace(workspaceName.trim());
+      setLoading(false);
 
-    if (wsError) {
-      setError(wsError);
-      return;
+      if (wsError) {
+        setError(wsError);
+        return;
+      }
+
+      nextStep();
+    } catch (err) {
+      setLoading(false);
+      setError(err instanceof Error ? err.message : 'Failed to create workspace. Please try again.');
     }
-
-    nextStep();
   };
 
   return (

@@ -71,12 +71,13 @@ export async function fetchUserWorkspace(user: User): Promise<Workspace | null> 
  */
 export async function createWorkspace(
   name: string,
+  currentUser: User | null,
   industry?: string,
   size?: string,
   jobTitle?: string
 ): Promise<{ workspace: Workspace | null; error: string | null }> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { workspace: null, error: 'Not authenticated' };
+  if (!currentUser) return { workspace: null, error: 'Not authenticated' };
+  const user = currentUser;
 
   const inviteCode = generateInviteCode();
 
@@ -122,10 +123,11 @@ export async function createWorkspace(
  */
 export async function joinWorkspace(
   inviteCode: string,
+  currentUser: User | null,
   jobTitle?: string
 ): Promise<{ workspace: Workspace | null; error: string | null }> {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { workspace: null, error: 'Not authenticated' };
+  if (!currentUser) return { workspace: null, error: 'Not authenticated' };
+  const user = currentUser;
 
   // Look up workspace by invite code
   const { data: workspace, error: wsError } = await supabase
