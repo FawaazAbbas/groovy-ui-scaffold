@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { ArrowRight, Globe, Users, Building2 } from 'lucide-react';
+import { ArrowRight, Globe, Users, Building2, Loader2 } from 'lucide-react';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { AnimatedEntry } from '../AnimatedEntry';
 
 const TIMEZONES = [
@@ -19,10 +21,36 @@ const TIMEZONES = [
 
 export function WorkspaceSetupContent() {
   const { nextStep } = useOnboarding();
+  const { createWorkspace } = useAuth();
   const [workspaceName, setWorkspaceName] = useState('');
   const [timezone, setTimezone] = useState('Europe/London');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const canProceed = workspaceName.trim().length > 0;
+  const canProceed = workspaceName.trim().length > 0 && !loading;
+
+  const handleSetupWorkspace = async () => {
+    if (!canProceed) return;
+
+    // Demo mode — skip real workspace creation
+    if (!isSupabaseConfigured) {
+      nextStep();
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const { error: wsError } = await createWorkspace(workspaceName.trim());
+    setLoading(false);
+
+    if (wsError) {
+      setError(wsError);
+      return;
+    }
+
+    nextStep();
+  };
 
   return (
     <div className="flex flex-col items-center w-full max-w-lg mx-auto px-4">
@@ -89,14 +117,31 @@ export function WorkspaceSetupContent() {
         </div>
       </AnimatedEntry>
 
+      {error && (
+        <AnimatedEntry delay={0} className="w-full mt-4">
+          <div className="rounded-xl border border-red-200/30 bg-red-50/50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        </AnimatedEntry>
+      )}
+
       <AnimatedEntry delay={300} className="w-full mt-6">
         <button
-          onClick={nextStep}
+          onClick={handleSetupWorkspace}
           disabled={!canProceed}
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-white hover:bg-primary-hover transition-colors shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          Set up workspace
-          <ArrowRight className="h-4 w-4" />
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Creating workspace...
+            </>
+          ) : (
+            <>
+              Set up workspace
+              <ArrowRight className="h-4 w-4" />
+            </>
+          )}
         </button>
       </AnimatedEntry>
     </div>

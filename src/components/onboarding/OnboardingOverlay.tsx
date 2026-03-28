@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { StepTransition } from './StepTransition';
 import { GuidedSpotlight } from './GuidedSpotlight';
 import { OnboardingProgress } from './OnboardingProgress';
@@ -32,6 +33,9 @@ function getMaxWidth(stepId: OnboardingStepId): string {
   return 'max-w-2xl';
 }
 
+// Steps that require the user to be authenticated
+const POST_AUTH_STEPS = new Set<OnboardingStepId>(['workspace-setup', 'os-choice', 'connect-integration', 'tour']);
+
 export function OnboardingOverlay() {
   const {
     currentStepId,
@@ -40,8 +44,27 @@ export function OnboardingOverlay() {
     currentStepIndex,
     totalSteps,
     skipOnboarding,
+    completeOnboarding,
+    resetOnboarding,
     prevStep,
   } = useOnboarding();
+  const { user, hasWorkspace, loading: authLoading } = useAuth();
+
+  // Sync onboarding state with auth state to prevent stale overlays
+  useEffect(() => {
+    if (authLoading) return; // Wait for auth to resolve
+
+    // If tour is active but no workspace exists, bail out
+    if (overlayPhase === 'tour' && !hasWorkspace) {
+      completeOnboarding();
+      return;
+    }
+
+    // If on a post-auth step but user isn't authenticated, reset onboarding
+    if (POST_AUTH_STEPS.has(currentStepId) && !user) {
+      resetOnboarding();
+    }
+  }, [authLoading, user, hasWorkspace, overlayPhase, currentStepId, completeOnboarding, resetOnboarding]);
 
   // Add/remove onboarding-active class on body during tour to disable global transitions
   useEffect(() => {

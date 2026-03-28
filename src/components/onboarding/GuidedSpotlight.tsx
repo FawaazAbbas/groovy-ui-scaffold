@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { getTourSteps } from '@/lib/onboarding-config';
 import { SpotlightTooltip } from './SpotlightTooltip';
 
@@ -25,6 +26,18 @@ export function GuidedSpotlight() {
   const location = useLocation();
   const navigate = useNavigate();
   const { tourStepIndex, osChoice, nextTourStep, prevTourStep, completeOnboarding } = useOnboarding();
+  const { hasWorkspace, loading: authLoading } = useAuth();
+
+  // Guard: if tour starts but user doesn't have a workspace, bail out
+  useEffect(() => {
+    if (!authLoading && !hasWorkspace) {
+      completeOnboarding();
+      toast.error('Workspace setup incomplete', {
+        description: 'Please complete workspace setup first.',
+        duration: 5000,
+      });
+    }
+  }, [authLoading, hasWorkspace, completeOnboarding]);
 
   const [tourPhase, setTourPhase] = useState<TourPhase>('waiting-for-target');
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
