@@ -6,10 +6,10 @@ import { GroovyLogo } from '@/components/ui/GroovyLogo';
 const platformDetails: Record<string, { name: string; color: string; description: string; icon: React.ReactNode }> = {
   slack: {
     name: 'Slack',
-    color: 'bg-[#4A154B]/10 text-[#4A154B]',
+    color: 'bg-[#4A154B]',
     description: 'Your agents will appear as teammates in your Slack workspace — send messages, respond to threads, and run tasks.',
     icon: (
-      <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none">
+      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none">
         <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z" fill="#E01E5A"/>
         <path d="M8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312z" fill="#36C5F0"/>
         <path d="M18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.27 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.163 0a2.528 2.528 0 0 1 2.523 2.522v6.312z" fill="#2EB67D"/>
@@ -19,21 +19,21 @@ const platformDetails: Record<string, { name: string; color: string; description
   },
   teams: {
     name: 'Microsoft Teams',
-    color: 'bg-[#464EB8]/10 text-[#464EB8]',
+    color: 'bg-[#ECEEF8]',
     description: 'Your agents will appear in your Teams channels — collaborate, respond, and execute tasks alongside your team.',
-    icon: <img src="/logos/teams.svg" alt="Microsoft Teams" className="h-8 w-8 rounded-md" />,
+    icon: <img src="/logos/teams.svg" alt="Microsoft Teams" className="h-7 w-7" />,
   },
   lark: {
     name: 'Lark',
-    color: 'bg-[#3370FF]/10 text-[#3370FF]',
+    color: 'bg-white border border-black/[0.08]',
     description: 'Your agents will join your Lark workspace — handle messages, documents, and tasks seamlessly.',
-    icon: <img src="/logos/lark.png" alt="Lark" className="h-8 w-8 rounded-md" />,
+    icon: <img src="/logos/lark.png" alt="Lark" className="h-7 w-7 object-contain" />,
   },
   'groovy-space': {
     name: 'Groovy Space',
-    color: 'bg-primary/10 text-primary',
+    color: 'bg-primary/10',
     description: "You're all set — Groovy Space is our built-in workspace. No external connections needed.",
-    icon: <GroovyLogo className="h-8 w-8 text-primary" />,
+    icon: <GroovyLogo className="h-7 w-7 text-primary" />,
   },
 };
 

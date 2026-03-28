@@ -29,11 +29,23 @@ function LogoIcon({ os }: { os: OSChoice }) {
         </div>
       );
     case 'teams':
-      return <img src="/logos/teams.svg" alt="Microsoft Teams" className="h-10 w-10 rounded-lg" />;
+      return (
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ECEEF8]">
+          <img src="/logos/teams.svg" alt="Microsoft Teams" className="h-5 w-5" />
+        </div>
+      );
     case 'lark':
-      return <img src="/logos/lark.png" alt="Lark" className="h-10 w-10 rounded-lg" />;
+      return (
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-black/[0.08]">
+          <img src="/logos/lark.png" alt="Lark" className="h-5 w-5 object-contain" />
+        </div>
+      );
     case 'groovy-space':
-      return <GroovyLogo className="h-8 w-8 text-text-secondary" />;
+      return (
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
+          <GroovyLogo className="h-5 w-5 text-text-secondary" />
+        </div>
+      );
     default:
       return null;
   }
