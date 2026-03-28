@@ -38,7 +38,7 @@ const platformDetails: Record<string, { name: string; color: string; description
 };
 
 export function ConnectIntegrationContent() {
-  const { osChoice, nextStep } = useOnboarding();
+  const { osChoice, nextStep, completeOnboarding } = useOnboarding();
 
   const platform = osChoice ? platformDetails[osChoice] : null;
   const isGroovySpace = osChoice === 'groovy-space';
@@ -91,7 +91,7 @@ export function ConnectIntegrationContent() {
       {!isGroovySpace && (
         <AnimatedEntry delay={300} className="w-full">
           <button
-            onClick={nextStep}
+            onClick={completeOnboarding}
             className="mt-4 w-full text-center text-sm text-text-secondary hover:text-primary transition-colors"
           >
             Skip for now
