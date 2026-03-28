@@ -72,6 +72,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     let mounted = true;
 
+    // Safety timeout — if loading takes more than 10s, force it to resolve
+    const loadingTimeout = setTimeout(() => {
+      if (mounted && loading) {
+        console.error('Auth loading timed out after 10s — forcing resolution');
+        setLoading(false);
+      }
+    }, 10_000);
+
     // getSession() reads from localStorage — fast, no network needed for cached sessions
     supabase.auth.getSession()
       .then(async ({ data: { session: s } }) => {
@@ -82,11 +90,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (currentUser) {
           await loadWorkspaceData(currentUser);
         }
-        if (mounted) setLoading(false);
+        if (mounted) {
+          clearTimeout(loadingTimeout);
+          setLoading(false);
+        }
       })
       .catch((err) => {
         console.error('Error in getSession():', err);
-        if (mounted) setLoading(false);
+        if (mounted) {
+          clearTimeout(loadingTimeout);
+          setLoading(false);
+        }
       });
 
     // onAuthStateChange handles subsequent auth events ONLY (sign in, sign out, token refresh)
@@ -111,6 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => {
       mounted = false;
+      clearTimeout(loadingTimeout);
       subscription.unsubscribe();
     };
   }, [loadWorkspaceData]);
