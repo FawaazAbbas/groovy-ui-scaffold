@@ -24,8 +24,8 @@ interface AuthContextType {
   signInWithMicrosoft: () => Promise<{ error: Error | null }>;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
-  createWorkspace: (name: string) => Promise<{ error: string | null }>;
-  joinWorkspace: (inviteCode: string) => Promise<{ error: string | null }>;
+  createWorkspace: (name: string, industry?: string, size?: string, jobTitle?: string) => Promise<{ error: string | null }>;
+  joinWorkspace: (inviteCode: string, jobTitle?: string) => Promise<{ error: string | null }>;
   refreshWorkspace: () => Promise<void>;
 }
 
@@ -52,12 +52,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loadingRef.current = true;
 
     try {
-      await ensureUserProfile(currentUser.user_metadata?.full_name);
-      const userProfile = await fetchUserProfile();
+      await ensureUserProfile(currentUser, currentUser.user_metadata?.full_name);
+      const userProfile = await fetchUserProfile(currentUser);
       setProfile(userProfile);
 
       if (userProfile?.workspace_id) {
-        const ws = await fetchUserWorkspace();
+        const ws = await fetchUserWorkspace(currentUser);
         setWorkspace(ws);
       } else {
         setWorkspace(null);
@@ -92,20 +92,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, newSession) => {
+      async (_event, newSession) => {
         if (!mounted) return;
         setSession(newSession);
         const newUser = newSession?.user ?? null;
         setUser(newUser);
 
-        // Load workspace data in background (don't await to avoid blocking)
+        // Await load before setting loading false
         if (newUser) {
-          loadWorkspaceData(newUser);
+          await loadWorkspaceData(newUser);
         } else {
           setProfile(null);
           setWorkspace(null);
         }
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     );
 
@@ -169,21 +169,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setWorkspace(null);
   };
 
-  const createWorkspace = async (name: string) => {
-    const { workspace: ws, error } = await createWs(name);
-    if (ws) {
+  const createWorkspace = async (name: string, industry?: string, size?: string, jobTitle?: string) => {
+    const { workspace: ws, error } = await createWs(name, industry, size, jobTitle);
+    if (ws && user) {
       setWorkspace(ws);
-      const updatedProfile = await fetchUserProfile();
+      const updatedProfile = await fetchUserProfile(user);
       setProfile(updatedProfile);
     }
     return { error };
   };
 
-  const joinWorkspace = async (inviteCode: string) => {
-    const { workspace: ws, error } = await joinWs(inviteCode);
-    if (ws) {
+  const joinWorkspace = async (inviteCode: string, jobTitle?: string) => {
+    const { workspace: ws, error } = await joinWs(inviteCode, jobTitle);
+    if (ws && user) {
       setWorkspace(ws);
-      const updatedProfile = await fetchUserProfile();
+      const updatedProfile = await fetchUserProfile(user);
       setProfile(updatedProfile);
     }
     return { error };

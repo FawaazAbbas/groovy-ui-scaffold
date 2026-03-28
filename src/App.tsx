@@ -10,6 +10,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import MarketingLayout from "./layouts/MarketingLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import WorkspaceLayout from "./layouts/WorkspaceLayout";
+import LandingPage from "./pages/LandingPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import WorkspaceMarketplacePage from "./pages/WorkspaceMarketplacePage";
 import AgentDetailPage from "./pages/AgentDetailPage";
@@ -29,6 +30,11 @@ import PricingPage from "./pages/PricingPage";
 import SettingsPage from "./pages/SettingsPage";
 import WorkspaceSetupPage from "./pages/WorkspaceSetupPage";
 import PitchDeckPage from "./pages/PitchDeckPage";
+import AboutPage from "./pages/AboutPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import BlogPage from "./pages/BlogPage";
+import BlogPostPage from "./pages/BlogPostPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,14 +48,17 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* Redirect root to marketplace */}
-            <Route path="/" element={<Navigate to="/marketplace" replace />} />
-
             {/* Marketing routes */}
             <Route element={<MarketingLayout />}>
+              <Route path="/" element={<LandingPage />} />
               <Route path="/marketplace" element={<MarketplacePage />} />
               <Route path="/marketplace/:agentId" element={<AgentDetailPage />} />
               <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
             </Route>
 
             {/* Auth routes */}

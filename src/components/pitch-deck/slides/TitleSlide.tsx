@@ -11,8 +11,8 @@ export default function TitleSlide() {
         <div className="absolute top-[60%] left-[50%] w-[200px] h-[200px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(245,200,66,0.4) 0%, transparent 70%)', filter: 'blur(40px)' }} />
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-          <div className="w-20 h-20 rounded-[22px] flex items-center justify-center mb-8" style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.9), rgba(200,160,40,0.8))', boxShadow: '0 0 60px rgba(245,200,66,0.3)' }}>
-            <GroovyLogo className="h-10 w-10 text-black" />
+          <div className="mb-8">
+            <GroovyLogo className="h-20 w-20" style={{ color: '#F5C842', filter: 'drop-shadow(0 0 30px rgba(245,200,66,0.4))' }} />
           </div>
           <span className="text-[15px] font-medium tracking-[0.3em] uppercase text-white/40 mb-12" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Groovy</span>
           <h1 className="text-[96px] font-bold leading-[1.05] text-white max-w-[1100px] tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>

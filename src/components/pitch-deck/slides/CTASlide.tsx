@@ -8,8 +8,8 @@ export default function CTASlide() {
         <div className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-15" style={{ background: 'radial-gradient(circle, rgba(245,200,66,0.25) 0%, transparent 70%)', filter: 'blur(100px)' }} />
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-          <div className="w-16 h-16 rounded-[18px] flex items-center justify-center mb-10" style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.9), rgba(200,160,40,0.8))', boxShadow: '0 0 50px rgba(245,200,66,0.2)' }}>
-            <GroovyLogo className="h-8 w-8 text-black" />
+          <div className="mb-10">
+            <GroovyLogo className="h-16 w-16" style={{ color: '#F5C842', filter: 'drop-shadow(0 0 25px rgba(245,200,66,0.3))' }} />
           </div>
           <h2 className="text-[96px] font-bold leading-[1.05] text-white mb-6 tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
             Invest in <span style={{ color: '#F5C842' }}>Groovy.</span>

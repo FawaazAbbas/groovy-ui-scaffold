@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Search, Shield, ShieldCheck, ShieldAlert, Bot, ChevronRight, Eye, Pencil, Zap, Clock, ToggleLeft, ToggleRight, Ban, AlertTriangle, FileText } from 'lucide-react';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { mockAgents } from '@/lib/mocks/agents';
+import { useAgents } from '@/hooks/use-agents';
+import { Loader2 } from 'lucide-react';
 import { mockAgentPermissions, type AgentPermissions, type AgentCapability } from '@/lib/mocks/permissions';
 import { mockIntegrations } from '@/lib/mocks/integrations';
 import { mockGuardrails } from '@/lib/mocks/guardrails';
@@ -23,7 +24,7 @@ function PermissionBadge({ level }: { level: 'full' | 'limited' | 'approval' }) 
   }[level];
   const Icon = config.icon;
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-caption font-medium ${config.className}`}>
+    <span className={`inline-flex items-center gap-1 glass-badge px-2.5 py-0.5 text-caption font-medium ${config.className}`}>
       <Icon className="h-3 w-3" /> {config.label}
     </span>
   );
@@ -36,9 +37,17 @@ export default function PermissionsPage() {
   const [filterLevel, setFilterLevel] = useState<FilterLevel>('All');
   const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
   const [localPerms, setLocalPerms] = useState(mockAgentPermissions);
+  const { agents, loading } = useAgents();
 
+  if (loading) {
+    return (
+      <div className="flex h-[calc(100vh-64px)] w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-[#C800DF]" />
+      </div>
+    );
+  }
   const agentsWithPerms = localPerms.map(perms => ({
-    agent: mockAgents.find(a => a.id === perms.agentId)!,
+    agent: agents.find(a => a.id === perms.agentId)!,
     perms,
     level: getPermissionLevel(perms),
   })).filter(item => item.agent);
@@ -92,7 +101,7 @@ export default function PermissionsPage() {
   };
 
   return (
-    <div className="p-6 max-w-6xl">
+    <div className="p-6 w-full max-w-[1400px] mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-heading font-semibold text-text-primary">Permissions</h1>
@@ -109,7 +118,7 @@ export default function PermissionsPage() {
             placeholder="Search agents..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-border bg-white/60 pl-9 pr-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+            className="w-full glass-input pl-9"
           />
         </div>
         <div className="flex gap-2 overflow-x-auto">
@@ -119,8 +128,8 @@ export default function PermissionsPage() {
               onClick={() => setFilterLevel(opt)}
               className={`shrink-0 rounded-full px-4 py-1.5 text-body-sm font-medium transition-all duration-200 ${
                 filterLevel === opt
-                  ? 'bg-primary text-white shadow-glass-sm'
-                  : 'bg-white/50 border border-border text-text-secondary hover:bg-white/80'
+                  ? 'bg-primary text-white shadow-glass-sm neon-glow-sm'
+                  : 'glass-button text-text-secondary'
               }`}
             >
               {opt}
@@ -131,9 +140,9 @@ export default function PermissionsPage() {
 
       {/* Summary cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="card-glass p-4">
+        <div className="glass-card glass-shimmer p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-comfort/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-badge">
               <ShieldCheck className="h-5 w-5 text-comfort-text" />
             </div>
             <div>
@@ -144,9 +153,9 @@ export default function PermissionsPage() {
             </div>
           </div>
         </div>
-        <div className="card-glass p-4">
+        <div className="glass-card glass-shimmer p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/10">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-badge">
               <Shield className="h-5 w-5 text-warning" />
             </div>
             <div>
@@ -157,9 +166,9 @@ export default function PermissionsPage() {
             </div>
           </div>
         </div>
-        <div className="card-glass p-4">
+        <div className="glass-card glass-shimmer p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-badge">
               <ShieldAlert className="h-5 w-5 text-primary" />
             </div>
             <div>
@@ -184,7 +193,7 @@ export default function PermissionsPage() {
             <button
               key={agent.id}
               onClick={() => setSelectedAgentId(agent.id)}
-              className="card-glass p-5 text-left group"
+              className="glass-card glass-shimmer p-5 text-left group"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
@@ -229,7 +238,7 @@ export default function PermissionsPage() {
                 <div className="mt-3 pt-3 border-t border-border">
                   <div className="flex flex-wrap gap-1.5">
                     {integrationNames.map(name => (
-                      <span key={name} className="rounded-md bg-white/50 px-2 py-0.5 text-[10px] font-medium text-text-secondary">
+                      <span key={name} className="glass-badge px-2 py-0.5 text-[10px] font-medium text-text-secondary">
                         {name}
                       </span>
                     ))}
@@ -250,7 +259,7 @@ export default function PermissionsPage() {
 
       {/* Detail sheet */}
       <Sheet open={!!selectedItem} onOpenChange={() => setSelectedAgentId(null)}>
-        <SheetContent className="w-[440px] glass overflow-y-auto">
+        <SheetContent className="w-[440px] glass-modal overflow-y-auto">
           {selectedItem && (() => {
             const { agent, perms, level } = selectedItem;
             return (
@@ -274,7 +283,7 @@ export default function PermissionsPage() {
                 <p className="text-body-sm text-text-secondary">{agent.description}</p>
 
                 {/* Human-in-the-loop toggle */}
-                <div className="rounded-2xl bg-white/40 p-4">
+                <div className="glass-card p-4">
                   <button
                     onClick={() => toggleApproval(agent.id)}
                     className="flex w-full items-center justify-between"
@@ -295,7 +304,7 @@ export default function PermissionsPage() {
                 </div>
 
                 {/* Rate limit */}
-                <div className="rounded-2xl bg-white/40 p-4">
+                <div className="glass-card p-4">
                   <div className="flex items-center gap-3">
                     <Clock className="h-5 w-5 text-text-secondary" />
                     <div>
@@ -313,7 +322,7 @@ export default function PermissionsPage() {
                       <button
                         key={cap.id}
                         onClick={() => toggleCapability(agent.id, cap.id)}
-                        className="flex w-full items-center justify-between rounded-xl px-4 py-3 hover:bg-white/40 transition-colors"
+                        className="flex w-full items-center justify-between rounded-xl px-4 py-3 hover:glass-liquid-item transition-all"
                       >
                         <div className="text-left">
                           <p className="text-body-sm font-medium text-text-primary">{cap.label}</p>
@@ -338,7 +347,7 @@ export default function PermissionsPage() {
                         const integration = mockIntegrations.find(i => i.id === ia.integrationId);
                         if (!integration) return null;
                         return (
-                          <div key={ia.integrationId} className="rounded-2xl bg-white/40 p-4">
+                          <div key={ia.integrationId} className="glass-card p-4">
                             <p className="text-body-sm font-medium text-text-primary mb-2">{integration.name}</p>
                             <div className="flex gap-2">
                               {(['read', 'write', 'execute'] as const).map(scope => {
@@ -350,8 +359,8 @@ export default function PermissionsPage() {
                                     onClick={() => toggleScope(agent.id, ia.integrationId, scope)}
                                     className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-caption font-medium transition-all ${
                                       active
-                                        ? 'bg-primary/10 text-primary'
-                                        : 'bg-white/30 text-text-secondary/50 hover:bg-white/50'
+                                        ? 'glass-badge text-primary'
+                                        : 'glass-button text-text-secondary/50'
                                     }`}
                                   >
                                     <Icon className="h-3 w-3" />
@@ -388,10 +397,10 @@ export default function PermissionsPage() {
                         {agentGuardrails.map(g => {
                           const SevIcon = severityIcon[g.severity];
                           return (
-                            <div key={g.id} className={`rounded-xl p-3 ${g.enabled ? 'bg-white/40' : 'bg-white/20 opacity-50'}`}>
+                            <div key={g.id} className={`glass-card !rounded-xl p-3 ${!g.enabled ? 'opacity-50' : ''}`}>
                               <div className="flex items-center justify-between mb-1">
                                 <span className="text-body-sm font-medium text-text-primary">{g.name}</span>
-                                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium ${severityClass[g.severity]}`}>
+                                <span className={`inline-flex items-center gap-1 glass-badge px-2 py-0.5 text-[10px] font-medium ${severityClass[g.severity]}`}>
                                   <SevIcon className="h-2.5 w-2.5" /> {g.severity}
                                 </span>
                               </div>

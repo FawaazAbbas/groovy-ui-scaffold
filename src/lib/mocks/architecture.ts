@@ -10,7 +10,7 @@ export interface ArchEdge {
   id: string;
   source: string;
   target: string;
-  type: 'reporting' | 'permission';
+  type: 'reporting' | 'permission' | 'context' | 'guardrail';
 }
 
 export const mockArchNodes: ArchNode[] = [
@@ -63,9 +63,16 @@ export const mockArchEdges: ArchEdge[] = [
   { id: 'e_18', source: 'n_support', target: 'n_a2', type: 'reporting' },
   { id: 'e_19', source: 'n_platform', target: 'n_a3', type: 'reporting' },
   { id: 'e_20', source: 'n_ops', target: 'n_a4', type: 'reporting' },
-  // Permission lines (dashed)
+  // Permission lines (dashed electric)
   { id: 'e_21', source: 'n_a1', target: 'n_h4', type: 'permission' },
   { id: 'e_22', source: 'n_a2', target: 'n_h6', type: 'permission' },
   { id: 'e_23', source: 'n_a3', target: 'n_h1', type: 'permission' },
   { id: 'e_24', source: 'n_a4', target: 'n_h5', type: 'permission' },
+  // Context sharing lines (dotted cyan)
+  { id: 'e_25', source: 'n_a1', target: 'n_sales', type: 'context' },
+  { id: 'e_26', source: 'n_a2', target: 'n_ops', type: 'context' },
+  { id: 'e_27', source: 'n_a3', target: 'n_eng', type: 'context' },
+  // Guardrail lines (solid red)
+  { id: 'e_28', source: 'n_company', target: 'n_a1', type: 'guardrail' },
+  { id: 'e_29', source: 'n_company', target: 'n_a2', type: 'guardrail' },
 ];

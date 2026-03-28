@@ -1,14 +1,16 @@
 interface GroovyLogoProps {
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export function GroovyLogo({ className }: GroovyLogoProps) {
+export function GroovyLogo({ className, style }: GroovyLogoProps) {
   return (
     <svg
       viewBox="0 0 2048 2048"
       fill="currentColor"
       aria-hidden="true"
       className={className}
+      style={style}
     >
       <path d="M 1947 1025 L 1946 1027 L 1946 2047 L 2047 2047 L 2047 1025 Z" />
       <path d="M 1742 1025 L 1742 1036 L 1741 1037 L 1741 2047 L 1842 2047 L 1842 1038 L 1841 1037 L 1841 1025 Z" />

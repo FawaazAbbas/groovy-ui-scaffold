@@ -71,7 +71,7 @@ export default function FilesPage() {
   ];
 
   return (
-    <div className="p-6 max-w-6xl">
+    <div className="p-6 w-full max-w-[1400px] mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-heading font-semibold text-text-primary">Files</h1>
@@ -85,9 +85,9 @@ export default function FilesPage() {
             ))}
           </nav>
         </div>
-        <div className="flex items-center gap-1 rounded-xl border border-border-solid bg-white/40 p-0.5">
-          <button onClick={() => setViewMode('grid')} className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === 'grid' ? 'bg-primary text-white shadow-glass-sm' : 'text-text-secondary'}`}><LayoutGrid className="h-4 w-4" /></button>
-          <button onClick={() => setViewMode('list')} className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === 'list' ? 'bg-primary text-white shadow-glass-sm' : 'text-text-secondary'}`}><List className="h-4 w-4" /></button>
+        <div className="flex items-center gap-1 rounded-xl glass-button p-0.5">
+          <button onClick={() => setViewMode('grid')} className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === 'grid' ? 'bg-primary text-white shadow-glass-sm neon-glow-sm' : 'text-text-secondary'}`}><LayoutGrid className="h-4 w-4" /></button>
+          <button onClick={() => setViewMode('list')} className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === 'list' ? 'bg-primary text-white shadow-glass-sm neon-glow-sm' : 'text-text-secondary'}`}><List className="h-4 w-4" /></button>
         </div>
       </div>
 
@@ -100,11 +100,11 @@ export default function FilesPage() {
                 key={item.id}
                 onClick={() => handleClick(item)}
                 onContextMenu={e => handleContextMenu(e, item)}
-                className="card-glass p-4 text-left group"
+                className="glass-card glass-shimmer p-4 text-left group"
               >
                 <div className="flex items-start justify-between mb-3">
                   <Icon className={`h-8 w-8 ${item.type === 'folder' ? 'text-primary' : 'text-text-secondary'}`} />
-                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${permissionColors[item.permission]}`}>
+                  <span className={`glass-badge px-2 py-0.5 text-[10px] font-medium ${permissionColors[item.permission]}`}>
                     <Shield className="inline h-2.5 w-2.5 mr-0.5" />{item.permission}
                   </span>
                 </div>
@@ -117,10 +117,10 @@ export default function FilesPage() {
           })}
         </div>
       ) : (
-        <div className="card-glass overflow-hidden">
+        <div className="glass-card glass-shimmer overflow-hidden">
           <table className="w-full text-body-sm">
             <thead>
-              <tr className="border-b border-border-solid bg-white/40">
+              <tr className="border-b border-border-solid glass-panel">
                 <th className="px-4 py-3 text-left font-medium text-text-secondary">Name</th>
                 <th className="px-4 py-3 text-left font-medium text-text-secondary">Size</th>
                 <th className="px-4 py-3 text-left font-medium text-text-secondary">Modified</th>
@@ -131,7 +131,7 @@ export default function FilesPage() {
               {items.map(item => {
                 const Icon = item.type === 'folder' ? Folder : (iconMap[item.mimeType || ''] || FileText);
                 return (
-                  <tr key={item.id} onClick={() => handleClick(item)} onContextMenu={e => handleContextMenu(e, item)} className="border-b border-border/50 cursor-pointer hover:bg-white/30 transition-colors">
+                  <tr key={item.id} onClick={() => handleClick(item)} onContextMenu={e => handleContextMenu(e, item)} className="border-b border-border/50 cursor-pointer hover:glass-liquid-item transition-all">
                     <td className="px-4 py-3 flex items-center gap-2">
                       <Icon className={`h-4 w-4 ${item.type === 'folder' ? 'text-primary' : 'text-text-secondary'}`} />
                       <span className="text-text-primary">{item.name}</span>
@@ -139,7 +139,7 @@ export default function FilesPage() {
                     <td className="px-4 py-3 text-text-secondary">{item.type === 'folder' ? `${item.children?.length || 0} items` : formatSize(item.size || 0)}</td>
                     <td className="px-4 py-3 text-text-secondary">{new Date(item.updatedAt).toLocaleDateString()}</td>
                     <td className="px-4 py-3">
-                      <span className={`rounded-full px-2 py-0.5 text-caption font-medium ${permissionColors[item.permission]}`}>{item.permission}</span>
+                      <span className={`glass-badge px-2 py-0.5 text-caption font-medium ${permissionColors[item.permission]}`}>{item.permission}</span>
                     </td>
                   </tr>
                 );
@@ -152,7 +152,7 @@ export default function FilesPage() {
       {/* Custom Context Menu */}
       {contextMenu && (
         <div
-          className="fixed z-50 min-w-[180px] rounded-2xl border border-border glass py-1.5 shadow-glass-lg"
+          className="fixed z-50 min-w-[180px] rounded-2xl glass-modal py-1.5 shadow-glass-lg"
           style={{ left: contextMenu.x, top: contextMenu.y }}
         >
           <p className="px-3 py-1.5 text-caption font-medium text-text-secondary truncate">{contextMenu.item.name}</p>
@@ -161,7 +161,7 @@ export default function FilesPage() {
             <button
               key={mi.label}
               onClick={() => setContextMenu(null)}
-              className={`flex w-full items-center gap-2 px-3 py-2 text-body-sm hover:bg-white/40 transition-colors rounded-lg mx-0.5 ${mi.destructive ? 'text-destructive' : 'text-text-primary'}`}
+              className={`flex w-full items-center gap-2 px-3 py-2 text-body-sm hover:glass-liquid-item transition-all rounded-lg mx-0.5 ${mi.destructive ? 'text-destructive' : 'text-text-primary'}`}
             >
               <mi.icon className="h-3.5 w-3.5" />
               {mi.label}

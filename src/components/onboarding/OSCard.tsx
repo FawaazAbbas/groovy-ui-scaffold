@@ -58,16 +58,16 @@ export function OSCard({ os, title, description, selected, onSelect, disabled }:
         </div>
       )}
 
-      <div
-        className="flex h-10 w-10 items-center justify-center rounded-xl"
-        style={{ background: brandColors[os] }}
-      >
-        {os === 'groovy-space' ? (
-          <GroovyLogo className="h-5 w-5 text-white" />
-        ) : (
+      {os === 'groovy-space' ? (
+        <GroovyLogo className="h-10 w-10 text-primary" />
+      ) : (
+        <div
+          className="flex h-10 w-10 items-center justify-center rounded-xl"
+          style={{ background: brandColors[os] }}
+        >
           <span className="text-sm font-bold text-white">{brandLetters[os]}</span>
-        )}
-      </div>
+        </div>
+      )}
 
       <p className="mt-3 text-body font-semibold text-text-primary">
         {title}

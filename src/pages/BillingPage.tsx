@@ -9,12 +9,12 @@ export default function BillingPage() {
   const gaugeColor = usagePercent > 80 ? 'var(--destructive)' : usagePercent > 60 ? 'var(--warning)' : 'var(--electric)';
 
   return (
-    <div className="p-6 space-y-6 max-w-6xl">
+    <div className="p-6 space-y-6 w-full max-w-[1400px] mx-auto">
       <h1 className="text-heading font-semibold text-text-primary">Credits & Billing</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Credit gauge */}
-        <div className="card-glass p-6 flex flex-col items-center">
+        <div className="glass-card glass-shimmer p-6 flex flex-col items-center">
           <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120" style={{ filter: usagePercent <= 60 ? 'drop-shadow(0 0 6px rgba(200,0,223,0.3))' : 'none' }}>
             <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border-solid)" strokeWidth="10" />
             <circle cx="60" cy="60" r="50" fill="none" stroke={gaugeColor} strokeWidth="10" strokeLinecap="round"
@@ -27,19 +27,19 @@ export default function BillingPage() {
         </div>
 
         {/* Plan card */}
-        <div className="lg:col-span-2 card-glass p-6">
+        <div className="lg:col-span-2 glass-card glass-shimmer p-6">
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-heading-sm font-semibold text-text-primary">{mockPlan.name} Plan</h3>
               <p className="text-body-sm text-text-secondary">${mockPlan.price}/month · Next billing: {mockPlan.nextBillingDate}</p>
             </div>
-            <button className="rounded-xl border border-border-solid px-4 py-2 text-body-sm font-medium text-text-secondary hover:bg-white/50 transition-colors">
+            <button className="glass-button rounded-xl px-4 py-2 text-body-sm font-medium text-text-secondary">
               Manage Plan
             </button>
           </div>
           <div className="flex flex-wrap gap-2">
             {mockPlan.features.map(f => (
-              <span key={f} className="rounded-md bg-comfort px-3 py-1 retro-label text-primary neon-glow-sm">{f}</span>
+              <span key={f} className="glass-badge px-3 py-1 retro-label text-primary neon-glow-sm">{f}</span>
             ))}
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function BillingPage() {
       </div>
 
       {/* Usage chart */}
-      <div className="card-glass p-6">
+      <div className="glass-card glass-shimmer p-6">
         <div className="flex items-center gap-2 mb-4">
           <h3 className="text-body font-semibold text-text-primary">Usage</h3>
           <span className="retro-label text-cyan/50">// LAST 30 DAYS</span>
@@ -80,12 +80,12 @@ export default function BillingPage() {
       </div>
 
       {/* Active agents */}
-      <div className="card-glass p-6">
+      <div className="glass-card glass-shimmer p-6">
         <h3 className="text-body font-semibold text-text-primary mb-4">Active Agents</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-body-sm">
             <thead>
-              <tr className="border-b border-border-solid text-left">
+              <tr className="border-b border-border-solid text-left glass-panel">
                 <th className="pb-3 font-medium text-text-secondary">Agent</th>
                 <th className="pb-3 font-medium text-text-secondary">Today</th>
                 <th className="pb-3 font-medium text-text-secondary">This Month</th>
@@ -94,7 +94,7 @@ export default function BillingPage() {
             </thead>
             <tbody>
               {mockActiveAgents.map(a => (
-                <tr key={a.agentId} className="border-b border-border/50">
+                <tr key={a.agentId} className="border-b border-border/50 hover:glass-liquid-item transition-all">
                   <td className="py-3 font-medium text-text-primary">{a.agentName}</td>
                   <td className="py-3 text-text-secondary">{a.creditsUsedToday} credits</td>
                   <td className="py-3 text-text-secondary">{a.creditsUsedMonth} credits</td>
@@ -107,12 +107,12 @@ export default function BillingPage() {
       </div>
 
       {/* Invoices */}
-      <div className="card-glass p-6">
+      <div className="glass-card glass-shimmer p-6">
         <h3 className="text-body font-semibold text-text-primary mb-4">Invoice History</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-body-sm">
             <thead>
-              <tr className="border-b border-border-solid text-left">
+              <tr className="border-b border-border-solid text-left glass-panel">
                 <th className="pb-3 font-medium text-text-secondary">Date</th>
                 <th className="pb-3 font-medium text-text-secondary">Description</th>
                 <th className="pb-3 font-medium text-text-secondary">Amount</th>
@@ -121,15 +121,15 @@ export default function BillingPage() {
             </thead>
             <tbody>
               {mockInvoices.map(inv => (
-                <tr key={inv.id} className="border-b border-border/50">
+                <tr key={inv.id} className="border-b border-border/50 hover:glass-liquid-item transition-all">
                   <td className="py-3 text-text-secondary">{inv.date}</td>
                   <td className="py-3 text-text-primary">{inv.description}</td>
                   <td className="py-3 text-text-primary font-medium">${inv.amount.toFixed(2)}</td>
                   <td className="py-3">
-                    <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${
-                      inv.status === 'paid' ? 'bg-comfort text-comfort-text' :
-                      inv.status === 'pending' ? 'bg-warning/10 text-warning' :
-                      'bg-destructive/10 text-destructive'
+                    <span className={`glass-badge px-2.5 py-0.5 text-caption font-medium ${
+                      inv.status === 'paid' ? 'text-comfort-text' :
+                      inv.status === 'pending' ? 'text-warning' :
+                      'text-destructive'
                     }`}>{inv.status}</span>
                   </td>
                 </tr>
@@ -140,7 +140,7 @@ export default function BillingPage() {
       </div>
 
       {/* Alerts */}
-      <div className="rounded-2xl border border-warning/20 bg-warning/5 p-4 flex items-start gap-3 shadow-glass-sm">
+      <div className="glass-card p-4 flex items-start gap-3 !border-warning/20">
         <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" />
         <div>
           <p className="text-body-sm font-medium text-text-primary">Credit usage alert</p>

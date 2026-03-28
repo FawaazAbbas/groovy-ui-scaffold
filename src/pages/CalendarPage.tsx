@@ -54,14 +54,14 @@ export default function CalendarPage() {
   return (
     <div className="flex h-full">
       {/* Left mini calendar */}
-      <div className="hidden lg:block w-64 shrink-0 border-r border-border glass p-4">
+      <div className="hidden lg:block w-64 shrink-0 border-r border-border glass-liquid p-4">
         <div className="flex items-center justify-between mb-4">
           <span className="text-body-sm font-semibold text-text-primary">
             {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
           </span>
           <div className="flex gap-1">
-            <button onClick={() => setCurrentDate(d => { const n = new Date(d); n.setMonth(n.getMonth() - 1); return n; })} className="rounded-lg p-1 hover:bg-white/40 transition-colors"><ChevronLeft className="h-4 w-4" /></button>
-            <button onClick={() => setCurrentDate(d => { const n = new Date(d); n.setMonth(n.getMonth() + 1); return n; })} className="rounded-lg p-1 hover:bg-white/40 transition-colors"><ChevronRight className="h-4 w-4" /></button>
+            <button onClick={() => setCurrentDate(d => { const n = new Date(d); n.setMonth(n.getMonth() - 1); return n; })} className="rounded-lg p-1 hover:glass-liquid-item transition-all"><ChevronLeft className="h-4 w-4" /></button>
+            <button onClick={() => setCurrentDate(d => { const n = new Date(d); n.setMonth(n.getMonth() + 1); return n; })} className="rounded-lg p-1 hover:glass-liquid-item transition-all"><ChevronRight className="h-4 w-4" /></button>
           </div>
         </div>
         <div className="grid grid-cols-7 gap-1 text-center">
@@ -76,7 +76,7 @@ export default function CalendarPage() {
                 !day ? '' :
                 day.toDateString() === currentDate.toDateString() ? 'bg-primary text-white font-medium shadow-glass-sm' :
                 day.toDateString() === new Date().toDateString() ? 'bg-comfort text-comfort-text' :
-                'text-text-primary hover:bg-white/40'
+                'text-text-primary hover:glass-liquid-item'
               }`}
             >
               {day?.getDate() || ''}
@@ -99,17 +99,17 @@ export default function CalendarPage() {
       {/* Main calendar */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border glass px-6 py-3">
+        <div className="flex items-center justify-between glass-panel px-6 py-3">
           <div className="flex items-center gap-3">
-            <button onClick={prevWeek} className="rounded-xl p-1.5 hover:bg-white/40 transition-colors"><ChevronLeft className="h-4 w-4" /></button>
+            <button onClick={prevWeek} className="rounded-xl p-1.5 glass-button"><ChevronLeft className="h-4 w-4" /></button>
             <h2 className="text-body font-semibold text-text-primary">
               {weekDays[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — {weekDays[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             </h2>
-            <button onClick={nextWeek} className="rounded-xl p-1.5 hover:bg-white/40 transition-colors"><ChevronRight className="h-4 w-4" /></button>
+            <button onClick={nextWeek} className="rounded-xl p-1.5 glass-button"><ChevronRight className="h-4 w-4" /></button>
           </div>
-          <div className="flex items-center gap-1 rounded-xl border border-border-solid bg-white/40 p-0.5">
+          <div className="flex items-center gap-1 rounded-xl glass-button p-0.5">
             {(['month', 'week', 'day'] as const).map(mode => (
-              <button key={mode} onClick={() => setViewMode(mode)} className={`rounded-lg px-3 py-1 text-caption font-medium capitalize transition-all duration-200 ${viewMode === mode ? 'bg-primary text-white shadow-glass-sm' : 'text-text-secondary hover:text-text-primary'}`}>{mode}</button>
+              <button key={mode} onClick={() => setViewMode(mode)} className={`rounded-lg px-3 py-1 text-caption font-medium capitalize transition-all duration-200 ${viewMode === mode ? 'bg-primary text-white shadow-glass-sm neon-glow-sm' : 'text-text-secondary hover:text-text-primary'}`}>{mode}</button>
             ))}
           </div>
         </div>
@@ -117,7 +117,7 @@ export default function CalendarPage() {
         {/* Week grid */}
         <div className="flex-1 overflow-y-auto">
           {/* Day headers */}
-          <div className="sticky top-0 z-10 grid grid-cols-7 border-b border-border glass">
+          <div className="sticky top-0 z-10 grid grid-cols-7 glass-panel">
             {weekDays.map((day, i) => (
               <div key={i} className={`px-2 py-2 text-center border-r border-border last:border-r-0 ${day.toDateString() === new Date('2026-03-17').toDateString() ? 'bg-primary/5' : ''}`}>
                 <p className="text-caption text-text-secondary">{day.toLocaleDateString('en-US', { weekday: 'short' })}</p>
@@ -135,7 +135,7 @@ export default function CalendarPage() {
                   return (
                     <Popover key={di}>
                       <PopoverTrigger asChild>
-                        <div className="relative h-16 border-r border-border/30 last:border-r-0 px-1 py-0.5 hover:bg-white/20 cursor-pointer transition-colors">
+                        <div className="relative h-16 border-r border-border/30 last:border-r-0 px-1 py-0.5 hover:glass-liquid-item cursor-pointer transition-all">
                           {di === 0 && (
                             <span className="absolute -left-0 -top-2 text-[10px] text-text-secondary">{hour}:00</span>
                           )}
@@ -151,10 +151,10 @@ export default function CalendarPage() {
                           ))}
                         </div>
                       </PopoverTrigger>
-                      <PopoverContent className="w-64 p-3 glass shadow-glass-lg border-border rounded-2xl">
+                      <PopoverContent className="w-64 p-3 glass-modal shadow-glass-lg rounded-2xl">
                         <p className="text-body-sm font-medium text-text-primary mb-1">Quick Create</p>
                         <p className="text-caption text-text-secondary">{day.toLocaleDateString()} at {hour}:00</p>
-                        <input placeholder="Event title..." className="mt-2 w-full rounded-xl border border-border-solid bg-white/60 px-3 py-1.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all" />
+                        <input placeholder="Event title..." className="mt-2 w-full glass-input" />
                         <button className="mt-2 w-full rounded-xl bg-primary py-1.5 text-caption font-medium text-white hover:bg-primary-hover transition-colors shadow-glass-sm">Create Event</button>
                       </PopoverContent>
                     </Popover>
@@ -168,12 +168,12 @@ export default function CalendarPage() {
 
       {/* Event detail panel */}
       {selectedEvent && (
-        <div className="w-80 shrink-0 border-l border-border glass p-6">
+        <div className="w-80 shrink-0 border-l border-border glass-liquid p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-body font-semibold text-text-primary">Event Details</h3>
             <button onClick={() => setSelectedEvent(null)} className="text-text-secondary hover:text-text-primary transition-colors">✕</button>
           </div>
-          <div className={`rounded-2xl border p-3 mb-4 ${sourceColors[selectedEvent.source]}`}>
+          <div className={`glass-card p-3 mb-4 ${sourceColors[selectedEvent.source]}`}>
             <p className="text-body-sm font-medium">{selectedEvent.title}</p>
           </div>
           <div className="space-y-3 text-body-sm">

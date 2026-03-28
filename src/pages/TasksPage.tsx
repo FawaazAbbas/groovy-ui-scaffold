@@ -38,18 +38,18 @@ function TaskCard({ task, onClick, dataTour }: { task: Task; onClick: () => void
       {...listeners}
       onClick={onClick}
       data-tour={dataTour}
-      className={`cursor-grab rounded-2xl border border-border border-l-4 ${priorityColors[task.priority]} glass p-3 shadow-glass-sm hover:shadow-glass-md transition-all duration-200 active:cursor-grabbing`}
+      className={`cursor-grab rounded-2xl border-l-4 ${priorityColors[task.priority]} glass-card glass-shimmer p-3 transition-all duration-200 active:cursor-grabbing`}
     >
       <h4 className="text-body-sm font-medium text-text-primary mb-2">{task.title}</h4>
       <div className="flex flex-wrap gap-1.5 mb-2">
         {task.labels.map(label => (
-          <span key={label} className="rounded-md bg-white/50 px-2 py-0.5 font-mono text-[9px] font-medium text-text-secondary uppercase tracking-wider">{label}</span>
+          <span key={label} className="glass-badge px-2 py-0.5 font-mono text-[9px] font-medium text-text-secondary uppercase tracking-wider">{label}</span>
         ))}
       </div>
       <div className="flex items-center justify-between">
         <div className="flex -space-x-1.5">
           {assignees.slice(0, 3).map(u => (
-            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-primary text-[9px] font-medium text-white">
+            <div key={u.id} className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white/50 bg-primary text-[9px] font-medium text-white ring-1 ring-white/20">
               {u.name.split(' ').map(n => n[0]).join('')}
             </div>
           ))}
@@ -73,9 +73,9 @@ function Column({ id, label, tasks, onTaskClick }: { id: string; label: string; 
     <div className="flex w-72 shrink-0 flex-col">
       <div className="mb-3 flex items-center justify-between">
         <h3 className={`text-body-sm font-semibold ${id === 'done' ? 'neon-text' : 'text-text-primary'}`}>{label}</h3>
-        <span className={`rounded-full px-2 py-0.5 text-caption ${id === 'done' ? 'bg-primary-muted text-primary neon-glow-sm' : 'bg-white/50 text-text-secondary'}`}>{tasks.length}</span>
+        <span className={`glass-badge text-caption ${id === 'done' ? 'text-primary neon-glow-sm' : 'text-text-secondary'}`}>{tasks.length}</span>
       </div>
-      <div ref={setNodeRef} className={`flex-1 space-y-2 rounded-2xl p-2 min-h-[200px] ${id === 'done' ? 'bg-primary/[0.04] neon-border' : 'bg-white/30'}`}>
+      <div ref={setNodeRef} className={`flex-1 space-y-2 rounded-2xl p-2 min-h-[200px] backdrop-blur-sm ${id === 'done' ? 'bg-primary/[0.04] neon-border' : 'bg-white/20 border border-white/30'}`}>
         <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
           {tasks.map((task, index) => (
             <TaskCard
@@ -124,9 +124,9 @@ export default function TasksPage() {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between border-b border-border glass px-6 py-3">
+      <div className="flex items-center justify-between glass-panel px-6 py-3">
         <h1 className="text-heading font-semibold text-text-primary">Tasks</h1>
-        <div className="flex items-center gap-1 rounded-xl border border-border-solid bg-white/40 p-0.5">
+        <div className="flex items-center gap-1 rounded-xl glass-button p-0.5">
           {[
             { mode: 'kanban' as const, icon: LayoutGrid },
             { mode: 'list' as const, icon: List },
@@ -135,7 +135,7 @@ export default function TasksPage() {
             <button
               key={mode}
               onClick={() => setViewMode(mode)}
-              className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === mode ? 'bg-primary text-white shadow-glass-sm' : 'text-text-secondary hover:text-text-primary'}`}
+              className={`rounded-lg p-1.5 transition-all duration-200 ${viewMode === mode ? 'bg-primary text-white shadow-glass-sm neon-glow-sm' : 'text-text-secondary hover:text-text-primary'}`}
             >
               <Icon className="h-4 w-4" />
             </button>
@@ -158,7 +158,7 @@ export default function TasksPage() {
           </div>
           <DragOverlay>
             {activeTask ? (
-              <div className={`w-72 rounded-2xl border border-electric/30 border-l-4 ${priorityColors[activeTask.priority]} glass p-3 neon-glow-lg`}>
+              <div className={`w-72 rounded-2xl border-l-4 ${priorityColors[activeTask.priority]} glass-card p-3 neon-glow-lg`}>
                 <h4 className="text-body-sm font-medium text-text-primary">{activeTask.title}</h4>
               </div>
             ) : null}
@@ -168,7 +168,7 @@ export default function TasksPage() {
 
       {/* Task detail sheet */}
       <Sheet open={!!selectedTask} onOpenChange={() => setSelectedTask(null)}>
-        <SheetContent className="w-[400px] sm:w-[540px] glass">
+        <SheetContent className="w-[400px] sm:w-[540px] glass-modal">
           {selectedTask && (
             <div className="space-y-6 pt-6">
               <div>
@@ -178,11 +178,11 @@ export default function TasksPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-caption font-medium text-text-secondary mb-1">Status</p>
-                  <span className="rounded-full bg-white/50 px-3 py-1 text-body-sm text-text-primary capitalize">{selectedTask.status.replace('_', ' ')}</span>
+                  <span className="glass-badge px-3 py-1 text-body-sm text-text-primary capitalize">{selectedTask.status.replace('_', ' ')}</span>
                 </div>
                 <div>
                   <p className="text-caption font-medium text-text-secondary mb-1">Priority</p>
-                  <span className={`rounded-full px-3 py-1 text-body-sm capitalize ${selectedTask.priority === 'urgent' ? 'bg-destructive/10 text-destructive' : selectedTask.priority === 'high' ? 'bg-warning/10 text-warning' : 'bg-white/50 text-text-primary'}`}>{selectedTask.priority}</span>
+                  <span className={`glass-badge px-3 py-1 text-body-sm capitalize ${selectedTask.priority === 'urgent' ? 'text-destructive' : selectedTask.priority === 'high' ? 'text-warning' : 'text-text-primary'}`}>{selectedTask.priority}</span>
                 </div>
                 <div>
                   <p className="text-caption font-medium text-text-secondary mb-1">Due Date</p>
@@ -197,8 +197,8 @@ export default function TasksPage() {
                 <p className="text-caption font-medium text-text-secondary mb-2">Assignees</p>
                 <div className="flex flex-wrap gap-2">
                   {mockUsers.filter(u => selectedTask.assigneeIds.includes(u.id)).map(u => (
-                    <div key={u.id} className="flex items-center gap-2 rounded-full border border-border-solid bg-white/40 px-3 py-1">
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[8px] text-white">{u.name.split(' ').map(n => n[0]).join('')}</div>
+                    <div key={u.id} className="flex items-center gap-2 glass-badge px-3 py-1">
+                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[8px] text-white ring-1 ring-white/20">{u.name.split(' ').map(n => n[0]).join('')}</div>
                       <span className="text-caption text-text-primary">{u.name}</span>
                     </div>
                   ))}
@@ -208,7 +208,7 @@ export default function TasksPage() {
                 <p className="text-caption font-medium text-text-secondary mb-2">Labels</p>
                 <div className="flex flex-wrap gap-1.5">
                   {selectedTask.labels.map(l => (
-                    <span key={l} className="rounded-full bg-white/50 px-2.5 py-0.5 text-caption text-text-secondary">{l}</span>
+                    <span key={l} className="glass-badge px-2.5 py-0.5 text-caption text-text-secondary">{l}</span>
                   ))}
                 </div>
               </div>

@@ -55,7 +55,7 @@ export default function ActivityPage() {
   };
 
   return (
-    <div className="p-6 max-w-6xl">
+    <div className="p-6 w-full max-w-[1400px] mx-auto">
       <div className="flex items-center gap-3 mb-6">
         <h1 className="text-heading font-semibold text-text-primary">AI Activity Log</h1>
         <span className="retro-label cyan-text animate-pulse">● LIVE</span>
@@ -80,7 +80,7 @@ export default function ActivityPage() {
               const CategoryIcon = categoryIcons[approval.category];
 
               return (
-                <div key={approval.id} className="card-glass p-5">
+                <div key={approval.id} className="glass-card glass-shimmer p-5">
                   <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-muted text-primary font-bold text-sm font-mono">
                       {approval.agentName[0]}
@@ -92,7 +92,7 @@ export default function ActivityPage() {
                         <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-caption font-medium ${risk.className}`}>
                           <AlertTriangle className="h-3 w-3" /> {risk.label} risk
                         </span>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-white/50 px-2 py-0.5 text-caption font-medium text-text-secondary">
+                        <span className="inline-flex items-center gap-1 glass-badge px-2 py-0.5 text-caption font-medium text-text-secondary">
                           <CategoryIcon className="h-3 w-3" /> {approval.category}
                         </span>
                       </div>
@@ -111,7 +111,7 @@ export default function ActivityPage() {
                       {/* Context details */}
                       <div className="flex flex-wrap gap-2 mb-3">
                         {Object.entries(approval.context).map(([key, value]) => (
-                          <span key={key} className="rounded-md bg-white/50 px-2 py-0.5 text-[10px] font-mono text-text-secondary">
+                          <span key={key} className="glass-badge px-2 py-0.5 text-[10px] font-mono text-text-secondary">
                             {key}: <span className="text-text-primary font-medium">{value}</span>
                           </span>
                         ))}
@@ -143,15 +143,15 @@ export default function ActivityPage() {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
-        <select value={filterAgent} onChange={e => setFilterAgent(e.target.value)} className="rounded-xl border border-border-solid bg-white/60 px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
+        <select value={filterAgent} onChange={e => setFilterAgent(e.target.value)} className="glass-input">
           <option value="all">All Agents</option>
           {uniqueAgents.map(a => <option key={a} value={a}>{a}</option>)}
         </select>
-        <select value={filterType} onChange={e => setFilterType(e.target.value)} className="rounded-xl border border-border-solid bg-white/60 px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
+        <select value={filterType} onChange={e => setFilterType(e.target.value)} className="glass-input">
           <option value="all">All Types</option>
           {uniqueTypes.map(t => <option key={t} value={t}>{t.replace('_', ' ')}</option>)}
         </select>
-        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="rounded-xl border border-border-solid bg-white/60 px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all">
+        <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="glass-input">
           <option value="all">All Status</option>
           <option value="success">Success</option>
           <option value="failed">Failed</option>
@@ -160,10 +160,10 @@ export default function ActivityPage() {
       </div>
 
       {/* Table */}
-      <div className="card-glass overflow-hidden">
+      <div className="glass-card glass-shimmer overflow-hidden">
         <table className="w-full text-body-sm">
           <thead>
-            <tr className="border-b border-border-solid bg-white/40">
+            <tr className="border-b border-border-solid glass-panel">
               <th className="w-8 px-4 py-3"></th>
               <th className="px-4 py-3 text-left font-medium text-text-secondary">Timestamp</th>
               <th className="px-4 py-3 text-left font-medium text-text-secondary">Agent</th>
@@ -179,7 +179,7 @@ export default function ActivityPage() {
                 <tr
                   onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}
                   data-tour={index === 0 ? 'first-activity-row' : undefined}
-                  className="border-b border-border/50 cursor-pointer hover:bg-white/30 transition-colors"
+                  className="border-b border-border/50 cursor-pointer hover:glass-liquid-item transition-all"
                 >
                   <td className="px-4 py-3">
                     {expandedId === entry.id
@@ -198,20 +198,20 @@ export default function ActivityPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${actionTypeColors[entry.actionType]}`}>
+                    <span className={`glass-badge px-2.5 py-0.5 text-caption font-medium ${actionTypeColors[entry.actionType]}`}>
                       {entry.actionType.replace(/_/g, ' ')}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-text-primary">{entry.target}</td>
                   <td className="px-4 py-3">
-                    <span className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${statusColors[entry.status]}`}>
+                    <span className={`glass-badge px-2.5 py-0.5 text-caption font-medium ${statusColors[entry.status]}`}>
                       {entry.status}
                     </span>
                   </td>
                   <td className="px-4 py-3 font-mono text-[11px] text-primary/60">{entry.creditCost} cr</td>
                 </tr>
                 {expandedId === entry.id && (
-                  <tr data-tour={index === 0 ? 'expanded-activity-row' : undefined} className="border-b border-border/50 bg-white/20">
+                  <tr data-tour={index === 0 ? 'expanded-activity-row' : undefined} className="border-b border-border/50 glass-liquid-item">
                     <td colSpan={7} className="px-8 py-4">
                       <p className="text-body-sm text-text-primary">{entry.details}</p>
                     </td>

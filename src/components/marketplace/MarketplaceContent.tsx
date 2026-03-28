@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Search, Star, Download, ChevronRight, Plus, Check, Sparkles } from 'lucide-react';
+import { Search, Star, Download, ChevronRight, Plus, Check, Sparkles, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { mockAgents, agentCategories } from '@/lib/mocks/agents';
+import { agentCategories } from '@/lib/mocks/agents';
+import { useAgents } from '@/hooks/use-agents';
 
 interface MarketplaceContentProps {
   variant: 'marketing' | 'workspace';
@@ -12,9 +13,11 @@ interface MarketplaceContentProps {
 export function MarketplaceContent({ variant, onInstall, installedAgents = new Set() }: MarketplaceContentProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const { agents, loading } = useAgents();
 
-  const featured = mockAgents.filter(a => a.featured);
-  const filtered = mockAgents.filter(a => {
+  const featured = agents.filter(a => a.featured);
+  const filtered = agents.filter(a => {
     const matchCat = selectedCategory === 'All' || a.category === selectedCategory;
     const matchSearch = a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       a.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -22,6 +25,14 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
   });
 
   const isMarketing = variant === 'marketing';
+
+  if (loading) {
+    return (
+      <div className={`flex w-full items-center justify-center ${isMarketing ? 'min-h-screen' : 'h-full p-20'}`}>
+        <Loader2 className="h-8 w-8 animate-spin text-[#C800DF]" />
+      </div>
+    );
+  }
 
   return (
     <div className={isMarketing ? 'min-h-screen' : 'h-full overflow-y-auto'}>
@@ -50,7 +61,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                 placeholder="Search agents by name, category, or capability..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-13 rounded-xl border border-border bg-surface-solid pl-12 pr-4 text-base text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-[#C800DF]/25 focus:border-[#C800DF]/30 shadow-glass-sm transition-all"
+                className="w-full h-13 rounded-xl pl-12 pr-4 text-base glass-input shadow-glass-sm"
               />
             </div>
           </div>
@@ -76,7 +87,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
       )}
 
       {/* Category filter */}
-      <div className="border-b border-border bg-surface-solid/50">
+      <div className="border-b border-border glass-panel">
         <div className="container mx-auto px-6">
           <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
             {agentCategories.map(cat => (
@@ -85,8 +96,8 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                 onClick={() => setSelectedCategory(cat)}
                 className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
                   selectedCategory === cat
-                    ? 'bg-[#C800DF] text-white shadow-sm'
-                    : 'bg-surface-solid text-text-secondary hover:text-text-primary hover:bg-gray-100 border border-border'
+                    ? 'bg-[#C800DF] text-white shadow-sm neon-glow-sm'
+                    : 'glass-button text-text-secondary'
                 }`}
               >
                 {cat}
@@ -114,7 +125,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                   <Link
                     to={isMarketing ? `/marketplace/${agent.id}` : '#'}
                     key={agent.id}
-                    className={`group card-glass ${isHero ? 'p-8' : 'p-5'} flex flex-col justify-between`}
+                    className={`group glass-card glass-shimmer ${isHero ? 'p-8' : 'p-5'} flex flex-col justify-between`}
                     data-tour={agent === featured[0] ? 'featured-agent-card' : undefined}
                   >
                     <div>
@@ -128,7 +139,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                           </h3>
                           <span className="text-sm text-text-secondary">{agent.publisher}</span>
                           <div className="mt-2">
-                            <span className="inline-block rounded-full bg-[#C800DF]/[0.06] px-2.5 py-0.5 text-xs font-medium text-[#C800DF]">
+                            <span className="inline-block glass-badge text-xs font-medium text-[#C800DF]">
                               {agent.category}
                             </span>
                           </div>
@@ -154,7 +165,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                       {!isMarketing && (
                         <div className="mt-4 pt-4 border-t border-border">
                           {isInstalled ? (
-                            <div className="flex items-center justify-center gap-2 rounded-lg bg-[#16A34A]/10 py-2 text-sm font-medium text-[#16A34A]">
+                            <div className="flex items-center justify-center gap-2 rounded-lg glass-badge py-2 text-sm font-medium text-[#16A34A]">
                               <Check className="h-4 w-4" /> Installed
                             </div>
                           ) : (
@@ -188,7 +199,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                 <Link
                   to={isMarketing ? `/marketplace/${agent.id}` : '#'}
                   key={agent.id}
-                  className="group card-glass p-5 flex flex-col justify-between"
+                  className="group glass-card glass-shimmer p-5 flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-start gap-3 mb-3">
@@ -201,7 +212,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                         </h3>
                         <span className="text-xs text-text-secondary">{agent.publisher}</span>
                       </div>
-                      <span className="shrink-0 rounded-full bg-[#C800DF]/[0.06] px-2 py-0.5 text-[10px] font-medium text-[#C800DF]">
+                      <span className="shrink-0 glass-badge px-2 py-0.5 text-[10px] font-medium text-[#C800DF]">
                         {agent.category}
                       </span>
                     </div>
@@ -222,7 +233,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                   {!isMarketing && (
                     <div className="mt-3 pt-3 border-t border-border">
                       {isInstalled ? (
-                        <div className="flex items-center justify-center gap-2 rounded-lg bg-[#16A34A]/10 py-1.5 text-xs font-medium text-[#16A34A]">
+                        <div className="flex items-center justify-center gap-2 rounded-lg glass-badge py-1.5 text-xs font-medium text-[#16A34A]">
                           <Check className="h-3.5 w-3.5" /> Installed
                         </div>
                       ) : (

@@ -13,7 +13,7 @@ export default function ChatsPage() {
   return (
     <div className="flex h-full">
       {/* Chat list */}
-      <div className="w-80 shrink-0 border-r border-border glass overflow-y-auto">
+      <div className="w-80 shrink-0 border-r border-border glass-liquid overflow-y-auto">
         <div className="p-4">
           <h2 className="text-heading-sm font-semibold text-text-primary mb-4">Messages</h2>
         </div>
@@ -31,8 +31,8 @@ export default function ChatsPage() {
                 data-tour={chat.id === 'chat_01' ? 'setup-engineer-chat' : chat.id === 'chat_02' ? 'ticketsolver-chat' : undefined}
                 className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-all duration-200 ${
                   selectedChat.id === chat.id
-                    ? chat.type === 'agent' ? 'bg-primary/[0.06] border-l-2 border-l-electric' : 'bg-white/60'
-                    : 'hover:bg-white/30'
+                    ? chat.type === 'agent' ? 'glass-liquid-item-active border-l-2 border-l-electric' : 'glass-liquid-item'
+                    : 'hover:glass-liquid-item'
                 }`}
               >
                 <div className="relative shrink-0">
@@ -70,7 +70,7 @@ export default function ChatsPage() {
       {/* Chat thread */}
       <div className="flex flex-1 flex-col">
         {/* Header */}
-        <div className="flex items-center gap-3 border-b border-border glass px-6 py-3">
+        <div className="flex items-center gap-3 glass-panel px-6 py-3">
           <div className={`flex h-8 w-8 items-center justify-center rounded-xl ${selectedChat.type === 'agent' ? 'bg-primary-muted text-primary' : 'bg-surface-elevated text-text-secondary'} text-sm font-medium`}>
             {selectedChat.type === 'channel' ? '#' : selectedChat.name[0]}
           </div>
@@ -95,20 +95,20 @@ export default function ChatsPage() {
                 <div className={`max-w-[70%] ${isMe ? 'items-end' : ''}`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-caption font-medium text-text-primary">{msg.senderName}</span>
-                    {isAgent && <span className="rounded-md bg-primary-muted px-1.5 py-0.5 text-[10px] font-medium text-primary neon-glow-sm">AI</span>}
+                    {isAgent && <span className="glass-badge px-1.5 py-0.5 text-[10px] font-medium text-primary neon-glow-sm">AI</span>}
                     <span className="font-mono text-[10px] text-text-secondary/50 tracking-wider">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                   <div className={`rounded-2xl px-4 py-2.5 text-body-sm shadow-glass-sm ${
                     isMe
                       ? 'bg-primary text-white'
                       : isAgent
-                        ? 'glass border border-electric/10 text-text-primary'
-                        : 'glass-elevated text-text-primary'
+                        ? 'glass-card !rounded-2xl border-electric/10 text-text-primary'
+                        : 'glass-card !rounded-2xl text-text-primary'
                   }`}>
                     {msg.content}
                   </div>
                   {msg.toolUse && (
-                    <details className="mt-2 rounded-xl border border-border border-l-2 border-l-electric/20 bg-surface-elevated overflow-hidden">
+                    <details className="mt-2 glass-card !rounded-xl border-l-2 border-l-electric/20 overflow-hidden">
                       <summary className="cursor-pointer px-3 py-2 retro-label text-primary flex items-center gap-1.5">
                         <span className="text-primary">▸</span> {msg.toolUse.tool}
                       </summary>
@@ -132,8 +132,8 @@ export default function ChatsPage() {
         </div>
 
         {/* Composer */}
-        <div className="border-t border-border glass p-4">
-          <div className="rounded-2xl border border-border glass-elevated shadow-glass-sm">
+        <div className="glass-panel p-4">
+          <div className="rounded-2xl glass-card shadow-glass-sm">
             <textarea
               value={composerText}
               onChange={e => setComposerText(e.target.value)}
@@ -143,10 +143,10 @@ export default function ChatsPage() {
             />
             <div className="flex items-center justify-between border-t border-border px-3 py-2">
               <div className="flex items-center gap-1">
-                <button className="rounded-lg p-1.5 text-text-secondary hover:bg-white/50 hover:text-text-primary transition-colors"><Paperclip className="h-4 w-4" /></button>
-                <button className="rounded-lg p-1.5 text-text-secondary hover:bg-white/50 hover:text-text-primary transition-colors"><Smile className="h-4 w-4" /></button>
-                <button className="rounded-lg p-1.5 text-text-secondary hover:bg-white/50 hover:text-text-primary transition-colors"><AtSign className="h-4 w-4" /></button>
-                <button className="rounded-lg p-1.5 text-text-secondary hover:bg-white/50 hover:text-text-primary transition-colors"><Bold className="h-4 w-4" /></button>
+                <button className="rounded-lg p-1.5 text-text-secondary hover:glass-liquid-item hover:text-text-primary transition-all"><Paperclip className="h-4 w-4" /></button>
+                <button className="rounded-lg p-1.5 text-text-secondary hover:glass-liquid-item hover:text-text-primary transition-all"><Smile className="h-4 w-4" /></button>
+                <button className="rounded-lg p-1.5 text-text-secondary hover:glass-liquid-item hover:text-text-primary transition-all"><AtSign className="h-4 w-4" /></button>
+                <button className="rounded-lg p-1.5 text-text-secondary hover:glass-liquid-item hover:text-text-primary transition-all"><Bold className="h-4 w-4" /></button>
               </div>
               <button className={`rounded-xl p-2 text-white transition-all shadow-glass-sm ${
                 selectedChat.type === 'agent'

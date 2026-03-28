@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { type User } from '@supabase/supabase-js';
 
 // Generate a random invite code in XXXX-XXXX format
 export function generateInviteCode(): string {
@@ -35,8 +36,7 @@ export interface UserProfile {
 /**
  * Fetch the current user's profile (including workspace association)
  */
-export async function fetchUserProfile(): Promise<UserProfile | null> {
-  const { data: { user } } = await supabase.auth.getUser();
+export async function fetchUserProfile(user: User): Promise<UserProfile | null> {
   if (!user) return null;
 
   const { data, error } = await supabase
@@ -52,8 +52,8 @@ export async function fetchUserProfile(): Promise<UserProfile | null> {
 /**
  * Fetch the current user's workspace
  */
-export async function fetchUserWorkspace(): Promise<Workspace | null> {
-  const profile = await fetchUserProfile();
+export async function fetchUserWorkspace(user: User): Promise<Workspace | null> {
+  const profile = await fetchUserProfile(user);
   if (!profile?.workspace_id) return null;
 
   const { data, error } = await supabase
@@ -69,7 +69,12 @@ export async function fetchUserWorkspace(): Promise<Workspace | null> {
 /**
  * Create a new workspace and set the current user as admin
  */
-export async function createWorkspace(name: string): Promise<{ workspace: Workspace | null; error: string | null }> {
+export async function createWorkspace(
+  name: string,
+  industry?: string,
+  size?: string,
+  jobTitle?: string
+): Promise<{ workspace: Workspace | null; error: string | null }> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { workspace: null, error: 'Not authenticated' };
 
@@ -80,6 +85,8 @@ export async function createWorkspace(name: string): Promise<{ workspace: Worksp
     .from('company_workspaces')
     .insert({
       name,
+      industry: industry || null,
+      size: size || null,
       invite_code: inviteCode,
       created_by: user.id,
       plan: 'free',
@@ -93,10 +100,14 @@ export async function createWorkspace(name: string): Promise<{ workspace: Worksp
     return { workspace: null, error: wsError?.message || 'Failed to create workspace' };
   }
 
-  // Update user profile to link to workspace as admin
+  // Update user profile to link to workspace as admin and save job title
   const { error: profileError } = await supabase
     .from('user_profiles')
-    .update({ workspace_id: workspace.id, role: 'admin' })
+    .update({ 
+      workspace_id: workspace.id, 
+      role: 'admin',
+      job_title: jobTitle || null
+    })
     .eq('user_id', user.id);
 
   if (profileError) {
@@ -109,7 +120,10 @@ export async function createWorkspace(name: string): Promise<{ workspace: Worksp
 /**
  * Join an existing workspace using an invite code
  */
-export async function joinWorkspace(inviteCode: string): Promise<{ workspace: Workspace | null; error: string | null }> {
+export async function joinWorkspace(
+  inviteCode: string,
+  jobTitle?: string
+): Promise<{ workspace: Workspace | null; error: string | null }> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { workspace: null, error: 'Not authenticated' };
 
@@ -124,10 +138,14 @@ export async function joinWorkspace(inviteCode: string): Promise<{ workspace: Wo
     return { workspace: null, error: 'Invalid invite code. Please check and try again.' };
   }
 
-  // Update user profile to link to workspace as member
+  // Update user profile to link to workspace as member and save job title
   const { error: profileError } = await supabase
     .from('user_profiles')
-    .update({ workspace_id: workspace.id, role: 'member' })
+    .update({ 
+      workspace_id: workspace.id, 
+      role: 'member',
+      job_title: jobTitle || null
+    })
     .eq('user_id', user.id);
 
   if (profileError) {
@@ -141,8 +159,7 @@ export async function joinWorkspace(inviteCode: string): Promise<{ workspace: Wo
  * Ensure a user_profiles row exists for the current user.
  * Called after sign-up or first login if the DB trigger hasn't fired.
  */
-export async function ensureUserProfile(fullName?: string): Promise<void> {
-  const { data: { user } } = await supabase.auth.getUser();
+export async function ensureUserProfile(user: User, fullName?: string): Promise<void> {
   if (!user) return;
 
   const { data } = await supabase

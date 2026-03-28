@@ -4,7 +4,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'europe-west2-docker.pkg.dev/lets-get-grooooooooovy/groovy-docker/groovy-frontend:$COMMIT_SHA'
+      - 'europe-west2-docker.pkg.dev/lets-get-grooooooooovy/groovy-docker/groovy-frontend:$BUILD_ID'
       - '-t'
       - 'europe-west2-docker.pkg.dev/lets-get-grooooooooovy/groovy-docker/groovy-frontend:latest'
       - '.'

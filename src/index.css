@@ -36,8 +36,12 @@
   }
 }
 
+/* ─────────────────────────────────────────────────────────
+   LIQUID GLASS SYSTEM
+   ───────────────────────────────────────────────────────── */
+
 @layer components {
-  /* Frosted glass surface */
+  /* ── Base frosted glass ── */
   .glass {
     background: var(--surface);
     backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
@@ -56,7 +60,7 @@
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
   }
 
-  /* Liquid glass sidebar */
+  /* ── Liquid glass sidebar ── */
   .glass-liquid {
     background: var(--liquid-glass);
     backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturation));
@@ -79,7 +83,214 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 0 12px rgba(200, 0, 223, 0.06);
   }
 
-  /* Subtle grid background */
+  /* ── Liquid Glass Card ── */
+  .glass-card {
+    background: var(--liquid-card-bg);
+    backdrop-filter: blur(var(--liquid-card-blur)) saturate(1.6);
+    -webkit-backdrop-filter: blur(var(--liquid-card-blur)) saturate(1.6);
+    border: 1px solid var(--liquid-card-border);
+    border-radius: 1rem;
+    box-shadow: var(--liquid-card-shadow);
+    transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.6) 20%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.6) 80%,
+      transparent
+    );
+    opacity: 0.8;
+    z-index: 1;
+  }
+
+  .glass-card:hover {
+    box-shadow: var(--liquid-card-hover-shadow);
+    transform: translateY(-2px);
+    border-color: rgba(200, 0, 223, 0.12);
+  }
+
+  /* Keep old .card-glass as alias */
+  .card-glass {
+    background: var(--liquid-card-bg);
+    backdrop-filter: blur(var(--liquid-card-blur)) saturate(1.6);
+    -webkit-backdrop-filter: blur(var(--liquid-card-blur)) saturate(1.6);
+    border: 1px solid var(--liquid-card-border);
+    border-radius: 1rem;
+    box-shadow: var(--liquid-card-shadow);
+    transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.6) 20%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.6) 80%,
+      transparent
+    );
+    opacity: 0.8;
+    z-index: 1;
+  }
+
+  .card-glass:hover {
+    box-shadow: var(--liquid-card-hover-shadow);
+    transform: translateY(-2px);
+    border-color: rgba(200, 0, 223, 0.12);
+  }
+
+  /* ── Liquid Glass Input ── */
+  .glass-input {
+    background: var(--liquid-input-bg);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    border: 1px solid var(--liquid-input-border);
+    border-radius: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+
+  .glass-input:focus {
+    outline: none;
+    border-color: var(--liquid-input-focus-border);
+    box-shadow: var(--liquid-input-focus-ring);
+    background: rgba(255, 255, 255, 0.55);
+  }
+
+  .dark .glass-input:focus {
+    background: rgba(30, 30, 35, 0.7);
+  }
+
+  /* ── Liquid Glass Badge ── */
+  .glass-badge {
+    background: var(--liquid-badge-bg);
+    backdrop-filter: blur(8px) saturate(1.3);
+    -webkit-backdrop-filter: blur(8px) saturate(1.3);
+    border: 1px solid var(--liquid-badge-border);
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  /* ── Liquid Glass Button ── */
+  .glass-button {
+    background: var(--liquid-btn-bg);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    border: 1px solid var(--liquid-btn-border);
+    border-radius: 0.75rem;
+    padding: 0.625rem 1.25rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+
+  .glass-button:hover {
+    background: var(--liquid-btn-hover-bg);
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.06);
+    border-color: rgba(200, 0, 223, 0.15);
+  }
+
+  /* ── Liquid Glass Panel ── */
+  .glass-panel {
+    background: var(--liquid-panel-bg);
+    backdrop-filter: blur(var(--liquid-panel-blur)) saturate(1.6);
+    -webkit-backdrop-filter: blur(var(--liquid-panel-blur)) saturate(1.6);
+    border-bottom: 1px solid var(--liquid-panel-border);
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+    position: relative;
+  }
+
+  .glass-panel::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(200, 0, 223, 0.06) 30%,
+      rgba(200, 0, 223, 0.08) 50%,
+      rgba(200, 0, 223, 0.06) 70%,
+      transparent
+    );
+  }
+
+  /* ── Liquid Glass Modal / Sheet ── */
+  .glass-modal {
+    background: var(--liquid-card-bg);
+    backdrop-filter: blur(48px) saturate(1.8);
+    -webkit-backdrop-filter: blur(48px) saturate(1.8);
+    border: 1px solid var(--liquid-card-border);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  /* ── Glass Shimmer (animated light stripe on hover) ── */
+  .glass-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-shimmer::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.15) 45%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.15) 55%,
+      transparent 60%
+    );
+    transform: rotate(25deg) translateX(0);
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .glass-shimmer:hover::after {
+    transform: rotate(25deg) translateX(250%);
+  }
+
+  /* ── Subtle grid background ── */
   .retro-grid {
     position: relative;
   }
@@ -117,24 +328,7 @@
     box-shadow: var(--shadow-sm);
   }
 
-  /* Card — frosted glass */
-  .card-glass {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(16px) saturate(1.6);
-    -webkit-backdrop-filter: blur(16px) saturate(1.6);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-  }
-
-  .card-glass:hover {
-    box-shadow: 0 8px 24px rgba(200, 0, 223, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
-    transform: translateY(-2px);
-    border-color: rgba(200, 0, 223, 0.2);
-  }
-
-  /* Primary button */
+  /* ── Primary button ── */
   .btn-gradient {
     background: #C800DF;
     color: white;
@@ -149,12 +343,12 @@
     box-shadow: 0 8px 24px rgba(200, 0, 223, 0.2);
   }
 
-  /* Accent text */
+  /* ── Accent text ── */
   .gradient-text {
     color: #C800DF;
   }
 
-  /* Bento grid */
+  /* ── Bento grid ── */
   .bento-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -247,6 +441,16 @@
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(200, 0, 223, 0.08) 20%, rgba(230, 0, 118, 0.08) 80%, transparent);
   }
+}
+
+/* ─────────────────────────────────────────────────────────
+   ANIMATIONS
+   ───────────────────────────────────────────────────────── */
+
+/* Glass refraction pulse */
+@keyframes glass-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
 /* Onboarding keyframes */

@@ -10,6 +10,7 @@ import { mockSession } from '@/lib/mocks/session';
 import { CommandPalette } from '@/components/CommandPalette';
 import { useAuth } from '@/contexts/AuthContext';
 import { isSupabaseConfigured } from '@/lib/supabase';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const navItems = [
   { label: 'Tasks', icon: CheckSquare, path: '/space/tasks', tourId: 'nav-tasks' },
@@ -101,7 +102,7 @@ export default function WorkspaceLayout() {
                 to={item.path}
                 data-tour={item.tourId}
                 onClick={() => setMobileOpen(false)}
-                className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm transition-all duration-200 ${
+                className={`relative flex items-center gap-3 rounded-xl px-3 py-2 text-body-sm border border-transparent transition-all duration-200 ${
                   isActive
                     ? 'glass-liquid-item-active text-primary font-medium'
                     : 'text-text-secondary hover:glass-liquid-item hover:text-text-primary'
@@ -119,17 +120,33 @@ export default function WorkspaceLayout() {
 
         {/* User info */}
         <div className="border-t border-black/[0.04] p-3">
-          <div className={`flex items-center gap-3 rounded-xl px-2 py-2 glass-liquid-item ${collapsed ? 'justify-center' : ''}`}>
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-medium text-white shadow-glass-sm">
-              {initials}
-            </div>
-            {!collapsed && (
-              <div className="min-w-0">
-                <p className="truncate text-body-sm font-medium text-text-primary">{displayName}</p>
-                <p className="truncate text-caption text-text-secondary capitalize">{displayRole}</p>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className={`w-full flex items-center gap-3 rounded-xl px-2 py-2 text-left hover:glass-liquid-item transition-all ${collapsed ? 'justify-center' : ''} focus:outline-none`}>
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-medium text-white shadow-glass-sm ring-1 ring-white/50">
+                  {initials}
+                </div>
+                {!collapsed && (
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-body-sm font-medium text-text-primary">{displayName}</p>
+                    <p className="truncate text-caption text-text-secondary capitalize">{displayRole}</p>
+                  </div>
+                )}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="top" align={collapsed ? "center" : "start"} className="w-56 glass-modal border border-white/30 shadow-glass-large mb-1">
+              <div className="px-2 py-1.5 border-b border-white/10 mb-1">
+                <p className="text-body-sm font-medium text-text-primary truncate">{displayName}</p>
+                <p className="text-caption text-text-secondary truncate">{profile?.email || mockSession.user.email}</p>
               </div>
-            )}
-          </div>
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/40 focus:bg-white/40 rounded-lg">
+                <Link to="/space/settings" className="w-full flex">Settings</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={signOut} className="cursor-pointer text-destructive hover:bg-destructive/10 focus:bg-destructive/10 rounded-lg">
+                Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Divider + version */}
@@ -153,7 +170,7 @@ export default function WorkspaceLayout() {
       {/* Main content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top bar — frosted glass */}
-        <header className="flex h-12 shrink-0 items-center justify-between border-b border-border glass px-4 md:px-6">
+        <header className="flex h-12 shrink-0 items-center justify-between glass-liquid border-b border-white/20 px-4 md:px-6">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
@@ -172,30 +189,46 @@ export default function WorkspaceLayout() {
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setCmdOpen(true)}
-              className="flex items-center gap-2 rounded-lg border border-border bg-white/50 px-3 py-1.5 text-body-sm text-text-secondary hover:bg-white/80 transition-all duration-200"
+              className="flex items-center gap-2 glass-button rounded-lg px-3 py-1.5 text-body-sm text-text-secondary"
             >
               <Search className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Search...</span>
-              <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded-md border border-border-solid px-1.5 py-0.5 text-caption font-mono text-text-secondary/60">
+              <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded-md glass-badge px-1.5 py-0.5 text-caption font-mono text-text-secondary/60">
                 <Command className="h-3 w-3" />K
               </kbd>
             </button>
             <button
               onClick={toggleDark}
-              className="text-text-secondary hover:text-text-primary transition-colors"
+              className="glass-button rounded-lg p-1.5 text-text-secondary hover:text-text-primary"
               title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {isDark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
             </button>
-            <button className="relative text-text-secondary hover:text-text-primary transition-colors">
+            <button className="relative glass-button rounded-lg p-1.5 text-text-secondary hover:text-text-primary">
               <Bell className="h-[18px] w-[18px]" />
               <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white neon-glow-sm">
                 3
               </span>
             </button>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-[11px] font-medium text-white">
-              {initials}
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-[11px] font-medium text-white shadow-glass-sm ring-2 ring-white/40 hover:ring-white/70 transition-all focus:outline-none">
+                  {initials}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="bottom" align="end" className="w-56 glass-modal border border-white/30 shadow-glass-large mt-3">
+                <div className="px-2 py-1.5 border-b border-white/10 mb-1">
+                  <p className="text-body-sm font-medium text-text-primary truncate">{displayName}</p>
+                  <p className="text-caption text-text-secondary truncate">{profile?.email || mockSession.user.email}</p>
+                </div>
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/40 focus:bg-white/40 rounded-lg">
+                  <Link to="/space/settings" className="w-full flex">Settings</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={signOut} className="cursor-pointer text-destructive hover:bg-destructive/10 focus:bg-destructive/10 rounded-lg">
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
 

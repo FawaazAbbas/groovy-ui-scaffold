@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Search, ShieldBan, ShieldAlert, ScrollText, Plus, ToggleLeft, ToggleRight, AlertTriangle, Ban, FileText, Bot, DollarSign, Scale, Database, Brain } from 'lucide-react';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { mockGuardrails, type Guardrail } from '@/lib/mocks/guardrails';
-import { mockAgents } from '@/lib/mocks/agents';
+import { useAgents } from '@/hooks/use-agents';
+import { Loader2 } from 'lucide-react';
 
 const severityConfig = {
   block: { label: 'Block', icon: Ban, className: 'bg-destructive/10 text-destructive' },
@@ -22,7 +23,7 @@ function SeverityBadge({ severity }: { severity: Guardrail['severity'] }) {
   const cfg = severityConfig[severity];
   const Icon = cfg.icon;
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-caption font-medium ${cfg.className}`}>
+    <span className={`inline-flex items-center gap-1 glass-badge px-2.5 py-0.5 text-caption font-medium ${cfg.className}`}>
       <Icon className="h-3 w-3" /> {cfg.label}
     </span>
   );
@@ -32,7 +33,15 @@ export default function GuardrailsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGuardrail, setSelectedGuardrail] = useState<Guardrail | null>(null);
   const [localGuardrails, setLocalGuardrails] = useState(mockGuardrails);
+  const { agents, loading } = useAgents();
 
+  if (loading) {
+    return (
+      <div className="flex h-[calc(100vh-64px)] w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-[#C800DF]" />
+      </div>
+    );
+  }
   const filtered = localGuardrails.filter(g => {
     if (searchQuery && !g.name.toLowerCase().includes(searchQuery.toLowerCase()) && !g.description.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
@@ -67,7 +76,7 @@ export default function GuardrailsPage() {
   const totalTriggers = localGuardrails.reduce((sum, g) => sum + g.triggeredCount, 0);
 
   return (
-    <div className="p-6 max-w-6xl">
+    <div className="p-6 w-full max-w-[1400px] mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-heading font-semibold text-text-primary">Guardrails</h1>
@@ -87,16 +96,16 @@ export default function GuardrailsPage() {
             placeholder="Search guardrails..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-border bg-white/60 pl-9 pr-4 py-2.5 text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+            className="w-full glass-input pl-9"
           />
         </div>
       </div>
 
       {/* Summary cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="card-glass p-4">
+        <div className="glass-card glass-shimmer p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-comfort/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-badge">
               <ShieldAlert className="h-5 w-5 text-comfort-text" />
             </div>
             <div>
@@ -105,9 +114,9 @@ export default function GuardrailsPage() {
             </div>
           </div>
         </div>
-        <div className="card-glass p-4">
+        <div className="glass-card glass-shimmer p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-destructive/10">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-badge">
               <ShieldBan className="h-5 w-5 text-destructive" />
             </div>
             <div>
@@ -116,9 +125,9 @@ export default function GuardrailsPage() {
             </div>
           </div>
         </div>
-        <div className="card-glass p-4">
+        <div className="glass-card glass-shimmer p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/10">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-badge">
               <ScrollText className="h-5 w-5 text-warning" />
             </div>
             <div>
@@ -139,7 +148,7 @@ export default function GuardrailsPage() {
             <div className="flex items-center gap-3 mb-1">
               <SectionIcon className="h-5 w-5 text-text-secondary" />
               <h2 className="text-body font-semibold text-text-primary">{section.label}</h2>
-              <span className="rounded-full bg-white/50 px-2 py-0.5 text-caption text-text-secondary">{rules.length}</span>
+              <span className="glass-badge px-2 py-0.5 text-caption text-text-secondary">{rules.length}</span>
             </div>
             <p className="text-caption text-text-secondary mb-4 ml-8">{section.description}</p>
 
@@ -147,13 +156,13 @@ export default function GuardrailsPage() {
               {rules.map(guardrail => {
                 const agentNames = guardrail.appliesTo === 'all'
                   ? null
-                  : (guardrail.appliesTo as string[]).map(id => mockAgents.find(a => a.id === id)?.name).filter(Boolean);
+                  : (guardrail.appliesTo as string[]).map(id => agents.find(a => a.id === id)?.name).filter(Boolean);
 
                 return (
                   <div
                     key={guardrail.id}
                     onClick={() => setSelectedGuardrail(guardrail)}
-                    className={`card-glass p-5 text-left group transition-all cursor-pointer ${
+                    className={`glass-card glass-shimmer p-5 text-left group transition-all cursor-pointer ${
                       !guardrail.enabled ? 'opacity-50' : ''
                     }`}
                   >
@@ -208,12 +217,12 @@ export default function GuardrailsPage() {
 
       {/* Detail sheet */}
       <Sheet open={!!selectedGuardrail} onOpenChange={() => setSelectedGuardrail(null)}>
-        <SheetContent className="w-[440px] glass overflow-y-auto">
+        <SheetContent className="w-[440px] glass-modal overflow-y-auto">
           {selectedGuardrail && (() => {
             const g = localGuardrails.find(r => r.id === selectedGuardrail.id) ?? selectedGuardrail;
             const agentNames = g.appliesTo === 'all'
               ? null
-              : (g.appliesTo as string[]).map(id => mockAgents.find(a => a.id === id)?.name).filter(Boolean);
+              : (g.appliesTo as string[]).map(id => agents.find(a => a.id === id)?.name).filter(Boolean);
 
             return (
               <div className="space-y-6 pt-6">
@@ -221,7 +230,7 @@ export default function GuardrailsPage() {
                   <h2 className="text-heading-sm font-semibold text-text-primary mb-2">{g.name}</h2>
                   <div className="flex items-center gap-2">
                     <SeverityBadge severity={g.severity} />
-                    <span className="rounded-md bg-white/50 px-2 py-0.5 text-[10px] font-medium text-text-secondary">
+                    <span className="glass-badge px-2 py-0.5 text-[10px] font-medium text-text-secondary">
                       {sectionConfig[g.category]?.label ?? g.category}
                     </span>
                   </div>
@@ -230,7 +239,7 @@ export default function GuardrailsPage() {
                 <p className="text-body-sm text-text-secondary">{g.description}</p>
 
                 {/* Enable/disable */}
-                <div className="rounded-2xl bg-white/40 p-4">
+                <div className="glass-card p-4">
                   <button onClick={() => toggleEnabled(g.id)} className="flex w-full items-center justify-between">
                     <div>
                       <p className="text-body-sm font-medium text-text-primary">Enabled</p>
@@ -247,7 +256,7 @@ export default function GuardrailsPage() {
                 </div>
 
                 {/* Severity */}
-                <div className="rounded-2xl bg-white/40 p-4">
+                <div className="glass-card p-4">
                   <p className="text-body-sm font-medium text-text-primary mb-3">Enforcement level</p>
                   <div className="flex gap-2">
                     {(['log', 'warn', 'block'] as const).map(sev => {
@@ -259,7 +268,7 @@ export default function GuardrailsPage() {
                           key={sev}
                           onClick={() => setSeverity(g.id, sev)}
                           className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-caption font-medium transition-all ${
-                            active ? cfg.className : 'bg-white/30 text-text-secondary/50 hover:bg-white/50'
+                            active ? `glass-badge ${cfg.className}` : 'glass-button text-text-secondary/50'
                           }`}
                         >
                           <Icon className="h-3.5 w-3.5" />
@@ -271,12 +280,12 @@ export default function GuardrailsPage() {
                 </div>
 
                 {/* Applies to */}
-                <div className="rounded-2xl bg-white/40 p-4">
+                <div className="glass-card p-4">
                   <p className="text-body-sm font-medium text-text-primary mb-2">Applies to</p>
                   {agentNames ? (
                     <div className="flex flex-wrap gap-2">
                       {agentNames.map(name => (
-                        <span key={name} className="inline-flex items-center gap-1.5 rounded-lg bg-primary-muted px-2.5 py-1 text-caption font-medium text-primary">
+                        <span key={name} className="inline-flex items-center gap-1.5 glass-badge px-2.5 py-1 text-caption font-medium text-primary">
                           <Bot className="h-3 w-3" /> {name}
                         </span>
                       ))}
@@ -287,7 +296,7 @@ export default function GuardrailsPage() {
                 </div>
 
                 {/* Configuration */}
-                <div className="rounded-2xl bg-white/40 p-4">
+                <div className="glass-card p-4">
                   <p className="text-body-sm font-medium text-text-primary mb-3">Configuration</p>
                   <div className="space-y-2">
                     {Object.entries(g.config).map(([key, value]) => (
@@ -304,7 +313,7 @@ export default function GuardrailsPage() {
                 </div>
 
                 {/* Activity */}
-                <div className="rounded-2xl bg-white/40 p-4">
+                <div className="glass-card p-4">
                   <p className="text-body-sm font-medium text-text-primary mb-3">Activity</p>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -320,7 +329,7 @@ export default function GuardrailsPage() {
                   </div>
                 </div>
 
-                <button className="w-full rounded-xl border border-destructive py-2.5 text-body-sm font-medium text-destructive hover:bg-destructive/5 transition-colors">
+                <button className="w-full glass-button rounded-xl py-2.5 text-body-sm font-medium text-destructive !border-destructive/30">
                   Delete Rule
                 </button>
               </div>

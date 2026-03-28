@@ -1,16 +1,25 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Star, Download, ArrowLeft, Check, MessageSquare as Slack, Users, Zap, Clock, Activity, Globe, Brain, Image } from 'lucide-react';
-import { mockAgents } from '@/lib/mocks/agents';
+import { Star, Download, ArrowLeft, Check, MessageSquare as Slack, Users, Zap, Clock, Activity, Globe, Brain, Image, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { useAgents } from '@/hooks/use-agents';
 
 export default function AgentDetailPage() {
   const { agentId } = useParams();
-  const agent = mockAgents.find(a => a.id === agentId);
+  const { agents, loading } = useAgents();
+  const agent = agents.find(a => a.id === agentId);
   const [activeTab, setActiveTab] = useState('overview');
   const [installOpen, setInstallOpen] = useState(false);
   const [installStep, setInstallStep] = useState<'target' | 'confirm' | 'success'>('target');
   const [selectedTarget, setSelectedTarget] = useState('');
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen w-full items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-[#C800DF]" />
+      </div>
+    );
+  }
 
   if (!agent) {
     return (
@@ -48,13 +57,13 @@ export default function AgentDetailPage() {
           {/* Main content */}
           <div className="flex-1 min-w-0">
             {/* Header card */}
-            <div className="card-glass p-8 mb-6">
+            <div className="glass-card glass-shimmer p-8 mb-6">
               {/* Badges */}
               <div className="flex items-center gap-2 mb-5">
-                <span className="rounded-full bg-[#C800DF]/[0.08] px-3 py-1 text-xs font-medium text-[#C800DF]">
+                <span className="glass-badge px-3 py-1 text-xs font-medium text-[#C800DF]">
                   {agent.category}
                 </span>
-                <span className="rounded-full border border-[#16A34A]/20 bg-[#16A34A]/[0.06] px-3 py-1 text-xs font-medium text-[#16A34A]">
+                <span className="glass-badge px-3 py-1 text-xs font-medium text-[#16A34A]">
                   Active
                 </span>
               </div>
@@ -75,15 +84,15 @@ export default function AgentDetailPage() {
 
               {/* Metrics row */}
               <div className="flex flex-wrap items-center gap-5 mt-6">
-                <div className="flex items-center gap-1.5 rounded-full border border-border px-3.5 py-1.5 text-sm">
+                <div className="flex items-center gap-1.5 glass-badge px-3.5 py-1.5 text-sm">
                   <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                   <span className="font-medium text-text-primary">{agent.rating}</span>
                   <span className="text-text-secondary">({agent.reviewCount})</span>
                 </div>
-                <div className="flex items-center gap-1.5 rounded-full border border-border px-3.5 py-1.5 text-sm text-text-secondary">
+                <div className="flex items-center gap-1.5 glass-badge px-3.5 py-1.5 text-sm text-text-secondary">
                   <Download className="h-4 w-4" /> {agent.installCount.toLocaleString()} installs
                 </div>
-                <div className="flex items-center gap-1.5 rounded-full border border-border px-3.5 py-1.5 text-sm text-text-secondary">
+                <div className="flex items-center gap-1.5 glass-badge px-3.5 py-1.5 text-sm text-text-secondary">
                   <Clock className="h-4 w-4" /> ~30s response
                 </div>
               </div>
@@ -100,7 +109,7 @@ export default function AgentDetailPage() {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-6 border-b border-border mb-8">
+            <div className="flex gap-6 glass-panel !border-b mb-8">
               {tabs.map(tab => (
                 <button
                   key={tab}
@@ -120,7 +129,7 @@ export default function AgentDetailPage() {
             {activeTab === 'overview' && (
               <div className="space-y-6">
                 {/* Screenshots gallery */}
-                <div className="card-glass p-6">
+                <div className="glass-card glass-shimmer p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <Image className="h-5 w-5 text-[#C800DF]" />
                     <h2 className="text-lg font-bold text-text-primary">Screenshots</h2>
@@ -144,14 +153,14 @@ export default function AgentDetailPage() {
                   )}
                 </div>
 
-                <div className="card-glass p-6">
+                <div className="glass-card glass-shimmer p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <Globe className="h-5 w-5 text-[#C800DF]" />
                     <h2 className="text-lg font-bold text-text-primary">What This Agent Does</h2>
                   </div>
                   <p className="text-text-secondary leading-relaxed">{agent.longDescription}</p>
                 </div>
-                <div className="card-glass p-6">
+                <div className="glass-card glass-shimmer p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <Brain className="h-5 w-5 text-[#C800DF]" />
                     <h2 className="text-lg font-bold text-text-primary">AI Intelligence</h2>
@@ -164,12 +173,12 @@ export default function AgentDetailPage() {
             )}
 
             {activeTab === 'capabilities' && (
-              <div className="card-glass p-6">
+              <div className="glass-card glass-shimmer p-6">
                 <h2 className="text-lg font-bold text-text-primary mb-4">Key Capabilities</h2>
                 <ul className="space-y-3">
                   {agent.capabilities.map((cap, i) => (
                     <li key={i} className="flex items-center gap-3 text-text-primary">
-                      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#16A34A]/10">
+                      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full glass-badge">
                         <Check className="h-3.5 w-3.5 text-[#16A34A]" />
                       </div>
                       {cap}
@@ -182,7 +191,7 @@ export default function AgentDetailPage() {
             {activeTab === 'reviews' && (
               <div className="space-y-4">
                 {agent.reviews.map((review, i) => (
-                  <div key={i} className="card-glass p-5">
+                  <div key={i} className="glass-card glass-shimmer p-5">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="font-medium text-sm text-text-primary">{review.user}</span>
                       <span className="flex items-center gap-0.5">
@@ -199,7 +208,7 @@ export default function AgentDetailPage() {
             )}
 
             {activeTab === 'support' && (
-              <div className="card-glass p-6 text-center">
+              <div className="glass-card glass-shimmer p-6 text-center">
                 <p className="text-text-secondary mb-4">Need help with {agent.name}?</p>
                 <p className="text-sm text-text-secondary">
                   Contact <span className="text-[#C800DF] font-medium">{agent.publisher}</span> for support.
@@ -211,7 +220,7 @@ export default function AgentDetailPage() {
           {/* Sidebar */}
           <div className="w-full lg:w-80 shrink-0 space-y-4">
             {/* Quick Info */}
-            <div className="card-glass p-6">
+            <div className="glass-card glass-shimmer p-6">
               <h3 className="text-base font-bold text-text-primary mb-4">Quick Info</h3>
               <div className="space-y-3.5">
                 {[
@@ -219,7 +228,7 @@ export default function AgentDetailPage() {
                   { label: 'Rating', value: <span className="flex items-center gap-1"><Star className="h-4 w-4 fill-amber-400 text-amber-400" />{agent.rating}</span> },
                   { label: 'Installs', value: agent.installCount.toLocaleString() },
                   { label: 'Response Time', value: '~30s' },
-                  { label: 'Status', value: <span className="rounded-full border border-[#16A34A]/20 bg-[#16A34A]/[0.06] px-2.5 py-0.5 text-xs font-medium text-[#16A34A]">Active</span> },
+                  { label: 'Status', value: <span className="glass-badge px-2.5 py-0.5 text-xs font-medium text-[#16A34A]">Active</span> },
                 ].map(item => (
                   <div key={item.label} className="flex items-center justify-between text-sm">
                     <span className="text-text-secondary">{item.label}</span>
@@ -231,7 +240,7 @@ export default function AgentDetailPage() {
 
             {/* Integrations */}
             {agent.requiredIntegrations.length > 0 && (
-              <div className="card-glass p-6">
+              <div className="glass-card glass-shimmer p-6">
                 <h3 className="text-base font-bold text-text-primary mb-4">
                   <span className="flex items-center gap-2">
                     <Activity className="h-4 w-4 text-[#C800DF]" /> Integrations
@@ -239,7 +248,7 @@ export default function AgentDetailPage() {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {agent.requiredIntegrations.map(int => (
-                    <span key={int} className="rounded-full border border-border px-3 py-1 text-xs font-medium text-text-secondary">
+                    <span key={int} className="glass-badge px-3 py-1 text-xs font-medium text-text-secondary">
                       {int}
                     </span>
                   ))}
@@ -259,7 +268,7 @@ export default function AgentDetailPage() {
                 <button
                   key={target.id}
                   onClick={handleInstall}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl border border-border py-2.5 text-sm font-medium text-text-primary hover:border-[#C800DF]/20 hover:bg-[#C800DF]/[0.02] transition-all"
+                  className="w-full flex items-center justify-center gap-2 glass-button rounded-xl py-2.5 text-sm font-medium text-text-primary"
                 >
                   <target.icon className="h-4 w-4 text-text-secondary" /> Add to {target.label}
                 </button>
@@ -270,7 +279,7 @@ export default function AgentDetailPage() {
       </div>
 
       {/* Mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-surface-solid p-4 md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 glass-panel p-4 md:hidden">
         <button
           onClick={handleInstall}
           className="w-full btn-gradient py-3 text-sm font-medium"
@@ -291,7 +300,7 @@ export default function AgentDetailPage() {
                   <button
                     key={target.id}
                     onClick={() => { setSelectedTarget(target.id); setInstallStep('confirm'); }}
-                    className="flex w-full items-center gap-3 rounded-xl border border-border p-4 text-left hover:border-[#C800DF]/20 hover:bg-[#C800DF]/[0.02] transition-all"
+                    className="flex w-full items-center gap-3 rounded-xl p-4 text-left glass-button"
                   >
                     <target.icon className="h-5 w-5 text-text-secondary" />
                     <span className="text-sm font-medium text-text-primary">{target.label}</span>
@@ -303,12 +312,12 @@ export default function AgentDetailPage() {
           {installStep === 'confirm' && (
             <div>
               <h2 className="text-xl font-bold text-text-primary mb-2">Confirm Installation</h2>
-              <div className="rounded-xl bg-[#C800DF]/[0.04] border border-[#C800DF]/10 p-4 mb-6">
+              <div className="glass-card p-4 mb-6">
                 <p className="text-sm text-text-primary"><strong>{agent.name}</strong> will be deployed to <strong>{targets.find(t => t.id === selectedTarget)?.label}</strong></p>
                 <p className="text-xs text-text-secondary mt-1">Cost: {agent.creditCost === 0 ? 'Free' : `${agent.creditCost} credits per use`}</p>
               </div>
               <div className="flex gap-3">
-                <button onClick={() => setInstallStep('target')} className="flex-1 rounded-xl border border-border py-2.5 text-sm font-medium text-text-secondary hover:bg-gray-50">
+                <button onClick={() => setInstallStep('target')} className="flex-1 glass-button rounded-xl py-2.5 text-sm font-medium text-text-secondary">
                   Back
                 </button>
                 <button onClick={() => setInstallStep('success')} className="flex-1 btn-gradient py-2.5 text-sm font-medium">
@@ -319,7 +328,7 @@ export default function AgentDetailPage() {
           )}
           {installStep === 'success' && (
             <div className="text-center py-4">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#16A34A]/10">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full glass-badge">
                 <Check className="h-8 w-8 text-[#16A34A]" />
               </div>
               <h2 className="text-xl font-bold text-text-primary mb-2">Successfully Installed!</h2>

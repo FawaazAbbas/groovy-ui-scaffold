@@ -2,9 +2,12 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { GroovyLogo } from '@/components/ui/GroovyLogo';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { Footer } from '@/components/Footer';
 
 export default function MarketingLayout() {
   const { startOnboarding } = useOnboarding();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
@@ -13,14 +16,11 @@ export default function MarketingLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen font-sans bg-background flex flex-col">
       <header className="border-b border-white/40 bg-white/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
           <Link to="/marketplace" className="flex items-center gap-2.5" data-tour="nav-marketplace">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#C800DF]">
-              <GroovyLogo className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-lg font-bold text-text-primary">Groovy</span>
+            <GroovyLogo className="h-8 w-8 text-primary" />
           </Link>
           <div className="hidden md:flex items-center gap-6">
             <div className="relative">
@@ -32,25 +32,37 @@ export default function MarketingLayout() {
               />
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
+            <Link to="/blog" className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
+              Blog
+            </Link>
             <Link to="/pricing" className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
               Pricing
             </Link>
-            <Link to="/login" className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
-              Sign In
-            </Link>
-            <button
-              onClick={handleGetStarted}
-              className="btn-gradient px-5 py-2 text-sm font-medium"
-            >
-              Get Started
-            </button>
+            {user ? (
+              <Link to="/space/marketplace" className="btn-gradient px-5 py-2 text-sm font-medium flex items-center gap-2">
+                Go to Workspace
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
+                  Sign In
+                </Link>
+                <button
+                  onClick={handleGetStarted}
+                  className="btn-gradient px-5 py-2 text-sm font-medium"
+                >
+                  Get Started
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }

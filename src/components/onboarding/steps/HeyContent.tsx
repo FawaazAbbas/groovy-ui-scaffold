@@ -3,27 +3,25 @@ import { AnimatedEntry } from '../AnimatedEntry';
 import { GroovyLogo } from '@/components/ui/GroovyLogo';
 
 export function HeyContent() {
-  const { userName, nextStep } = useOnboarding();
+  const { nextStep } = useOnboarding();
 
   return (
     <div className="text-center">
       <AnimatedEntry delay={0}>
         <div className="mb-10">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-glass-sm">
-            <GroovyLogo className="h-7 w-7 text-white" />
-          </div>
+          <GroovyLogo className="h-14 w-14 text-primary" />
         </div>
       </AnimatedEntry>
 
       <AnimatedEntry delay={150}>
         <h1 className="text-[44px] md:text-[72px] font-bold leading-[1.05] tracking-[-0.03em] text-text-primary">
-          Hey {userName || 'there'},
+          Welcome to Groovy.
         </h1>
       </AnimatedEntry>
 
       <AnimatedEntry delay={300}>
         <p className="mt-4 text-[17px] md:text-[20px] leading-[1.6] text-text-secondary">
-          Welcome to Groovy.
+          AI employees, but better.
         </p>
       </AnimatedEntry>
 

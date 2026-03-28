@@ -12,7 +12,7 @@ export function PricingCard({ plan, variant, currentPlanId, onSelect }: PricingC
   const isCurrent = variant === 'billing' && currentPlanId === plan.id;
 
   return (
-    <div className={`relative card-glass p-6 flex flex-col ${plan.isPopular ? 'ring-2 ring-primary' : ''}`}>
+    <div className={`relative card-glass p-6 pt-8 flex flex-col overflow-visible ${plan.isPopular ? 'ring-2 ring-primary' : ''}`}>
       {plan.isPopular && (
         <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-caption font-semibold text-white shadow-glass-sm">
           <Sparkles className="h-3 w-3" /> Most Popular
