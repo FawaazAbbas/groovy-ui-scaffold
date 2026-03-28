@@ -179,7 +179,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error('Error during signOut:', err);
+    }
+    // Always clear state, even if the API call fails
+    setUser(null);
+    setSession(null);
     setProfile(null);
     setWorkspace(null);
   };

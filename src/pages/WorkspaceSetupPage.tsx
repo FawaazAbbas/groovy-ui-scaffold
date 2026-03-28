@@ -22,6 +22,11 @@ export default function WorkspaceSetupPage() {
   const [size, setSize] = useState('');
   const [jobTitle, setJobTitle] = useState('');
 
+  // Not logged in — redirect to login
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   // If already has a workspace, redirect to marketplace to prevent duplicate creation
   if (hasWorkspace) {
     return <Navigate to="/space/marketplace" replace />;
