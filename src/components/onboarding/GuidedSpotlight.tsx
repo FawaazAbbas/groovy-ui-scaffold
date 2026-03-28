@@ -124,7 +124,13 @@ export function GuidedSpotlight() {
     if (step.page !== location.pathname) {
       setTourPhase('navigating');
       navigate(step.page);
-      return;
+
+      // Timeout to prevent infinite loading state if page fails to navigate
+      const timeout = setTimeout(() => {
+        setTourPhase('visible'); // Force to visible to show at least the tooltip
+      }, 3000);
+
+      return () => clearTimeout(timeout);
     }
     setTourPhase('waiting-for-target');
     findTarget(step.targetId);
