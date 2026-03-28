@@ -9,5 +9,19 @@ steps:
       - 'europe-west2-docker.pkg.dev/lets-get-grooooooooovy/groovy-docker/groovy-frontend:latest'
       - '.'
 
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'groovy-frontend'
+      - '--image'
+      - 'europe-west2-docker.pkg.dev/lets-get-grooooooooovy/groovy-docker/groovy-frontend:$BUILD_ID'
+      - '--region'
+      - 'europe-west2'
+      - '--project'
+      - 'lets-get-grooooooooovy'
+
 images:
   - 'europe-west2-docker.pkg.dev/lets-get-grooooooooovy/groovy-docker/groovy-frontend'
