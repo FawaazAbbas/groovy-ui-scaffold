@@ -9,6 +9,12 @@ steps:
       - 'europe-west2-docker.pkg.dev/lets-get-grooooooooovy/groovy-docker/groovy-frontend:latest'
       - '.'
 
+  # Push the specific build ID to Artifact Registry so Cloud Run can pull it
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'europe-west2-docker.pkg.dev/lets-get-grooooooooovy/groovy-docker/groovy-frontend:$BUILD_ID'
+
   # Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
