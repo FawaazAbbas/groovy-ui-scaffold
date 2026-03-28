@@ -27,7 +27,7 @@ const platformDetails: Record<string, { name: string; color: string; description
     name: 'Lark',
     color: 'bg-[#3370FF]/10 text-[#3370FF]',
     description: 'Your agents will join your Lark workspace — handle messages, documents, and tasks seamlessly.',
-    icon: <img src="/logos/lark.svg" alt="Lark" className="h-8 w-8 rounded-md" />,
+    icon: <img src="/logos/lark.png" alt="Lark" className="h-8 w-8 rounded-md" />,
   },
   'groovy-space': {
     name: 'Groovy Space',

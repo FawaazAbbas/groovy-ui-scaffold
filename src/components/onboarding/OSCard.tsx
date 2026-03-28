@@ -31,7 +31,7 @@ function LogoIcon({ os }: { os: OSChoice }) {
     case 'teams':
       return <img src="/logos/teams.svg" alt="Microsoft Teams" className="h-10 w-10 rounded-lg" />;
     case 'lark':
-      return <img src="/logos/lark.svg" alt="Lark" className="h-10 w-10 rounded-lg" />;
+      return <img src="/logos/lark.png" alt="Lark" className="h-10 w-10 rounded-lg" />;
     case 'groovy-space':
       return <GroovyLogo className="h-8 w-8 text-text-secondary" />;
     default:
