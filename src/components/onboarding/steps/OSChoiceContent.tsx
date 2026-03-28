@@ -7,7 +7,7 @@ const osOptions: { os: OSChoice; title: string; description: string; disabled?: 
   { os: 'slack', title: 'Slack', description: 'Connect your existing Slack workspace' },
   { os: 'teams', title: 'Microsoft Teams', description: 'Connect your existing Teams workspace' },
   { os: 'lark', title: 'Lark', description: 'Connect your existing Lark workspace' },
-  { os: 'groovy-space', title: 'Groovy Space', description: "Use Groovy's built-in workspace", disabled: true },
+  { os: 'groovy-space', title: 'Groovy Space', description: "Use Groovy's built-in workspace" },
 ];
 
 export function OSChoiceContent() {

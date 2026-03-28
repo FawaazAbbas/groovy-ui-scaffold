@@ -4,24 +4,33 @@ import { StepTransition } from './StepTransition';
 import { GuidedSpotlight } from './GuidedSpotlight';
 import { OnboardingProgress } from './OnboardingProgress';
 import { HeyContent } from './steps/HeyContent';
-import { IntroContent } from './steps/IntroContent';
+import { ValuePropsContent } from './steps/ValuePropsContent';
 import { OSChoiceContent } from './steps/OSChoiceContent';
-import { TwoClickContent } from './steps/TwoClickContent';
 import { PricingContent } from './steps/PricingContent';
+import { SignUpContent } from './steps/SignUpContent';
 import { WorkspaceSetupContent } from './steps/WorkspaceSetupContent';
-import { ExploreMarketplaceContent } from './steps/ExploreMarketplaceContent';
+import { ConnectIntegrationContent } from './steps/ConnectIntegrationContent';
 import type { OnboardingStepId } from '@/types/onboarding';
 import type { ReactNode } from 'react';
 
 const stepComponents: Record<Exclude<OnboardingStepId, 'tour'>, ReactNode> = {
   'hey': <HeyContent />,
-  'intro': <IntroContent />,
-  'os-choice': <OSChoiceContent />,
+  'value-props': <ValuePropsContent />,
   'pricing': <PricingContent />,
-  'two-click': <TwoClickContent />,
+  'sign-up': <SignUpContent />,
   'workspace-setup': <WorkspaceSetupContent />,
-  'explore-marketplace': <ExploreMarketplaceContent />,
+  'os-choice': <OSChoiceContent />,
+  'connect-integration': <ConnectIntegrationContent />,
 };
+
+const wideSteps = new Set<OnboardingStepId>(['pricing']);
+const mediumSteps = new Set<OnboardingStepId>([]);
+
+function getMaxWidth(stepId: OnboardingStepId): string {
+  if (wideSteps.has(stepId)) return 'max-w-5xl';
+  if (mediumSteps.has(stepId)) return 'max-w-3xl';
+  return 'max-w-2xl';
+}
 
 export function OnboardingOverlay() {
   const {
@@ -67,6 +76,10 @@ export function OnboardingOverlay() {
   const isHey = currentStepId === 'hey';
   const showProgress = !isHey && currentStepId !== 'tour';
   const isPricing = currentStepId === 'pricing';
+  const maxWidth = getMaxWidth(currentStepId);
+
+  // Progress index excludes 'hey' — shift index by 1
+  const progressIndex = currentStepIndex > 0 ? currentStepIndex - 1 : 0;
 
   return (
     <div className="fixed inset-0 z-[9999] overflow-y-auto bg-background">
@@ -92,12 +105,12 @@ export function OnboardingOverlay() {
 
       {showProgress && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10000]">
-          <OnboardingProgress currentStep={currentStepIndex} totalSteps={totalSteps} />
+          <OnboardingProgress currentStep={progressIndex} totalSteps={totalSteps} />
         </div>
       )}
 
       <div className={`min-h-screen flex items-center justify-center ${isPricing ? 'px-4 py-16' : 'px-6'}`}>
-        <div className={`w-full ${isPricing ? 'max-w-5xl' : 'max-w-2xl'}`}>
+        <div className={`w-full ${maxWidth}`}>
           <StepTransition stepKey={currentStepId}>
             {stepComponents[currentStepId as Exclude<OnboardingStepId, 'tour'>]}
           </StepTransition>

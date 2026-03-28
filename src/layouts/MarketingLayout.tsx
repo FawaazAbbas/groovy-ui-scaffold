@@ -12,7 +12,7 @@ export default function MarketingLayout() {
 
   const handleGetStarted = () => {
     startOnboarding();
-    navigate('/space/chats');
+    navigate('/signup');
   };
 
   return (

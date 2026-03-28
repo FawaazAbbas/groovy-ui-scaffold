@@ -22,7 +22,7 @@ const valueProps = [
   },
 ];
 
-export function IntroContent() {
+export function ValuePropsContent() {
   const { nextStep } = useOnboarding();
 
   return (

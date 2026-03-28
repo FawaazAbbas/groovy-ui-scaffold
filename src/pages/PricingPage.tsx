@@ -31,7 +31,7 @@ export default function PricingPage() {
 
   const handleSelect = (_planId: string) => {
     startOnboarding();
-    navigate('/space/marketplace');
+    navigate('/signup');
   };
 
   return (

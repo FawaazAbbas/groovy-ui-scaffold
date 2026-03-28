@@ -18,7 +18,7 @@ const TIMEZONES = [
 ] as const;
 
 export function WorkspaceSetupContent() {
-  const { nextStep, userName } = useOnboarding();
+  const { nextStep } = useOnboarding();
   const [workspaceName, setWorkspaceName] = useState('');
   const [timezone, setTimezone] = useState('Europe/London');
 
@@ -35,7 +35,7 @@ export function WorkspaceSetupContent() {
             Set up your workspace
           </h2>
           <p className="mt-2 text-base text-text-secondary">
-            This is where {userName} and the team will work with AI agents.
+            This is where you and your team will work with AI agents.
           </p>
         </div>
       </AnimatedEntry>

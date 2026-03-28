@@ -34,7 +34,7 @@ export default function LoginPage() {
 
     if (!isSupabaseConfigured) {
       startOnboarding();
-      navigate('/space/marketplace');
+      navigate('/signup');
       return;
     }
 
@@ -57,7 +57,7 @@ export default function LoginPage() {
 
     if (!isSupabaseConfigured) {
       startOnboarding();
-      navigate('/space/marketplace');
+      navigate('/signup');
       return;
     }
 
@@ -74,7 +74,7 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     if (!isSupabaseConfigured) {
       startOnboarding();
-      navigate('/space/marketplace');
+      navigate('/signup');
       return;
     }
 
@@ -86,7 +86,7 @@ export default function LoginPage() {
   const handleMicrosoftLogin = async () => {
     if (!isSupabaseConfigured) {
       startOnboarding();
-      navigate('/space/marketplace');
+      navigate('/signup');
       return;
     }
 

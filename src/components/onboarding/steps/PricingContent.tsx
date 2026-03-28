@@ -1,9 +1,7 @@
-import { useState, type FormEvent } from 'react';
-import { Check, ArrowRight, Sparkles } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { AnimatedEntry } from '../AnimatedEntry';
-import { PRICING_PLANS, COMPANY_SIZES, INDUSTRIES, type PricingPlan } from '@/lib/pricing-data';
-import type { SignUpFormData } from '@/types/onboarding';
+import { PRICING_PLANS, type PricingPlan } from '@/lib/pricing-data';
 
 function PricingCard({
   plan,
@@ -65,7 +63,6 @@ function PricingCard({
         ))}
       </div>
 
-      {/* Selection indicator */}
       <div
         className={`
           mt-3 flex items-center justify-center rounded-lg py-1.5 text-xs font-medium transition-all duration-200
@@ -78,168 +75,10 @@ function PricingCard({
   );
 }
 
-function SignUpForm({
-  selectedPlan,
-  onSubmit,
-}: {
-  selectedPlan: string;
-  onSubmit: (data: SignUpFormData) => void;
-}) {
-  const [form, setForm] = useState({
-    fullName: '',
-    businessEmail: '',
-    companyName: '',
-    companySize: '',
-    industry: '',
-    roleTitle: '',
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const update = (field: string, value: string) => {
-    setForm((f) => ({ ...f, [field]: value }));
-    if (errors[field]) setErrors((e) => ({ ...e, [field]: '' }));
-  };
-
-  const validate = (): boolean => {
-    const next: Record<string, string> = {};
-    if (!form.fullName.trim()) next.fullName = 'Required';
-    if (!form.businessEmail.trim()) next.businessEmail = 'Required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.businessEmail))
-      next.businessEmail = 'Enter a valid email';
-    if (!form.companyName.trim()) next.companyName = 'Required';
-    if (!form.companySize) next.companySize = 'Required';
-    if (!form.industry) next.industry = 'Required';
-    if (!form.roleTitle.trim()) next.roleTitle = 'Required';
-    setErrors(next);
-    return Object.keys(next).length === 0;
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-    onSubmit({ ...form, selectedPlan });
-  };
-
-  const inputClass = (field: string) =>
-    `w-full rounded-xl border bg-white/60 px-3.5 py-2.5 text-sm placeholder:text-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all ${
-      errors[field] ? 'border-destructive' : 'border-border-solid'
-    }`;
-
-  const selectClass = (field: string) =>
-    `w-full rounded-xl border bg-white/60 px-3.5 py-2.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all appearance-none ${
-      errors[field] ? 'border-destructive' : 'border-border-solid'
-    }`;
-
-  const planLabel = PRICING_PLANS.find((p) => p.id === selectedPlan)?.name ?? selectedPlan;
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
-          <label className="block text-xs font-medium text-text-secondary mb-1">Full name</label>
-          <input
-            type="text"
-            value={form.fullName}
-            onChange={(e) => update('fullName', e.target.value)}
-            placeholder="Jane Smith"
-            className={inputClass('fullName')}
-          />
-          {errors.fullName && <p className="mt-1 text-[11px] text-destructive">{errors.fullName}</p>}
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-text-secondary mb-1">Business email</label>
-          <input
-            type="email"
-            value={form.businessEmail}
-            onChange={(e) => update('businessEmail', e.target.value)}
-            placeholder="jane@company.com"
-            className={inputClass('businessEmail')}
-          />
-          {errors.businessEmail && <p className="mt-1 text-[11px] text-destructive">{errors.businessEmail}</p>}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
-          <label className="block text-xs font-medium text-text-secondary mb-1">Company name</label>
-          <input
-            type="text"
-            value={form.companyName}
-            onChange={(e) => update('companyName', e.target.value)}
-            placeholder="Acme Ltd"
-            className={inputClass('companyName')}
-          />
-          {errors.companyName && <p className="mt-1 text-[11px] text-destructive">{errors.companyName}</p>}
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-text-secondary mb-1">Your role</label>
-          <input
-            type="text"
-            value={form.roleTitle}
-            onChange={(e) => update('roleTitle', e.target.value)}
-            placeholder="Founder, Marketing Manager..."
-            className={inputClass('roleTitle')}
-          />
-          {errors.roleTitle && <p className="mt-1 text-[11px] text-destructive">{errors.roleTitle}</p>}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
-          <label className="block text-xs font-medium text-text-secondary mb-1">Company size</label>
-          <select
-            value={form.companySize}
-            onChange={(e) => update('companySize', e.target.value)}
-            className={selectClass('companySize')}
-          >
-            <option value="" disabled>Select...</option>
-            {COMPANY_SIZES.map((s) => (
-              <option key={s} value={s}>{s} people</option>
-            ))}
-          </select>
-          {errors.companySize && <p className="mt-1 text-[11px] text-destructive">{errors.companySize}</p>}
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-text-secondary mb-1">Industry</label>
-          <select
-            value={form.industry}
-            onChange={(e) => update('industry', e.target.value)}
-            className={selectClass('industry')}
-          >
-            <option value="" disabled>Select...</option>
-            {INDUSTRIES.map((i) => (
-              <option key={i} value={i}>{i}</option>
-            ))}
-          </select>
-          {errors.industry && <p className="mt-1 text-[11px] text-destructive">{errors.industry}</p>}
-        </div>
-      </div>
-
-      {/* Selected plan indicator */}
-      <div className="flex items-center gap-2 rounded-xl bg-primary/[0.06] border border-primary/10 px-3.5 py-2.5">
-        <Sparkles className="h-4 w-4 text-primary" />
-        <span className="text-sm text-text-primary">
-          Selected plan: <strong>{planLabel}</strong>
-        </span>
-      </div>
-
-      <button
-        type="submit"
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-white hover:bg-primary-hover transition-colors shadow-sm"
-      >
-        Create Account
-        <ArrowRight className="h-4 w-4" />
-      </button>
-    </form>
-  );
-}
-
 export function PricingContent() {
-  const { nextStep, setSignUpData } = useOnboarding();
-  const [selectedPlanId, setSelectedPlanId] = useState('growth');
+  const { nextStep, selectedPlanId, setSelectedPlan } = useOnboarding();
 
-  const handleSignUp = (data: SignUpFormData) => {
-    setSignUpData(data);
+  const handleContinue = () => {
     nextStep();
   };
 
@@ -256,7 +95,6 @@ export function PricingContent() {
         </div>
       </AnimatedEntry>
 
-      {/* Pricing cards */}
       <AnimatedEntry delay={100}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           {PRICING_PLANS.map((plan) => (
@@ -264,17 +102,31 @@ export function PricingContent() {
               key={plan.id}
               plan={plan}
               selected={selectedPlanId === plan.id}
-              onSelect={() => setSelectedPlanId(plan.id)}
+              onSelect={() => setSelectedPlan(plan.id)}
             />
           ))}
         </div>
       </AnimatedEntry>
 
-      {/* Sign-up form */}
       <AnimatedEntry delay={250}>
-        <div className="rounded-2xl border border-border bg-white/60 backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-text-primary mb-4">Create your account</h3>
-          <SignUpForm selectedPlan={selectedPlanId} onSubmit={handleSignUp} />
+        <div className="flex justify-center">
+          <button
+            onClick={handleContinue}
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 text-body font-semibold text-white transition-all duration-200"
+            style={{
+              background: 'var(--primary)',
+              boxShadow: 'var(--shadow-md)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--primary-hover)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'var(--primary)';
+            }}
+          >
+            Continue
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
       </AnimatedEntry>
     </div>
