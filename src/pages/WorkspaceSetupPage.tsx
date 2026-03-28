@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 type SetupMode = 'choose' | 'create' | 'join';
 
 export default function WorkspaceSetupPage() {
-  const { user, profile, createWorkspace, joinWorkspace, signOut, hasWorkspace } = useAuth();
+  const { user, createWorkspace, joinWorkspace, signOut, hasWorkspace } = useAuth();
   const navigate = useNavigate();
   
   const [mode, setMode] = useState<SetupMode>('choose');
@@ -25,15 +25,6 @@ export default function WorkspaceSetupPage() {
   // If already has a workspace, redirect to marketplace to prevent duplicate creation
   if (hasWorkspace) {
     return <Navigate to="/space/marketplace" replace />;
-  }
-
-  // Prevent flicker by waiting for profile to finish resolving before showing form
-  if (user && !profile) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
   }
 
   const handleCreateSubmit = async (e: React.FormEvent) => {

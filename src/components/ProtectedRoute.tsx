@@ -3,9 +3,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { isSupabaseConfigured } from '@/lib/supabase';
 
 export default function ProtectedRoute() {
-  const { user, profile, hasWorkspace, loading } = useAuth();
+  const { user, hasWorkspace, loading } = useAuth();
 
-  if (loading || (user && !profile)) {
+  if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">

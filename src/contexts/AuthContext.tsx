@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback, useRef, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react';
 import { type User, type Session } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import {
@@ -37,7 +37,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [loading, setLoading] = useState(true);
-  const loadingRef = useRef(false);
 
   // Load profile + workspace for a given user
   const loadWorkspaceData = useCallback(async (currentUser: User | null) => {
@@ -46,10 +45,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setWorkspace(null);
       return;
     }
-
-    // Prevent concurrent loads
-    if (loadingRef.current) return;
-    loadingRef.current = true;
 
     try {
       await ensureUserProfile(currentUser, currentUser.user_metadata?.full_name);
@@ -66,8 +61,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('Error loading workspace data:', err);
       setProfile(null);
       setWorkspace(null);
-    } finally {
-      loadingRef.current = false;
     }
   }, []);
 
@@ -79,18 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     let mounted = true;
 
-    // Get initial session
-    supabase.auth.getSession().then(async ({ data: { session: s } }) => {
-      if (!mounted) return;
-      setSession(s);
-      setUser(s?.user ?? null);
-      if (s?.user) {
-        await loadWorkspaceData(s.user);
-      }
-      if (mounted) setLoading(false);
-    });
-
-    // Listen for auth changes
+    // onAuthStateChange fires INITIAL_SESSION on load — no need for getSession()
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, newSession) => {
         if (!mounted) return;
@@ -98,13 +80,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const newUser = newSession?.user ?? null;
         setUser(newUser);
 
-        // Await load before setting loading false
         if (newUser) {
           await loadWorkspaceData(newUser);
         } else {
           setProfile(null);
           setWorkspace(null);
         }
+
         if (mounted) setLoading(false);
       }
     );
