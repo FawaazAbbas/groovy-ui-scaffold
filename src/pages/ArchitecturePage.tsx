@@ -4,6 +4,24 @@ import ReactFlow, {
   Position, Handle, addEdge, MarkerType
 } from 'reactflow';
 import 'reactflow/dist/style.css';
+
+/* Strip ReactFlow's default node wrapper border/outline */
+const rfOverrides = `
+.react-flow__node {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+.react-flow__node.selected,
+.react-flow__node:focus,
+.react-flow__node:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+`;
 import { mockArchNodes, mockArchEdges, ArchEdge } from '@/lib/mocks/architecture';
 import { X, Building2, Users, UserCircle, Bot, Link2 } from 'lucide-react';
 
@@ -172,6 +190,7 @@ export default function ArchitecturePage() {
 
   return (
     <div className="h-full flex overflow-hidden">
+      <style>{rfOverrides}</style>
       <div className="flex-1 relative">
         <ReactFlow
           nodes={nodes}
