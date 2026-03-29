@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
+        monoton: ['"Monoton"', 'display'],
       },
       fontSize: {
         'display-lg': ['3rem', { lineHeight: '1.06', fontWeight: '700', letterSpacing: '-0.03em' }],
