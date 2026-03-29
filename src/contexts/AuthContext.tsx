@@ -18,6 +18,7 @@ interface AuthContextType {
   workspace: Workspace | null;
   hasWorkspace: boolean;
   loading: boolean;
+  workspaceLoading: boolean;
   signInWithEmail: (email: string) => Promise<{ error: Error | null }>;
   signInWithPassword: (email: string, password: string) => Promise<{ error: Error | null }>;
   signInWithGoogle: () => Promise<{ error: Error | null }>;
@@ -37,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [loading, setLoading] = useState(true);
+  const [workspaceLoading, setWorkspaceLoading] = useState(false);
 
   // Load profile + workspace for a given user
   const loadWorkspaceData = useCallback(async (currentUser: User | null) => {
@@ -46,6 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    setWorkspaceLoading(true);
     try {
       // Single query: ensure profile exists and return it
       const userProfile = await ensureAndFetchProfile(currentUser, currentUser.user_metadata?.full_name);
@@ -62,6 +65,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('Error loading workspace data:', err);
       setProfile(null);
       setWorkspace(null);
+    } finally {
+      setWorkspaceLoading(false);
     }
   }, []);
 
@@ -73,35 +78,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     let mounted = true;
 
-    // Safety timeout — if loading takes more than 10s, force it to resolve
-    const loadingTimeout = setTimeout(() => {
-      if (mounted && loading) {
-        console.error('Auth loading timed out after 10s — forcing resolution');
-        setLoading(false);
-      }
-    }, 10_000);
-
-    // getSession() reads from localStorage — fast, no network needed for cached sessions
+    // getSession() reads from localStorage — fast, no network needed for cached sessions.
+    // We resolve loading as soon as we know the session so the app isn't blocked by DB calls.
     supabase.auth.getSession()
-      .then(async ({ data: { session: s } }) => {
+      .then(({ data: { session: s } }) => {
         if (!mounted) return;
         const currentUser = s?.user ?? null;
         setSession(s);
         setUser(currentUser);
+        setLoading(false); // unblock the router immediately
+
+        // Load workspace data in the background — does not block the auth loading state
         if (currentUser) {
-          await loadWorkspaceData(currentUser);
-        }
-        if (mounted) {
-          clearTimeout(loadingTimeout);
-          setLoading(false);
+          loadWorkspaceData(currentUser).catch((err) =>
+            console.error('Background workspace load failed:', err)
+          );
         }
       })
       .catch((err) => {
         console.error('Error in getSession():', err);
-        if (mounted) {
-          clearTimeout(loadingTimeout);
-          setLoading(false);
-        }
+        if (mounted) setLoading(false);
       });
 
     // onAuthStateChange handles subsequent auth events ONLY (sign in, sign out, token refresh)
@@ -126,7 +122,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => {
       mounted = false;
-      clearTimeout(loadingTimeout);
       subscription.unsubscribe();
     };
   }, [loadWorkspaceData]);
@@ -223,6 +218,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user, session, profile, workspace,
       hasWorkspace: !!workspace,
       loading,
+      workspaceLoading,
       signInWithEmail, signInWithPassword,
       signInWithGoogle, signInWithMicrosoft,
       signUp, signOut,

@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 type SetupMode = 'choose' | 'create' | 'join';
 
 export default function WorkspaceSetupPage() {
-  const { user, createWorkspace, joinWorkspace, signOut, hasWorkspace } = useAuth();
+  const { user, createWorkspace, joinWorkspace, signOut, hasWorkspace, workspaceLoading } = useAuth();
   const navigate = useNavigate();
   
   const [mode, setMode] = useState<SetupMode>('choose');
@@ -26,6 +26,10 @@ export default function WorkspaceSetupPage() {
   if (!user) {
     return <Navigate to="/login" replace />;
   }
+
+  // Wait for workspace data to load before deciding to redirect — prevents a false flash
+  // of this page for users who already have a workspace (background load race condition)
+  if (workspaceLoading) return null;
 
   // If already has a workspace, redirect to marketplace to prevent duplicate creation
   if (hasWorkspace) {
