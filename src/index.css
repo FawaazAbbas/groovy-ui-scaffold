@@ -1,12 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Overpass+Mono:wght@400;500;600;700&display=swap');
+@import './styles/tokens.css';
+
 @font-face {
   font-family: 'Monoton';
   src: url('/fonts/Monoton-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Overpass+Mono:wght@400;500;600;700&display=swap');
-@import './styles/tokens.css';
 
 @tailwind base;
 @tailwind components;
