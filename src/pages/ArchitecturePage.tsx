@@ -102,7 +102,7 @@ function CustomNode({ data }: { data: { label: string; nodeType: string; title?:
   const style = nodeTypeStyles[data.nodeType] || nodeTypeStyles.team;
   const Icon = nodeIcons[data.nodeType] || Users;
   return (
-    <div className={`group relative bg-white/40 backdrop-blur-2xl border border-white/60 shadow-glass-large !rounded-3xl px-5 py-4 min-w-[180px] transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:bg-white/50 ring-1 ${style.ring}`}>
+    <div className={`group relative bg-white/40 backdrop-blur-2xl border border-white/60 shadow-glass-large !rounded-3xl px-5 py-4 min-w-[180px] transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:bg-white/50`}>
       {/* Top Handle */}
       <Handle 
         type="target" 
