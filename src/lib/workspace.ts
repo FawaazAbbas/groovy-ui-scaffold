@@ -50,16 +50,13 @@ export async function fetchUserProfile(user: User): Promise<UserProfile | null> 
 }
 
 /**
- * Fetch the current user's workspace
+ * Fetch a workspace by ID (avoids redundant profile re-fetch)
  */
-export async function fetchUserWorkspace(user: User): Promise<Workspace | null> {
-  const profile = await fetchUserProfile(user);
-  if (!profile?.workspace_id) return null;
-
+export async function fetchWorkspaceById(workspaceId: string): Promise<Workspace | null> {
   const { data, error } = await supabase
     .from('company_workspaces')
     .select('*')
-    .eq('id', profile.workspace_id)
+    .eq('id', workspaceId)
     .single();
 
   if (error || !data) return null;
@@ -158,26 +155,31 @@ export async function joinWorkspace(
 }
 
 /**
- * Ensure a user_profiles row exists for the current user.
- * Called after sign-up or first login if the DB trigger hasn't fired.
+ * Ensure a user_profiles row exists and return it in one pass.
+ * Replaces the old ensureUserProfile + fetchUserProfile two-step.
  */
-export async function ensureUserProfile(user: User, fullName?: string): Promise<void> {
-  if (!user) return;
+export async function ensureAndFetchProfile(user: User, fullName?: string): Promise<UserProfile | null> {
+  if (!user) return null;
 
-  const { data } = await supabase
+  const { data: existing } = await supabase
     .from('user_profiles')
-    .select('id')
+    .select('*')
     .eq('user_id', user.id)
     .single();
 
-  if (!data) {
-    await supabase
-      .from('user_profiles')
-      .insert({
-        user_id: user.id,
-        full_name: fullName || user.user_metadata?.full_name || '',
-        email: user.email || '',
-        role: 'member',
-      });
-  }
+  if (existing) return existing as UserProfile;
+
+  // Profile doesn't exist — create it and return
+  const { data: created } = await supabase
+    .from('user_profiles')
+    .insert({
+      user_id: user.id,
+      full_name: fullName || user.user_metadata?.full_name || '',
+      email: user.email || '',
+      role: 'member',
+    })
+    .select()
+    .single();
+
+  return (created as UserProfile) || null;
 }

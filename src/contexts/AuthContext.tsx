@@ -5,10 +5,10 @@ import {
   type Workspace,
   type UserProfile,
   fetchUserProfile,
-  fetchUserWorkspace,
+  fetchWorkspaceById,
   createWorkspace as createWs,
   joinWorkspace as joinWs,
-  ensureUserProfile,
+  ensureAndFetchProfile,
 } from '@/lib/workspace';
 
 interface AuthContextType {
@@ -47,12 +47,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      await ensureUserProfile(currentUser, currentUser.user_metadata?.full_name);
-      const userProfile = await fetchUserProfile(currentUser);
+      // Single query: ensure profile exists and return it
+      const userProfile = await ensureAndFetchProfile(currentUser, currentUser.user_metadata?.full_name);
       setProfile(userProfile);
 
       if (userProfile?.workspace_id) {
-        const ws = await fetchUserWorkspace(currentUser);
+        // Single query: fetch workspace by ID directly (no redundant profile re-fetch)
+        const ws = await fetchWorkspaceById(userProfile.workspace_id);
         setWorkspace(ws);
       } else {
         setWorkspace(null);
