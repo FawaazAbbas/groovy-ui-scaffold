@@ -132,7 +132,7 @@ export function OnboardingOverlay() {
         </div>
       )}
 
-      <div className={`min-h-screen flex items-center justify-center ${isPricing ? 'px-4 py-16' : 'px-6'}`}>
+      <div className={`min-h-[100dvh] flex items-start sm:items-center justify-center ${isPricing ? 'px-4 py-12 sm:py-16' : 'px-5 py-12 sm:py-16'}`}>
         <div className={`w-full ${maxWidth}`}>
           <StepTransition stepKey={currentStepId}>
             {stepComponents[currentStepId as Exclude<OnboardingStepId, 'tour'>]}

@@ -10,25 +10,24 @@ export default function LandingPage() {
       {/*
         HERO SECTION
       */}
-      <section className="relative w-full min-h-[calc(100vh-72px)] flex flex-col items-center overflow-hidden bg-background">
-        {/* Abstract Background Elements */}
-        <div className="absolute top-[20%] right-[10%] w-[600px] h-[600px] rounded-full opacity-30 bg-[radial-gradient(circle,rgba(200,0,223,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply animate-pulse" />
-        <div className="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] rounded-full opacity-30 bg-[radial-gradient(circle,rgba(0,183,255,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply" />
-
-        {/* Giant blurred Monoton G watermark */}
-        <span
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
-          style={{
-            fontFamily: '"Monoton", display',
-            fontSize: '50em',
-            lineHeight: 1,
-            color: 'rgba(200, 0, 223, 0.35)',
-            filter: 'blur(40px)',
-          }}
-          aria-hidden="true"
-        >
-          G
-        </span>
+      <section className="relative w-full min-h-[calc(100vh-72px)] flex flex-col items-center bg-background">
+        {/* Fixed parallax background layer */}
+        <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+          <div className="absolute top-[20%] right-[10%] w-[600px] h-[600px] rounded-full opacity-30 bg-[radial-gradient(circle,rgba(200,0,223,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply animate-pulse" />
+          <div className="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] rounded-full opacity-30 bg-[radial-gradient(circle,rgba(0,183,255,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply" />
+          <span
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
+            style={{
+              fontFamily: '"Monoton", display',
+              fontSize: '50em',
+              lineHeight: 1,
+              color: 'rgba(200, 0, 223, 0.35)',
+              filter: 'blur(40px)',
+            }}
+          >
+            G
+          </span>
+        </div>
 
         {/* Main hero content — vertically centered in the remaining space above trust badges */}
         <div className="relative z-10 flex-1 flex flex-col justify-center container mx-auto px-6 items-center text-center pt-8">
@@ -42,7 +41,7 @@ export default function LandingPage() {
 
           <h1 className="text-[48px] md:text-[72px] lg:text-[80px] font-bold text-text-primary tracking-tight leading-[1.05] max-w-[1000px] mb-6 animate-in slide-in-from-bottom-8 duration-700 fade-in">
             Ready-made AI employees, <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-electric to-cyan">2 clicks away.</span>
+            <span className="text-primary">2 clicks away.</span>
           </h1>
 
           <p className="text-lg md:text-[22px] text-text-secondary max-w-[660px] mb-10 font-medium leading-relaxed animate-in slide-in-from-bottom-8 duration-700 delay-150 fade-in fill-mode-both">
@@ -90,10 +89,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 
+      {/*
         THE PROBLEM SECTION
       */}
-      <section className="py-24 bg-surface-elevated relative overflow-hidden">
+      <section className="py-24 bg-surface-elevated relative overflow-hidden z-10">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-[40px] font-bold text-text-primary mb-6 tracking-tight">The E-commerce SME Dilemma</h2>
@@ -130,10 +129,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 
+      {/*
         THE SOLUTION / VALUE PROP SECTION
       */}
-      <section className="py-32 relative overflow-hidden">
+      <section className="py-32 relative overflow-hidden z-10 bg-background">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -141,7 +140,7 @@ export default function LandingPage() {
                 The Groovy Approach
               </div>
               <h2 className="text-[48px] font-bold text-text-primary leading-[1.1] tracking-tight">
-                Hire <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-electric">Narrow-Spec</span> Agents instantly.
+                Hire <span className="text-primary">Narrow-Spec</span> Agents instantly.
               </h2>
               <p className="text-lg text-text-secondary leading-relaxed">
                 We don't build confusing, do-it-all chatbox assistants. We build highly specialized, narrow-scope AI employees that execute precise tasks perfectly, out of the box.
@@ -209,10 +208,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 
+      {/*
         FINAL CTA
       */}
-      <section className="py-24 relative">
+      <section className="py-24 relative z-10 bg-background">
         <div className="container mx-auto px-6">
           <div className="glass-card rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-electric/10 border border-primary/20">
             <div className="relative z-10 max-w-3xl mx-auto">

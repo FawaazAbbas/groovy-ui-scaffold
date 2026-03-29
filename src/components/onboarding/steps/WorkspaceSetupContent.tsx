@@ -58,16 +58,16 @@ export function WorkspaceSetupContent() {
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-lg mx-auto px-4">
+    <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg mx-auto">
       <AnimatedEntry delay={0}>
-        <div className="text-center mb-8">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-            <Building2 className="h-7 w-7 text-primary" />
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="mx-auto mb-3 sm:mb-4 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-primary/10">
+            <Building2 className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-text-primary tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary tracking-tight">
             Set up your workspace
           </h2>
-          <p className="mt-2 text-base text-text-secondary">
+          <p className="mt-2 text-sm sm:text-base text-text-secondary">
             This is where you and your team will work with AI agents.
           </p>
         </div>

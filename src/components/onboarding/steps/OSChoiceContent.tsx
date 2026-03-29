@@ -16,19 +16,19 @@ export function OSChoiceContent() {
   return (
     <div>
       <AnimatedEntry delay={0}>
-        <h2 className="text-[32px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.03em] text-text-primary">
+        <h2 className="text-[clamp(26px,5vw,48px)] font-bold leading-[1.1] tracking-[-0.03em] text-text-primary">
           Where does your team work?
         </h2>
       </AnimatedEntry>
 
       <AnimatedEntry delay={100}>
-        <p className="mt-3 text-[15px] md:text-[17px] leading-[1.6] text-text-secondary">
+        <p className="mt-3 text-sm sm:text-[17px] leading-[1.6] text-text-secondary">
           Pick where your AI employees will show up.
         </p>
       </AnimatedEntry>
 
       <AnimatedEntry delay={200}>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-3" role="radiogroup" aria-label="Choose your workspace">
+        <div className="mt-7 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Choose your workspace">
           {osOptions.map((opt) => (
             <OSCard
               key={opt.os}

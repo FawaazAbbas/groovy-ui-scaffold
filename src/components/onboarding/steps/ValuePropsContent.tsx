@@ -28,22 +28,22 @@ export function ValuePropsContent() {
   return (
     <div>
       <AnimatedEntry delay={0}>
-        <h2 className="text-[32px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.03em] text-text-primary">
+        <h2 className="text-[clamp(26px,5vw,48px)] font-bold leading-[1.1] tracking-[-0.03em] text-text-primary">
           This is what Groovy does for you.
         </h2>
       </AnimatedEntry>
 
-      <div className="mt-12 space-y-10">
+      <div className="mt-8 sm:mt-12 space-y-7 sm:space-y-10">
         {valueProps.map((prop, i) => (
           <AnimatedEntry key={prop.num} delay={100 + i * 150}>
             <div>
               <span className="text-caption font-semibold tracking-widest uppercase text-electric">
                 {prop.num}
               </span>
-              <h3 className="mt-2 text-[22px] md:text-[26px] font-semibold leading-[1.3] tracking-[-0.02em] text-text-primary">
+              <h3 className="mt-2 text-lg sm:text-[26px] font-semibold leading-[1.3] tracking-[-0.02em] text-text-primary">
                 {prop.headline}
               </h3>
-              <p className="mt-2 text-[15px] md:text-[17px] leading-[1.6] max-w-[540px] text-text-secondary">
+              <p className="mt-2 text-sm sm:text-[17px] leading-[1.6] max-w-[540px] text-text-secondary">
                 {prop.description}
               </p>
             </div>
@@ -52,7 +52,7 @@ export function ValuePropsContent() {
       </div>
 
       <AnimatedEntry delay={600}>
-        <div className="mt-8">
+        <div className="mt-6 sm:mt-8">
           <button
             onClick={nextStep}
             className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 text-body font-semibold text-white transition-all duration-200"

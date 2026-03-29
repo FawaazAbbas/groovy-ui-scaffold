@@ -72,25 +72,24 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
     <div className={isMarketing ? 'min-h-screen' : 'h-full overflow-y-auto'}>
       {/* Hero */}
       {isMarketing && (
-        <section className="relative overflow-hidden py-16 md:py-20">
-          {/* Radial gradient blobs */}
-          <div className="absolute top-[30%] right-[10%] w-[400px] h-[400px] rounded-full opacity-25 bg-[radial-gradient(circle,rgba(200,0,223,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply animate-pulse" />
-          <div className="absolute bottom-[10%] left-[15%] w-[350px] h-[350px] rounded-full opacity-25 bg-[radial-gradient(circle,rgba(0,183,255,0.12)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply" />
-
-          {/* Blurred Monoton G watermark */}
-          <span
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
-            style={{
-              fontFamily: '"Monoton", display',
-              fontSize: '28em',
-              lineHeight: 1,
-              color: 'rgba(200, 0, 223, 0.2)',
-              filter: 'blur(30px)',
-            }}
-            aria-hidden="true"
-          >
-            G
-          </span>
+        <section className="relative overflow-visible py-16 md:py-20">
+          {/* Fixed parallax background layer */}
+          <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+            <div className="absolute top-[30%] right-[10%] w-[400px] h-[400px] rounded-full opacity-25 bg-[radial-gradient(circle,rgba(200,0,223,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply animate-pulse" />
+            <div className="absolute bottom-[10%] left-[15%] w-[350px] h-[350px] rounded-full opacity-25 bg-[radial-gradient(circle,rgba(0,183,255,0.12)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply" />
+            <span
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
+              style={{
+                fontFamily: '"Monoton", display',
+                fontSize: '28em',
+                lineHeight: 1,
+                color: 'rgba(200, 0, 223, 0.2)',
+                filter: 'blur(30px)',
+              }}
+            >
+              G
+            </span>
+          </div>
 
           <div className="container mx-auto px-6 text-center relative z-10">
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 mb-6">
@@ -98,7 +97,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
               <span className="text-xs font-medium tracking-wide uppercase">AI Agent Marketplace</span>
             </div>
             <h1 className="text-[32px] md:text-[44px] font-bold tracking-tight leading-[1.1] mb-4">
-              Discover <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-electric to-cyan">Powerful</span> AI Agents
+              Discover <span className="text-primary">Powerful</span> AI Agents
             </h1>
             <p className="text-base md:text-lg text-text-secondary mb-8 max-w-xl mx-auto leading-relaxed">
               Install and deploy AI agents that automate your workflows in minutes — no code required.
@@ -138,7 +137,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
       )}
 
       {/* Category filter */}
-      <div className="border-b border-border glass-panel">
+      <div className="border-b border-border glass-panel relative z-10 bg-background/80 backdrop-blur-lg">
         <div className="container mx-auto px-6">
           <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide">
             {agentCategories.map(cat => (
@@ -158,7 +157,7 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-10">
+      <div className="container mx-auto px-6 py-10 relative z-10 bg-background">
         {/* Featured — Bento Grid */}
         {selectedCategory === 'All' && !searchQuery && (
           <section className="mb-14">

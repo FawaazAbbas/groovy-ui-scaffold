@@ -35,51 +35,76 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="container mx-auto px-6 py-16 max-w-5xl">
-      {/* Hero */}
-      <div className="text-center mb-12">
-        <h1 className="text-[36px] md:text-[48px] font-bold leading-[1.1] tracking-[-0.03em] text-text-primary">
-          Simple, transparent pricing
-        </h1>
-        <p className="mt-4 text-body text-text-secondary max-w-xl mx-auto">
-          Every plan includes a 14-day free trial. No credit card required. Cancel anytime.
-        </p>
+    <div className="min-h-screen">
+      {/* Fixed parallax background */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div className="absolute top-[20%] left-[15%] w-[400px] h-[400px] rounded-full opacity-25 bg-[radial-gradient(circle,rgba(200,0,223,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply animate-pulse" />
+        <div className="absolute bottom-[10%] right-[10%] w-[350px] h-[350px] rounded-full opacity-25 bg-[radial-gradient(circle,rgba(0,183,255,0.12)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply" />
+        <span
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
+          style={{
+            fontFamily: '"Monoton", display',
+            fontSize: '35em',
+            lineHeight: 1,
+            color: 'rgba(200, 0, 223, 0.18)',
+            filter: 'blur(30px)',
+          }}
+        >
+          G
+        </span>
       </div>
+
+      {/* Hero */}
+      <section className="relative overflow-hidden py-16 md:py-20 z-10">
+        <div className="container mx-auto px-6 max-w-5xl text-center relative z-10">
+          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 mb-6">
+            <span className="text-xs font-medium tracking-wide uppercase">Pricing</span>
+          </div>
+          <h1 className="text-[32px] md:text-[44px] font-bold leading-[1.1] tracking-tight text-text-primary mb-4">
+            Simple, <span className="text-primary">transparent</span> pricing
+          </h1>
+          <p className="text-base md:text-lg text-text-secondary max-w-xl mx-auto leading-relaxed">
+            Every plan includes a 14-day free trial. No credit card required. Cancel anytime.
+          </p>
+        </div>
+      </section>
 
       {/* Plans */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-        {PRICING_PLANS.map(plan => (
-          <PricingCard
-            key={plan.id}
-            plan={plan}
-            variant="marketing"
-            onSelect={handleSelect}
-          />
-        ))}
-      </div>
-
-      {/* FAQ */}
-      <div className="max-w-2xl mx-auto">
-        <h2 className="text-heading font-semibold text-text-primary text-center mb-8">
-          Frequently asked questions
-        </h2>
-        <div className="space-y-2">
-          {faqs.map((faq, i) => (
-            <div key={i} className="card-glass overflow-hidden">
-              <button
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                className="flex w-full items-center justify-between p-5 text-left"
-              >
-                <span className="text-body-sm font-medium text-text-primary">{faq.q}</span>
-                <ChevronDown className={`h-4 w-4 text-text-secondary shrink-0 ml-4 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
-              </button>
-              {openFaq === i && (
-                <div className="px-5 pb-5 -mt-1">
-                  <p className="text-body-sm text-text-secondary">{faq.a}</p>
-                </div>
-              )}
-            </div>
+      <div className="container mx-auto px-6 max-w-5xl relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+          {PRICING_PLANS.map(plan => (
+            <PricingCard
+              key={plan.id}
+              plan={plan}
+              variant="marketing"
+              onSelect={handleSelect}
+            />
           ))}
+        </div>
+
+        {/* FAQ */}
+        <div className="max-w-2xl mx-auto pb-24">
+          <h2 className="text-xl md:text-2xl font-bold text-text-primary text-center mb-8">
+            Frequently asked questions
+          </h2>
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <div key={i} className="glass-card rounded-2xl overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="flex w-full items-center justify-between p-5 text-left"
+                >
+                  <span className="text-sm font-medium text-text-primary">{faq.q}</span>
+                  <ChevronDown className={`h-4 w-4 text-text-secondary shrink-0 ml-4 transition-transform duration-200 ${openFaq === i ? 'rotate-180' : ''}`} />
+                </button>
+                {openFaq === i && (
+                  <div className="px-5 pb-5 -mt-1">
+                    <p className="text-sm text-text-secondary leading-relaxed">{faq.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

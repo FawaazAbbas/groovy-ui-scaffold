@@ -50,13 +50,13 @@ export function ConnectIntegrationContent() {
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-lg mx-auto px-4">
+    <div className="flex flex-col items-center w-full max-w-md sm:max-w-lg mx-auto">
       <AnimatedEntry delay={0}>
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-text-primary tracking-tight">
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary tracking-tight">
             {isGroovySpace ? "You're all set" : 'Connect your workspace'}
           </h2>
-          <p className="mt-2 text-base text-text-secondary max-w-md mx-auto">
+          <p className="mt-2 text-sm sm:text-base text-text-secondary max-w-md mx-auto">
             {isGroovySpace
               ? 'Groovy Space is ready to go — no setup needed.'
               : 'Your AI employees need access to where your team works.'}
