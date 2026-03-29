@@ -88,7 +88,7 @@ export default function SignUpPage() {
     return (
       <div className="text-center">
         <div className="mx-auto mb-8 flex justify-center">
-          <GroovyLogo className="h-16 w-16 text-[#16A34A]" />
+          <GroovyLogo className="text-[#16A34A]" style={{ fontSize: '6em' }} />
         </div>
         <h1 className="text-display-sm text-text-primary mb-2">You're all set!</h1>
         <p className="text-body text-text-secondary mb-4">
@@ -110,7 +110,7 @@ export default function SignUpPage() {
   return (
     <div className="text-center">
       <div className="flex justify-center mb-8">
-        <GroovyLogo className="h-16 w-16 text-primary" />
+        <GroovyLogo className="text-primary" style={{ fontSize: '6em' }} />
       </div>
       <h1 className="text-display-sm text-text-primary mb-2">Create your account</h1>
       <p className="text-body text-text-secondary mb-8">Get started with Groovy in seconds</p>

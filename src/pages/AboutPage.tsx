@@ -1,13 +1,10 @@
-import { Building } from 'lucide-react';
-
 export default function AboutPage() {
   return (
     <div className="container mx-auto max-w-4xl px-6 py-24">
       <div className="text-center mb-16">
-        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-[#C800DF]/10">
-          <Building className="h-10 w-10 text-[#C800DF]" />
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-text-primary mb-6">About Groovy Labs</h1>
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-text-primary mb-6">
+          About <span className="font-monoton text-primary font-normal ml-3" style={{ fontSize: 'inherit', display: 'inline' }}>Groovy</span>
+        </h1>
         <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
           We are on a mission to democratize artificial intelligence and building the definitive AI workspace for modern teams.
         </p>

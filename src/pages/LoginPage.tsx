@@ -99,7 +99,7 @@ export default function LoginPage() {
     return (
       <div className="text-center">
         <div className="mx-auto mb-8 flex justify-center">
-          <GroovyLogo className="h-16 w-16 text-primary" />
+          <GroovyLogo className="text-primary" style={{ fontSize: '6em' }} />
         </div>
         <h1 className="text-display-sm text-text-primary mb-2">Check your email</h1>
         <p className="text-body text-text-secondary mb-4">
@@ -121,7 +121,7 @@ export default function LoginPage() {
   return (
     <div className="text-center">
       <div className="mx-auto mb-8 flex justify-center">
-        <GroovyLogo className="h-16 w-16 text-primary" />
+        <GroovyLogo className="text-primary" style={{ fontSize: '6em' }} />
       </div>
       <h1 className="text-display-sm text-text-primary mb-2">Welcome back</h1>
       <p className="text-body text-text-secondary mb-8">Sign in to your Groovy workspace</p>

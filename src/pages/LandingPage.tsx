@@ -7,66 +7,69 @@ export default function LandingPage() {
   const { user } = useAuth();
   return (
     <div className="w-full">
-      {/* 
-        HERO SECTION - 100vh 
+      {/*
+        HERO SECTION
       */}
-      <section className="relative w-full min-h-[calc(100vh-64px)] flex flex-col justify-center items-center overflow-hidden bg-background">
+      <section className="relative w-full min-h-[calc(100vh-72px)] flex flex-col items-center overflow-hidden bg-background">
         {/* Abstract Background Elements */}
         <div className="absolute top-[20%] right-[10%] w-[600px] h-[600px] rounded-full opacity-30 bg-[radial-gradient(circle,rgba(200,0,223,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply animate-pulse" />
         <div className="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] rounded-full opacity-30 bg-[radial-gradient(circle,rgba(0,183,255,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply" />
-        
-        <div className="relative z-10 container mx-auto px-6 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8 animate-fade-in">
+
+        {/* Main hero content — vertically centered in the remaining space above trust badges */}
+        <div className="relative z-10 flex-1 flex flex-col justify-center container mx-auto px-6 items-center text-center pt-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8 animate-fade-in">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
             Groovy Space is now in Beta
           </div>
-          
-          <h1 className="text-[56px] md:text-[80px] font-bold text-text-primary tracking-tight leading-[1.05] max-w-[1000px] mb-8 animate-in slide-in-from-bottom-8 duration-700 fade-in">
+
+          <h1 className="text-[48px] md:text-[72px] lg:text-[80px] font-bold text-text-primary tracking-tight leading-[1.05] max-w-[1000px] mb-6 animate-in slide-in-from-bottom-8 duration-700 fade-in">
             Ready-made AI employees, <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-electric to-cyan">2 clicks away.</span>
           </h1>
-          
-          <p className="text-[20px] md:text-[24px] text-text-secondary max-w-[700px] mb-12 font-medium leading-relaxed animate-in slide-in-from-bottom-8 duration-700 delay-150 fade-in fill-mode-both">
+
+          <p className="text-lg md:text-[22px] text-text-secondary max-w-[660px] mb-10 font-medium leading-relaxed animate-in slide-in-from-bottom-8 duration-700 delay-150 fade-in fill-mode-both">
             No developers, no complex training, no massive overhead. Plug in narrow-spec agents that do actual work for your SME.
           </p>
-          
-          <div className="flex flex-col sm:flex-row items-center gap-5 animate-in slide-in-from-bottom-8 duration-700 delay-300 fade-in fill-mode-both">
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 animate-in slide-in-from-bottom-8 duration-700 delay-300 fade-in fill-mode-both">
             {user ? (
-              <Link 
-                to="/space/marketplace" 
-                className="flex items-center justify-center gap-2 h-14 px-8 rounded-2xl bg-primary hover:bg-primary-hover text-white text-lg font-semibold transition-all shadow-glass-large hover:shadow-primary/30 hover:-translate-y-1 w-full sm:w-auto"
+              <Link
+                to="/space/marketplace"
+                className="flex items-center justify-center gap-2.5 h-14 px-10 rounded-2xl bg-primary hover:bg-primary-hover text-white text-[17px] font-semibold transition-all shadow-[0_4px_16px_rgba(200,0,223,0.25)] hover:shadow-[0_8px_32px_rgba(200,0,223,0.35)] hover:-translate-y-0.5 w-full sm:w-auto"
               >
                 Go to Workspace <ArrowRight className="h-5 w-5" />
               </Link>
             ) : (
               <>
-                <Link 
-                  to="/signup" 
-                  className="flex items-center justify-center gap-2 h-14 px-8 rounded-2xl bg-primary hover:bg-primary-hover text-white text-lg font-semibold transition-all shadow-glass-large hover:shadow-primary/30 hover:-translate-y-1 w-full sm:w-auto"
+                <Link
+                  to="/signup"
+                  className="flex items-center justify-center gap-2.5 h-14 px-10 rounded-2xl bg-primary hover:bg-primary-hover text-white text-[17px] font-semibold transition-all shadow-[0_4px_16px_rgba(200,0,223,0.25)] hover:shadow-[0_8px_32px_rgba(200,0,223,0.35)] hover:-translate-y-0.5 w-full sm:w-auto"
                 >
                   Start Free Trial <ArrowRight className="h-5 w-5" />
                 </Link>
-                <Link 
-                  to="/marketplace" 
-                  className="flex items-center justify-center gap-2 h-14 px-8 rounded-2xl glass-card text-text-primary hover:bg-white/60 text-lg font-semibold transition-all shadow-glass-sm hover:-translate-y-1 w-full sm:w-auto"
+                <Link
+                  to="/marketplace"
+                  className="flex items-center justify-center gap-2.5 h-14 px-10 rounded-2xl bg-white/50 backdrop-blur-lg border border-white/60 text-text-primary hover:bg-white/70 text-[17px] font-semibold transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.6)] hover:-translate-y-0.5 w-full sm:w-auto"
                 >
                   Explore Agents
                 </Link>
               </>
             )}
           </div>
+        </div>
 
-          {/* Trust badges */}
-          <div className="mt-20 pt-10 border-t border-border-solid/50 flex flex-col items-center opacity-80 animate-in fade-in duration-1000 delay-500 fill-mode-both">
-            <p className="text-caption font-semibold text-text-secondary uppercase tracking-widest mb-6">Built for forward-thinking SMEs</p>
-            <div className="flex items-center gap-10 md:gap-16 opacity-60 grayscale">
-              {/* Mock logos styled subtly */}
-              <div className="flex items-center gap-2 font-bold text-xl"><Building2 /> NexusCorp</div>
-              <div className="flex items-center gap-2 font-bold text-xl"><Layers /> AltF4</div>
-              <div className="flex items-center gap-2 font-bold text-xl"><Target /> Vanguard</div>
+        {/* Trust badges — pinned to the bottom of the hero */}
+        <div className="relative z-10 w-full pb-10 pt-8">
+          <div className="container mx-auto px-6 flex flex-col items-center animate-in fade-in duration-1000 delay-500 fill-mode-both">
+            <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-border-solid/60 to-transparent mb-8" />
+            <p className="text-caption font-semibold text-text-secondary uppercase tracking-widest mb-5">Built for forward-thinking SMEs</p>
+            <div className="flex items-center gap-10 md:gap-16 opacity-50 grayscale">
+              <div className="flex items-center gap-2 font-bold text-lg"><Building2 className="h-5 w-5" /> NexusCorp</div>
+              <div className="flex items-center gap-2 font-bold text-lg"><Layers className="h-5 w-5" /> AltF4</div>
+              <div className="flex items-center gap-2 font-bold text-lg"><Target className="h-5 w-5" /> Vanguard</div>
             </div>
           </div>
         </div>

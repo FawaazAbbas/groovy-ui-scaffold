@@ -9,7 +9,7 @@ export function HeyContent() {
     <div className="text-center">
       <AnimatedEntry delay={0}>
         <div className="mb-10 flex justify-center">
-          <GroovyLogo className="h-14 w-14 text-primary" />
+          <GroovyLogo className="text-primary" style={{ fontSize: '6em' }} />
         </div>
       </AnimatedEntry>
 

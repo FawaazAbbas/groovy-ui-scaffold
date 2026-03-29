@@ -88,7 +88,7 @@ export default function WorkspaceSetupPage() {
         {/* Header */}
         <div className="text-center mb-10">
           <div className="mx-auto mb-6 flex justify-center">
-            <GroovyLogo className="h-16 w-16 text-primary" />
+            <GroovyLogo className="text-primary" style={{ fontSize: '2.5em' }} />
           </div>
           <h1 className="text-2xl font-bold text-text-primary mb-2">
             {mode === 'choose' && 'Set up your workspace'}

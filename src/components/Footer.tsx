@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Bot, Twitter, Linkedin, Github } from 'lucide-react';
+import { Twitter, Linkedin, Github } from 'lucide-react';
+import { AnimatedGroovyLogo } from '@/components/ui/AnimatedGroovyLogo';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,11 +10,8 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-5">
           <div className="col-span-2 lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2.5 mb-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#C800DF]/10 text-[#C800DF]">
-                <Bot className="h-6 w-6" />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-text-primary">Groovy</span>
+            <Link to="/" className="flex items-center mb-6">
+              <AnimatedGroovyLogo className="text-primary" />
             </Link>
             <p className="text-sm text-text-secondary max-w-xs mb-8 leading-relaxed">
               The intelligent AI workspace that automates your workflows and supercharges your team's productivity.
