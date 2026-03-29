@@ -54,7 +54,7 @@ export default function BlogPage() {
       {/* Header */}
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-text-primary mb-6">
-          The <span className="font-monoton text-primary font-normal ml-3" style={{ fontSize: 'inherit', display: 'inline' }}>Groovy</span> Blog
+          The <span className="font-monoton text-primary font-normal mx-3" style={{ fontSize: 'inherit', display: 'inline' }}>Groovy</span> Blog
         </h1>
         <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
           Insights, guides, and stories from the frontier of enterprise AI automation.
