@@ -12,7 +12,7 @@ export default function TitleSlide() {
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
           <div className="mb-8">
-            <GroovyLogo className="h-20 w-20" style={{ color: '#F5C842', filter: 'drop-shadow(0 0 30px rgba(245,200,66,0.4))' }} />
+            <GroovyLogo className="h-20 w-20" style={{ color: '#C800DF', filter: 'drop-shadow(0 0 30px rgba(200,0,223,0.4))' }} />
           </div>
           <span className="text-[15px] font-medium tracking-[0.3em] uppercase text-white/40 mb-12" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Groovy</span>
           <h1 className="text-[96px] font-bold leading-[1.05] text-white max-w-[1100px] tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>

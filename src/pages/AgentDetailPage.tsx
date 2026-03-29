@@ -1,8 +1,39 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Star, Download, ArrowLeft, Check, MessageSquare as Slack, Users, Zap, Clock, Activity, Globe, Brain, Image, Loader2 } from 'lucide-react';
+import { Star, Download, ArrowLeft, Check, Zap, Clock, Activity, Globe, Brain, Image, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useAgents } from '@/hooks/use-agents';
+
+const SlackLogo = ({ className = 'h-5 w-5' }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z" fill="#E01E5A"/>
+    <path d="M8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312z" fill="#36C5F0"/>
+    <path d="M18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.27 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.163 0a2.528 2.528 0 0 1 2.523 2.522v6.312z" fill="#2EB67D"/>
+    <path d="M15.163 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.163 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.27a2.527 2.527 0 0 1-2.52-2.523 2.527 2.527 0 0 1 2.52-2.52h6.315A2.528 2.528 0 0 1 24 15.163a2.528 2.528 0 0 1-2.522 2.523h-6.315z" fill="#ECB22E"/>
+  </svg>
+);
+
+const TeamsLogo = ({ className = 'h-5 w-5' }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 2228.833 2073.333">
+    <path fill="#5059C9" d="M1554.637 777.5h575.713c54.391 0 98.483 44.092 98.483 98.483v524.398c0 199.901-162.051 361.952-361.952 361.952h-1.711c-199.901.028-361.975-161.996-362.004-361.897V828.971c0-28.427 23.044-51.471 51.471-51.471z"/>
+    <circle fill="#5059C9" cx="1943.75" cy="440.583" r="233.25"/>
+    <circle fill="#7B83EB" cx="1218.083" cy="336.917" r="336.917"/>
+    <path fill="#7B83EB" d="M1667.323 777.5H717.01c-53.743 1.33-96.257 45.931-95.01 99.676v598.105c-7.505 322.519 247.657 590.16 570.167 598.053 322.51-7.893 577.671-275.534 570.167-598.053V877.176c1.245-53.745-41.268-98.346-95.011-99.676z"/>
+    <path opacity=".1" d="M1244.167 777.5v838.145c-.258 38.435-23.549 72.964-59.09 87.598a91.856 91.856 0 0 1-35.765 7.257H783.876c-3.087-6.639-5.918-13.534-8.492-20.429-15.655-40.478-23.679-83.522-23.679-126.909V877.176c-1.245-53.745 41.267-98.347 95.01-99.676h397.452z"/>
+    <path opacity=".2" d="M1192.167 777.5v890.145c0 19.32-6.218 38.124-17.727 53.568a91.576 91.576 0 0 1-41.363 33.83c-11.652 4.882-24.233 7.397-36.977 7.413H810.107c-8.748-17.966-16.735-36.443-23.679-55.682a466.69 466.69 0 0 1-10.404-21.153c-15.655-40.478-23.679-83.522-23.679-126.909V877.176c-1.245-53.745 41.267-98.347 95.01-99.676h345.452c.656.004 1.31.085 1.36.085z"/>
+    <path opacity=".2" d="M1192.167 777.5v786.145c.395 52.054-41.263 94.665-93.318 95.398H786.428a466.69 466.69 0 0 1-10.404-21.153c-15.655-40.478-23.679-83.522-23.679-126.909V877.176c-1.245-53.745 41.267-98.347 95.01-99.676h345.452c-.344.004-.65.085-.64.085z"/>
+    <path opacity=".2" d="M1140.167 777.5v786.145c.395 52.054-41.263 94.665-93.318 95.398H786.428a466.69 466.69 0 0 1-10.404-21.153c-15.655-40.478-23.679-83.522-23.679-126.909V877.176c-1.245-53.745 41.267-98.347 95.01-99.676h293.452c-.344.004-.65.085-.64.085z"/>
+    <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="198.099" y1="1683.0726" x2="942.2344" y2="394.2607" gradientTransform="matrix(1 0 0 -1 0 2075.3333)">
+      <stop offset="0" stopColor="#5a62c3"/><stop offset=".5" stopColor="#4d55bd"/><stop offset="1" stopColor="#3940ab"/>
+    </linearGradient>
+    <path fill="url(#a)" d="M95.01 777.5h999.313c52.473 0 95.01 42.538 95.01 95.01v999.314c0 52.472-42.538 95.01-95.01 95.01H95.01c-52.473 0-95.01-42.538-95.01-95.01V872.51c0-52.472 42.538-95.01 95.01-95.01z"/>
+    <path fill="#FFF" d="M820.211 1100.522H630.834v517.11H509.057v-517.11H320.123V999.81h500.089v100.712z"/>
+  </svg>
+);
+
+const GroovyIcon = ({ className = 'h-5 w-5' }: { className?: string }) => (
+  <span className={`font-monoton text-primary ${className}`} style={{ fontSize: '1.2em', lineHeight: 1 }}>G</span>
+);
 
 export default function AgentDetailPage() {
   const { agentId } = useParams();
@@ -32,9 +63,9 @@ export default function AgentDetailPage() {
 
   const tabs = ['Overview', 'Capabilities', 'Reviews', 'Support'];
   const targets = [
-    { id: 'slack', label: 'Slack', icon: Slack },
-    { id: 'teams', label: 'Microsoft Teams', icon: Users },
-    { id: 'groovy', label: 'Groovy Workspace', icon: Zap },
+    { id: 'slack', label: 'Slack', icon: SlackLogo },
+    { id: 'teams', label: 'Microsoft Teams', icon: TeamsLogo },
+    { id: 'groovy', label: 'Groovy Workspace', icon: GroovyIcon },
   ];
 
   const handleInstall = () => {

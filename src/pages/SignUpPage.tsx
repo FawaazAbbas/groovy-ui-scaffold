@@ -88,7 +88,7 @@ export default function SignUpPage() {
     return (
       <div className="text-center">
         <div className="mx-auto mb-8 flex justify-center">
-          <GroovyLogo className="text-[#16A34A]" style={{ fontSize: '6em' }} />
+          <GroovyLogo className="text-primary" style={{ fontSize: '6em' }} />
         </div>
         <h1 className="text-display-sm text-text-primary mb-2">You're all set!</h1>
         <p className="text-body text-text-secondary mb-4">

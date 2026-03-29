@@ -9,7 +9,7 @@ export default function CTASlide() {
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
           <div className="mb-10">
-            <GroovyLogo className="h-16 w-16" style={{ color: '#F5C842', filter: 'drop-shadow(0 0 25px rgba(245,200,66,0.3))' }} />
+            <GroovyLogo className="h-16 w-16" style={{ color: '#C800DF', filter: 'drop-shadow(0 0 25px rgba(200,0,223,0.3))' }} />
           </div>
           <h2 className="text-[96px] font-bold leading-[1.05] text-white mb-6 tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
             Invest in <span style={{ color: '#F5C842' }}>Groovy.</span>

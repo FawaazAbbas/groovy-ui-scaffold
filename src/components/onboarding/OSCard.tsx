@@ -43,7 +43,7 @@ function LogoIcon({ os }: { os: OSChoice }) {
     case 'groovy-space':
       return (
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
-          <GroovyLogo className="h-5 w-5 text-text-secondary" />
+          <GroovyLogo className="h-5 w-5 text-primary" />
         </div>
       );
     default:

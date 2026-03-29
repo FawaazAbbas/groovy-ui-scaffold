@@ -10,6 +10,40 @@ interface MarketplaceContentProps {
   installedAgents?: Set<string>;
 }
 
+const SlackIcon = ({ className = 'h-4 w-4' }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z" fill="#E01E5A"/>
+    <path d="M8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312z" fill="#36C5F0"/>
+    <path d="M18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.27 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.163 0a2.528 2.528 0 0 1 2.523 2.522v6.312z" fill="#2EB67D"/>
+    <path d="M15.163 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.163 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.27a2.527 2.527 0 0 1-2.52-2.523 2.527 2.527 0 0 1 2.52-2.52h6.315A2.528 2.528 0 0 1 24 15.163a2.528 2.528 0 0 1-2.522 2.523h-6.315z" fill="#ECB22E"/>
+  </svg>
+);
+
+const TeamsIcon = ({ className = 'h-4 w-4' }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <path d="M20.625 6.547h-5.578c.126.404.203.83.203 1.278v8.35a3.14 3.14 0 0 1-.834 2.137h4.209A2.375 2.375 0 0 0 21 15.937V8.922a2.375 2.375 0 0 0-2.375-2.375h2z" fill="#5059C9"/>
+    <path d="M19.5 5.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5z" fill="#5059C9"/>
+    <path d="M13.125 5.25a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="#7B83EB"/>
+    <path d="M16.5 7.825a2.575 2.575 0 0 0-2.575-2.575H8.075A2.575 2.575 0 0 0 5.5 7.825v8.35a2.575 2.575 0 0 0 2.575 2.575h5.85A2.575 2.575 0 0 0 16.5 16.175v-8.35z" fill="#7B83EB"/>
+    <path d="M13.875 7.825v8.35a2.58 2.58 0 0 1-1.774 2.45 2.56 2.56 0 0 1-.801.125H6.45A5.226 5.226 0 0 1 5.5 16.175v-8.35A2.575 2.575 0 0 1 8.075 5.25h3.225a2.575 2.575 0 0 1 2.575 2.575z" fill="url(#teams-grad)" opacity="0.1"/>
+    <defs><linearGradient id="teams-grad" x1="5.5" y1="5.25" x2="13.875" y2="18.75" gradientUnits="userSpaceOnUse"><stop stopColor="#fff"/><stop offset="1" stopColor="#fff" stopOpacity="0"/></linearGradient></defs>
+  </svg>
+);
+
+function PlatformBadges({ size = 'sm' }: { size?: 'sm' | 'md' }) {
+  const iconClass = size === 'md' ? 'h-3.5 w-3.5' : 'h-3 w-3';
+  return (
+    <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1 rounded-md bg-white/60 border border-black/[0.06] px-1.5 py-0.5" title="Available on Slack">
+        <SlackIcon className={iconClass} />
+      </div>
+      <div className="flex items-center gap-1 rounded-md bg-white/60 border border-black/[0.06] px-1.5 py-0.5" title="Available on Teams">
+        <TeamsIcon className={iconClass} />
+      </div>
+    </div>
+  );
+}
+
 export function MarketplaceContent({ variant, onInstall, installedAgents = new Set() }: MarketplaceContentProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,30 +72,47 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
     <div className={isMarketing ? 'min-h-screen' : 'h-full overflow-y-auto'}>
       {/* Hero */}
       {isMarketing && (
-        <section className="relative overflow-hidden py-20 md:py-28">
-          {/* Gradient background */}
-          <div className="absolute inset-0 bg-[#C800DF]/[0.03]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#C800DF]/[0.04] blur-3xl" />
+        <section className="relative overflow-hidden py-16 md:py-20">
+          {/* Radial gradient blobs */}
+          <div className="absolute top-[30%] right-[10%] w-[400px] h-[400px] rounded-full opacity-25 bg-[radial-gradient(circle,rgba(200,0,223,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply animate-pulse" />
+          <div className="absolute bottom-[10%] left-[15%] w-[350px] h-[350px] rounded-full opacity-25 bg-[radial-gradient(circle,rgba(0,183,255,0.12)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply" />
+
+          {/* Blurred Monoton G watermark */}
+          <span
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
+            style={{
+              fontFamily: '"Monoton", display',
+              fontSize: '28em',
+              lineHeight: 1,
+              color: 'rgba(200, 0, 223, 0.2)',
+              filter: 'blur(30px)',
+            }}
+            aria-hidden="true"
+          >
+            G
+          </span>
 
           <div className="container mx-auto px-6 text-center relative z-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#C800DF]/15 bg-[#C800DF]/[0.04] px-4 py-1.5 mb-6">
-              <Sparkles className="h-3.5 w-3.5 text-[#C800DF]" />
-              <span className="text-xs font-medium tracking-wide text-[#C800DF] uppercase">AI Agent Marketplace</span>
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 mb-6">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span className="text-xs font-medium tracking-wide uppercase">AI Agent Marketplace</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
-              Discover <span className="gradient-text">Powerful</span> AI Agents
+            <h1 className="text-[32px] md:text-[44px] font-bold tracking-tight leading-[1.1] mb-4">
+              Discover <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-electric to-cyan">Powerful</span> AI Agents
             </h1>
-            <p className="text-lg text-text-secondary mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg text-text-secondary mb-8 max-w-xl mx-auto leading-relaxed">
               Install and deploy AI agents that automate your workflows in minutes — no code required.
             </p>
-            <div className="relative max-w-xl mx-auto">
-              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-text-secondary" />
+            <div className="relative max-w-lg mx-auto">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 pointer-events-none">
+                <Search className="h-4 w-4 text-primary" />
+              </div>
               <input
                 type="text"
                 placeholder="Search agents by name, category, or capability..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-13 rounded-xl pl-12 pr-4 text-base glass-input shadow-glass-sm"
+                className="w-full h-12 rounded-xl pl-14 pr-4 text-sm bg-white/50 backdrop-blur-lg border border-white/60 shadow-[0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.6)] placeholder:text-text-secondary/60 text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/25 transition-all"
               />
             </div>
           </div>
@@ -138,10 +189,11 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                             {agent.name}
                           </h3>
                           <span className="text-sm text-text-secondary">{agent.publisher}</span>
-                          <div className="mt-2">
+                          <div className="mt-2 flex items-center gap-2">
                             <span className="inline-block glass-badge text-xs font-medium text-[#C800DF]">
                               {agent.category}
                             </span>
+                            <PlatformBadges size={isHero ? 'md' : 'sm'} />
                           </div>
                         </div>
                       </div>
@@ -215,6 +267,9 @@ export function MarketplaceContent({ variant, onInstall, installedAgents = new S
                       <span className="shrink-0 glass-badge px-2 py-0.5 text-[10px] font-medium text-[#C800DF]">
                         {agent.category}
                       </span>
+                    </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <PlatformBadges size="sm" />
                     </div>
                     <p className="text-sm text-text-secondary mb-3 line-clamp-2 leading-relaxed">{agent.description}</p>
                   </div>

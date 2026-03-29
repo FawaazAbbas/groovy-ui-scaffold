@@ -15,6 +15,21 @@ export default function LandingPage() {
         <div className="absolute top-[20%] right-[10%] w-[600px] h-[600px] rounded-full opacity-30 bg-[radial-gradient(circle,rgba(200,0,223,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply animate-pulse" />
         <div className="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] rounded-full opacity-30 bg-[radial-gradient(circle,rgba(0,183,255,0.15)_0%,transparent_70%)] filter blur-3xl mix-blend-multiply" />
 
+        {/* Giant blurred Monoton G watermark */}
+        <span
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
+          style={{
+            fontFamily: '"Monoton", display',
+            fontSize: '50em',
+            lineHeight: 1,
+            color: 'rgba(200, 0, 223, 0.35)',
+            filter: 'blur(40px)',
+          }}
+          aria-hidden="true"
+        >
+          G
+        </span>
+
         {/* Main hero content — vertically centered in the remaining space above trust badges */}
         <div className="relative z-10 flex-1 flex flex-col justify-center container mx-auto px-6 items-center text-center pt-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8 animate-fade-in">
